@@ -1,0 +1,37 @@
+body {
+	border-top: 8px #fde804 solid;
+    text-align: center;
+    background-color: #0d132c;
+  }
+  .faixa ul {
+	display: flex;
+}
+
+.labelPainel{
+    text-align: center;
+}
+
+.faixa ul li {
+	list-style-type: none;
+    padding-right: 8px;
+}
+.linha{
+    margin-top:18px;
+    color: #fff;
+}
+
+#logo {
+    padding: 20px;
+}
+.conteudo{
+    background-image: url('../img/ibreptran.png');
+    background-size: cover;    
+}
+.logoicetran{
+    max-width: 50%;
+  }
+@media (min-width: 480px) {
+	#logo {
+		padding: 50px !important;
+	}
+}

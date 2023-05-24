@@ -1,0 +1,82 @@
+<?php
+
+class GestaoAcessos extends Core
+{
+    public function retornarAcessosDiarioMatricula($idMatricula)
+    {
+        $this->sql = "SELECT * 
+            FROM pessoas_acessos_matriculas 
+            WHERE 
+                idmatricula = '".$idMatricula."' 
+                AND data_competencia = '".date('Y-m-d')."'";
+        $this->ordem_campo = 'data_cad';
+        $this->ordem = 'DESC';
+        $this->limite = -1;
+        return $this->retornarLinhas();
+    }
+    
+    public function contabilizarAcessoMatricula($idPessoa, $idMatricula, $idAva)
+    {
+
+        $acessos = $this->retornarAcessosDiarioMatricula($idMatricula);
+        if ($acessos){
+            $acessosDiarios = array_column($acessos, 'duracao');
+            $acessoDiarioTotal = array_reduce($acessosDiarios, 'somaDuasHoras');
+            if($acessoDiarioTotal <= '08:00:00'){
+                $ultimoAcesso = $acessos[0];
+                $fimUltimoAcesso = new DateTime($ultimoAcesso['fim']);
+                $horaServidor = new DateTime();
+                $pausaIntervalo = $horaServidor->diff($fimUltimoAcesso)->h;
+                $horasPausaObrigatoria = 1;
+                if (
+                    $ultimoAcesso['duracao'] <= '04:00:00' && 
+                    $_SESSION['idacesso'] == $ultimoAcesso['idacessomatricula']
+                ){
+                    $retorno['sucesso'] = $this->alterarAcessoMatricula($ultimoAcesso['idacessomatricula']);
+                } elseif ($pausaIntervalo >= $horasPausaObrigatoria || empty($_SESSION['idacesso'])){
+                    $retorno['sucesso'] = $this->cadastrarAcessoMatricula($idPessoa, $idMatricula, $idAva);
+                } else $retorno['erro'] = array("acesso_bloqueado_4h.png", "Você já atingiu a carga-máxima de 4h/a de estudo ininterruptas, e precisa aguardar o intervalo mínimo de uma hora para retomar o estudo on-line, conforme determina a Resolução 802/2020 e Portaria Nº 4934/2019.
+                <br><br>Aguarda só um pouquinho que, a partir das <b>".$fimUltimoAcesso->modify("+ $horasPausaObrigatoria hour")->format('H:i')."</b>, você pode voltar a estudar!");
+            } else $retorno['erro'] = array("acesso_bloqueado_8h.png", "Você já atingiu a carga-máxima de 8h/a diárias, conforme determina a Resolução 802/2020 e Portaria Nº 4934/2019.<br><br>
+            Amanhã tá liberado novamente o seu acesso para estudo, ok?");
+        } else {
+            $retorno['sucesso'] = $this->cadastrarAcessoMatricula($idPessoa, $idMatricula, $idAva);
+        }
+        return $retorno;
+    }
+    
+    public function cadastrarAcessoMatricula($idPessoa, $idMatricula, $idAva)
+    {
+        $this->sql = "INSERT INTO
+                                pessoas_acessos_matriculas
+                              SET
+                                data_cad = now(),
+                                data_competencia = '" . date('Y-m-d') . "',
+                                idpessoa = " . $idPessoa . ",
+                                idmatricula = " . $idMatricula . ",
+                                idava = " . $idAva . ",
+                                inicio = now(),
+                                fim = DATE_ADD(now(), INTERVAL 1 MINUTE),
+                                duracao = TIMEDIFF(fim, inicio)
+            ";
+
+        $salvar = $this->executaSql($this->sql);
+        $_SESSION['idacesso'] = $idAcesso = mysql_insert_id();
+        return $idAcesso;
+    }
+    
+    public function alterarAcessoMatricula($idAcessoMatricula)
+    {
+        $this->sql = "UPDATE
+                                pessoas_acessos_matriculas
+                              SET
+                                fim = now(),
+                                duracao = TIMEDIFF(fim, inicio)
+                                WHERE idacessomatricula = $idAcessoMatricula
+            ";
+
+        $salvar = $this->executaSql($this->sql);
+        return $salvar;
+    }
+
+}

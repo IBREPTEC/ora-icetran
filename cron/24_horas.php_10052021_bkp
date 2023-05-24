@@ -1,0 +1,30 @@
+<?php
+
+$caminhoApp = realpath(__DIR__ . '/..');
+
+// Includes gerais
+require_once $caminhoApp . '/includes/config.php';
+require_once $caminhoApp . '/especifico/inc/config.especifico.php';
+require_once $caminhoApp . '/includes/funcoes.php';
+require_once 'includes/funcoes.php';
+
+// Classe PHPMailer (e-mail)
+require_once $caminhoApp . '/classes/PHPMailer/PHPMailerAutoload.php';
+
+// Classe Core (classe pai)
+require_once $caminhoApp . '/classes/core.class.php';
+$coreObj = new Core;
+require_once $caminhoApp.'/classes/pessoas.class.php';
+// require_once $caminhoApp . '/classes/matriculas_novo.class.php';
+require_once $caminhoApp . '/classes/escolas.class.php';
+require_once $caminhoApp . '/classes/motivoscancelamento.class.php';
+
+include '24_horas/cancelar_pedidos.php';
+include '24_horas/matriculas_cancelar.php';
+include '24_horas/bloqueia_cfc_vencido.php';
+include '24_horas/limpar_temp.php';
+include '24_horas/emails_automaticos.php';
+include '24_horas/migrar.log.php';
+include '24_horas/cancelamentos_fastconnect.php';
+include '24_horas/homologar_certificados.php'; 
+include '24_horas/cancelar_matricula_30dias.php';

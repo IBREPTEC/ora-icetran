@@ -1,0 +1,61 @@
+  body {
+	border-top: 8px #fde804 solid;
+    text-align: center;
+  }
+  .conteudo{
+      background-image: url('../img/icetran.png');
+      background-size: cover;
+  }
+  .logoicetran{
+    max-width: 30%;
+  }
+  .faixa ul {
+	display: flex;
+}
+input[class*="span"]{
+    display: inline;
+}
+
+.faixa ul li {
+	list-style-type: none;
+    padding-right: 14px;
+}
+.linha{
+    position: absolute;
+    margin-top:18px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight:bold;
+    left: 55px;
+    margin: 20px;
+}
+.formulario{
+    border-radius: 15px;
+}
+.section-large .section-body {
+   padding: 50px 20px 29px;
+}
+
+.formularioh{
+   border-top-right-radius: 15px;
+   border-top-left-radius: 15px;
+   padding-top: 15px;
+   text-align: center;
+}
+#login {
+    text-align:center;
+}  
+  
+  #logo {
+	  padding: 20px;
+      text-align:center;
+  }
+  .footer {    
+    padding: 30px 0;
+    margin-top: 180px;
+  }
+  @media (min-width: 480px) {
+	#logo {
+	  padding: 50px !important;
+	}
+  }

@@ -1,0 +1,23 @@
+﻿<?php
+$idioma["btn_remover_permissao_excluir"] = "Sem permissão para excluir";
+$idioma["btn_permissao_inserir"] = "Sem permissão para inserir";
+$idioma["form_erros"] = "Por favor corrija o(s) erro(s) abaixo: ";
+$idioma["titulo_opcao"] = "Centros de Custo associados";
+$idioma["btn_adicionar"] = "Adicionar";
+$idioma["form_instituicao"] = "Informe o centro de custo e clique em adicionar para associá-lo a subcategoria:";
+$idioma["associar_instituicao_sucesso"] = "Instituição(ões) associada(s) com sucesso!";
+$idioma["remover_instituicao_sucesso"] = "Associação da instituição removida com sucesso!";
+$idioma["sem_informacao"] = "Nenhuma informação foi encontrada.";
+$idioma["listagem_id"] = "Id";
+$idioma["listagem_nome"] = "Centro de Custo";
+$idioma["listagem_opcoes"] = "Opções";
+$idioma["confirmar_remocao"] = "Deseja realmente remover a associação dessa subcategoria com esse centro de custo?";
+$idioma["mensagem_sucesso"] = "Centro(s) de Custo associado(s) com sucesso.";
+$idioma["remover_sucesso"] = "Associação removida com sucesso.";
+$idioma["mensagem_select"] = "Digite o nome do centro, selecione e associe a subcategoria...";
+$idioma["btn_remover"] = "Remover associação";
+$idioma["editar"] = "Editar";
+$idioma["associar_usuarios"] = "Associar responsável ou dono.";
+$idioma["associar_usuarios_sem_permissao"] = "Você não possui permissão para associar um responsável ou dono";
+$idioma["associar_usuario_sucesso"] = "Associação realizada com sucesso";
+$idioma["nada_atualizado"] = "Nenhuma modificação realizada";

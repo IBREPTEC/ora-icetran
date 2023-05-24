@@ -1,0 +1,74 @@
+<?php
+// CORS HEADERS
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding");
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+?>
+<title><?php echo $config['tituloSistema'].' - '.$config['tituloPainel']; ?></title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<!--<meta name="viewport" content="width=device-width"> Site sem responsive -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- site com responsivo -->
+
+<!-- Core Meta Data -->
+<meta name="author" content="AlfamaWeb">
+
+<!-- Humans -->
+<link rel="author" href="humans.txt" />
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="/assets/img/favicon.png" type="image/png">
+
+<!-- Styles -->
+<link rel="stylesheet" type="text/css" href="/assets/min/aplicacao.aluno.min.css">
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<!--[if IE 7]>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css">
+<![endif]-->
+<style> a.dt-style-button {
+    font-family: 'Lato','Helvetica', sans-serif!important;
+    font-size: 18px!important;
+    text-decoration: none!important;
+    border-radius: 6px!important;
+    background-image: url('https://ibb.co/JnvzPwW') !important;
+    color: #ffffff!important;
+    font-weight: 400!important;
+    text-align: center!important;
+    cursor: pointer!important;
+    line-height: 1.33!important;
+    display: inline-block!important;
+    min-width: 35px!important;
+}
+img.background {
+    width:130px;
+    height:130px;
+}
+</style>
+<script type="text/javascript">
+var cont = 0;
+function mudaPosicao(){
+    //CONTAINER
+    $('#hi-chat-container').hide();
+    $('#hi-chat-container').attr("class","BottomLeft None chatMinimized");
+    $('#hi-chat-container').show();
+}
+</script>
+<script src="/assets/aluno_novo/js/jquery-1.10.2.min.js"></script>
+<script src="/assets/aluno_novo/js/jquery-1.9.1.min.js"></script>
+<script src="/assets/aluno_novo/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/assets/aluno_novo/js/jquery.cycle2.min.js"></script>
+<script src="/assets/aluno_novo/js/vendor/modernizr-2.6.2.min.js"></script>
+<?php if ($config["link_chat"]) { ?>
+    <script>
+        window.hiChatCallback = function() {
+            window.Hi.Chat.fillSurvey( "nome=<?= urldecode($GLOBALS['usuario']['nome']); ?>&email=<?= urldecode($GLOBALS['usuario']['email']); ?>" );
+        };
+    </script>
+    <script id="hi-chat-script" src="<?php echo $config["link_chat"] ?>"></script>
+<?php } ?>
+<!-- Styles -->

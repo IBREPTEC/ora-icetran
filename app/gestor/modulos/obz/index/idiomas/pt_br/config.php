@@ -1,0 +1,2 @@
+<?php
+$idioma["modulo"] = "OBZ";
