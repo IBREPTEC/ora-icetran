@@ -5,7 +5,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/especifico/inc/analyticstracking.php");
 <?php if(defined('URL_LOGO_PEGUENA')) { ?>
     <style>
         #logo h1 a {
-            background:transparent url(<?php echo URL_LOGO_PEGUENA; ?>) 0 0 no-repeat;
+            background:transparent url(<?php echo '/storage/excecoes_logo/20200911105548_5f5b81e461bdd.png'; ?>) 0 0 no-repeat;
             background-size: cover;
         }
     </style>
