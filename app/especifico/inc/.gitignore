@@ -1,0 +1,4 @@
+*
+inc/
+# exceto o .gitignore
+!.gitignore
