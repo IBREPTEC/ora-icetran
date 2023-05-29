@@ -82,6 +82,16 @@ $config["listagem"] = array(
         "busca_class"   => "inputPreenchimentoCompleto",
         "busca_metodo"  => 2,
     ),
+    array(
+        "id"            => "autorizacao",
+        "variavel_lang" => "tabela_autorizacao",
+        "tipo"          => "banco",
+        "coluna_sql"    => "c.autorizacao_cartao",
+        "valor"         => "autorizacao_cartao",
+        "busca"         => true,
+        "busca_class"   => "inputPreenchimentoCompleto",
+        "busca_metodo"  => 2,
+    ),
 
     array(
         "id"            => "documento",

@@ -71,7 +71,7 @@ $idioma['financeiro_descricao'] = 'Descrição';
 $idioma['selecione_bandeira_cartao'] = '- Selecione -';
 $idioma['financeiro_bandeira_cartao'] = 'Bandeira';
 $idioma['bandeira_cartao_vazio'] = 'Informe a bandeira do cartão';
-$idioma['financeiro_autorizacao_cartao'] = 'Autorização';
+$idioma['financeiro_autorizacao_cartao'] = 'Aut./Tid/Idboleto';
 $idioma['autorizacao_cartao_vazio'] = 'Informe a autorização do cartão';
 $idioma['selecione_banco_cheque'] = '- Selecione -';
 $idioma['financeiro_banco_cheque'] = 'Banco';
@@ -87,7 +87,6 @@ $idioma['emitente_cheque_vazio'] = 'Informe o emitente do cheque';
 $idioma['financeiro_desconto'] = 'Desconto';
 $idioma['financeiro_dados_transacao'] = 'Dados transação';
 $idioma['nenhum_financeiro'] = 'Nenhuma parcela cadastrada.';
-
 $idioma['financeiro_renegociar'] = 'Renegociar parcelas';
 $idioma['financeiro_transferir'] = 'Transferir parcelas';
 $idioma['mensagem_situacao_sucesso_parcela'] = 'Situação da parcela alterada com sucesso.';
