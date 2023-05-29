@@ -27,6 +27,8 @@ $idioma["tabela_emitente_cheque"] = "Emitente";
 
 $idioma["tabela_referencia"] = "Descrição";
 $idioma["tabela_documento"] = "Doc. Ref";
+$idioma["tabela_autorizacao"] = "Autorização";
+
 $idioma["tabela_matricula"] = "Matrícula";
 $idioma["tabela_aluno"] = "Aluno";
 
