@@ -2523,7 +2523,7 @@ class Contas extends Core
     }
     public function retornarClassificacaoDreJson()
     {
-        $this->sql = "select idclassificacao from contas where idconta=" . $this->id;
+        $this->sql = "select cc.idclassificacao from contas_centros_custos ccc inner join centros_custos cc on(ccc.idcentro_custo=cc.idcentro_custo)  where idconta=" . $this->id;
         $this->ordem_campo = null;
 
         $retorno = $this->retornarLinha($this->sql);

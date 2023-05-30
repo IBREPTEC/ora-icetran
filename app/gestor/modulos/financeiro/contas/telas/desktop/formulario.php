@@ -466,6 +466,7 @@
     ?>
 
     jQuery(document).ready(function ($) {
+        getClassificacao()
         $('#nome_unidade').parent(".controls").parent(".control-group").hide("fast");
         $('#desc_unidade').parent(".controls").parent(".control-group").hide("fast");
         $('#idordemdecompra').parent(".controls").parent(".control-group").hide("fast");
@@ -1538,7 +1539,6 @@
     	}
     }
     function getClassificacao() {
-
 
         jQuery.ajax({
             url: "/<?=$url["0"];?>/<?=$url["1"];?>/<?=$url["2"];?>/<?=$url["3"];?>/<?=$url["4"];?>/<?=$url["5"];?>/classificacao",
