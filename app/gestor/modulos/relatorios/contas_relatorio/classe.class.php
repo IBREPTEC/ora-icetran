@@ -42,9 +42,61 @@ class Relatorio extends Core {
         return $retorno;
     }*/
     #VERIFICAÇÃO DO INTERVALO DE DATAS MENOR QUE UM ANO - FIM
+      if($_GET["filtro_data_vencimento"] == 'HOJ') {
+          $filtro_data= " AND c.data_vencimento = '".date("Y-m-d")."'";
+      } elseif($_GET["filtro_data_vencimento"] == 'ONT') {
+          $filtro_data= " AND date_format(c.data_vencimento,'%Y-%m-%d') = '".date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")))."'";
+      } elseif($_GET["filtro_data_vencimento"] == 'SET') {
+          $filtro_data= " AND date_format(c.data_vencimento,'%Y%m%d') <= '".date("Ymd")."'
+                      AND date_format(c.data_vencimento,'%Y%m%d') >= '".date("Ymd", mktime(0, 0, 0, date("m"), date("d") - 6, date("Y")))."'";
+      } elseif($_GET["filtro_data_vencimento"] == 'QUI') {
+          $filtro_data= " AND date_format(c.data_vencimento,'%Y-%m-%d') <= '".date("Y-m-d")."'
+                      AND date_format(c.data_vencimento,'%Y-%m-%d') >= '".date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 15, date("Y")))."' ";
+      } elseif($_GET["filtro_data_vencimento"] == 'MAT') {
+          $filtro_data= " AND date_format(c.data_vencimento,'%Y-%m') = '".date("Y-m")."'";
+      } elseif($_GET["filtro_data_vencimento"] == 'MPR') {
+          $filtro_data= " AND date_format(c.data_vencimento,'%Y-%m') = '".date("Y-m", mktime(0, 0, 0, date("m") + 1, date("d"), date("Y")))."'";
+      } elseif($_GET["filtro_data_vencimento"] == 'MAN') {
+          $filtro_data= " AND date_format(c.data_vencimento,'%Y-%m') = '".date("Y-m", mktime(0, 0, 0, date("m") - 1, date("d"), date("Y")))."'";
+      } elseif($_GET["filtro_data_vencimento"] == 'PER') {
+          if($_GET["de_data_vencimento"]) {
+              $filtro_data= " AND date_format(c.data_vencimento,'%Y-%m-%d') >= '".formataData($_GET["de_data_vencimento"],'en',0)."'";
+          }
+          if($_GET["ate_data_vencimento"]) {
+              $filtro_data= " AND date_format(c.data_vencimento,'%Y-%m-%d') <= '".formataData($_GET["ate_data_vencimento"],'en',0)."'";
+          }
+      }
 
-    $this->sql = "SELECT
-                        ".$this->campos."
+      if ($_GET["filtro_data_pagamento"] == 'HOJ') {
+          $filtro_data = " AND c.data_pagamento = '".date("Y-m-d")."'";
+      } elseif ($_GET["filtro_data_pagamento"] == 'ONT') {
+          $filtro_data= " AND date_format(c.data_pagamento,'%Y-%m-%d') = '".date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 1, date("Y")))."'";
+      } elseif ($_GET["filtro_data_pagamento"] == 'SET') {
+          $filtro_data = " AND date_format(c.data_pagamento,'%Y%m%d') <= '".date("Ymd")."'
+                      AND date_format(c.data_pagamento,'%Y%m%d') >= '".date("Ymd", mktime(0, 0, 0, date("m"), date("d") - 6, date("Y")))."'";
+      } elseif ($_GET["filtro_data_pagamento"] == 'QUI') {
+          $filtro_data= " AND date_format(c.data_pagamento,'%Y-%m-%d') <= '".date("Y-m-d")."'
+                      AND date_format(c.data_pagamento,'%Y-%m-%d') >= '".date("Y-m-d", mktime(0, 0, 0, date("m"), date("d") - 15, date("Y")))."' ";
+      } elseif ($_GET["filtro_data_pagamento"] == 'MAT') {
+          $filtro_data= " AND date_format(c.data_pagamento,'%Y-%m') = '".date("Y-m")."'";
+      } elseif ($_GET["filtro_data_pagamento"] == 'MPR') {
+          $filtro_data= " AND date_format(c.data_pagamento,'%Y-%m') = '".date("Y-m", mktime(0, 0, 0, date("m") + 1, date("d"), date("Y")))."'";
+      } elseif ($_GET["filtro_data_pagamento"] == 'MAN') {
+          $filtro_data= " AND date_format(c.data_pagamento,'%Y-%m') = '".date("Y-m", mktime(0, 0, 0, date("m") - 1, date("d"), date("Y")))."'";
+      } elseif ($_GET["filtro_data_pagamento"] == 'PER') {
+          if($_GET["de_data_pagamento"]) {
+              $filtro_data= " AND date_format(c.data_pagamento,'%Y-%m-%d') >= '".formataData($_GET["de_data_pagamento"],'en',0)."'";
+          }
+          if($_GET["ate_data_pagamento"]) {
+              $filtro_data= " AND date_format(c.data_pagamento,'%Y-%m-%d') <= '".formataData($_GET["ate_data_pagamento"],'en',0)."'";
+          }
+      }
+
+
+
+
+    $this->sql = 'SELECT
+                        '.$this->campos.'
                       FROM
                         contas c
                         INNER JOIN contas_workflow cw ON (c.idsituacao = cw.idsituacao)
@@ -55,13 +107,17 @@ class Relatorio extends Core {
                         LEFT OUTER JOIN pessoas mp ON (m.idpessoa = mp.idpessoa)
                         LEFT OUTER JOIN vendedores v ON (m.idvendedor = v.idvendedor)
                         LEFT OUTER JOIN empresas e ON (e.idempresa = m.idempresa)
-                      WHERE
-                        c.ativo = 'S' AND
-                        (
-                            (c.idmatricula IS NOT NULL AND m.ativo = 'S') OR
-                            c.idmatricula IS NULL
-                        )";
+                        LEFT OUTER JOIN classificacao_dre cd ON (cd.idclassificacao=c.idclassificacao)
+                        INNER JOIN orio_transacoes o on json_unquote(json_extract(xml_requisicao,"$.matriculas.documentoaluno")) = p.documento and o.ativo="S" '.$filtro_data.' )
 
+
+                      WHERE
+                     
+                        c.ativo = "S" AND
+                        (
+                            (c.idmatricula IS NOT NULL AND m.ativo = "S") OR
+                            c.idmatricula IS NULL
+                        )';
 
     if ($_GET["tipo"] == 'despesa') {
         $this->sql .= " AND c.tipo = 'despesa' ";
@@ -86,7 +142,6 @@ class Relatorio extends Core {
             }
       }
     }
-
     if($_GET["filtro_data_vencimento"] == 'HOJ') {
         $this->sql .= " AND c.data_vencimento = '".date("Y-m-d")."'";
     } elseif($_GET["filtro_data_vencimento"] == 'ONT') {
@@ -163,6 +218,7 @@ class Relatorio extends Core {
     }
 
     $this->groupby = "c.idconta";
+    //print_r($this->sql);exit;
     $linhas = $this->retornarLinhas();
 
     foreach($linhas as $ind => $valor) {

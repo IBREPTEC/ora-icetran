@@ -1537,6 +1537,26 @@
     		}				
     	}
     }
+    function getClassificacao() {
+
+
+        jQuery.ajax({
+            url: "/<?=$url["0"];?>/<?=$url["1"];?>/<?=$url["2"];?>/<?=$url["3"];?>/<?=$url["4"];?>/<?=$url["5"];?>/classificacao",
+            dataType: "json",
+            type: "GET",
+            data: {
+
+                idcentro_custo: <?php if($linha['idcentro_custo']!='')
+                {echo $linha['idcentro_custo'];}else{echo $idcentro_custo;}?>
+            },
+            success: function (json) {
+                console.log(json.idclassificacao)
+                $('#idclassificacao').val(json.idclassificacao)
+            }
+
+
+        });
+    }
 </script>
 </div>
 </body>

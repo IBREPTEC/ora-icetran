@@ -895,6 +895,7 @@ $colunas = array(
   14 => "valor_desconto",
   15 => "valor_liquido",
   16 => "parcela",
+  51 => "classificacao_dre",
   46 => "valor_contrato",
   17 => "data_vencimento",
   18 => "data_pagamento",
@@ -903,6 +904,8 @@ $colunas = array(
   20 => "situacao",
   21 => "forma_pagamento",
   22 => "bandeira_cartao",
+  49 =>  "autorizacao",
+  50=> "nsu",
   23 => "produto",
   24 => "curso",
   42 => 'vendedor',
@@ -925,4 +928,4 @@ $colunas = array(
   43 => "classificacao_despesa",
 );
 
-$colunasPadrao = array(2,3,4,5,8,9,11,12,13,14,15,16,17,18,20,21,22,25,27,26,45,46,47);
+$colunasPadrao = array(2,3,4,5,8,9,11,12,13,14,15,16,17,18,20,21,22,25,27,26,45,46,47,49,50,51);

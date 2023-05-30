@@ -2507,6 +2507,29 @@ class Contas extends Core
         $this->sql = "SELECT *, idarquivo as iddocumento FROM contas_arquivos WHERE idarquivo = " . $this->iddocumento . " and ativo = 'S' and idconta = " . $this->id;
         return $this->retornarLinha($this->sql);
     }
+    public function retornarClassificacaoDre()
+    {
+        $this->sql = 'select idclassificacao,UPPER(nome) as nome from classificacao_dre';
+        $this->ordem_campo = null;
+        return $this->retornarLinhas();
+
+    }
+    public function retornarCentroCusto(){
+        $sql = "SELECT idcentro_custo from contas_centros_custos where idconta=".$this->id;
+        $idcentro = $this->retornarLinha($sql);
+        $retorno = $idcentro['idcentro_custo'];
+
+        return $retorno;
+    }
+    public function retornarClassificacaoDreJson()
+    {
+        $this->sql = "select idclassificacao from contas where idconta=" . $this->id;
+        $this->ordem_campo = null;
+
+        $retorno = $this->retornarLinha($this->sql);
+        return json_encode($retorno);
+
+    }
 
     public function retornarPagamentoConta()
     {

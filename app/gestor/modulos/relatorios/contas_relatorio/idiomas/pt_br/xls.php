@@ -47,3 +47,6 @@ $idioma['subcategoria'] = 'Subcategoria';
 $idioma['documento'] = 'Documento';
 $idioma['evento_financeiro'] = 'Evento financeiro';
 $idioma['classificacao_despesa'] = 'Classificação Despesa';
+$idioma['autorizacao'] = 'Autorização Cartão';
+$idioma['nsu'] = 'Nsu';
+$idioma['classificacao_dre'] = 'Classificação DRE';

@@ -282,7 +282,18 @@ if (isset($url[3]) && $url[3] != "apagar" && $url[3] != "areceber") {
         if ($url[3] == 'idconta') {
             $linhaObj->Set("id", intval($url[4]));
             $linhaObj->Set("campos", "c.*, cw.cancelada, IF(c.tipo = 'despesa', (c.valor*-1), c.valor) as valor");
+            $idcentro_custo = $linhaObj->retornarCentroCusto();
+
             $linha = $linhaObj->Retornar();
+
+            if ($url[6] == 'classificacao') {
+                echo $linhaObj->retornarClassificacaoDreJson();
+                exit;
+
+            }
+
+            $classificacao_dre = $linhaObj->retornarClassificacaoDre();
+
 
             if (($linha['idpagamento_compartilhado'] || $linha['idmatricula']) && $url[5] == 'editar') {
                 header("Location: /" . $url[0] . "/" . $url[1] . "/" . $url[2]);

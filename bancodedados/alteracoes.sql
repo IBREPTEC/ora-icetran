@@ -51,3 +51,22 @@ alter table avas_conteudos_imagem
 
 alter table avas_conteudos_imagem
     add link varchar(300) null;
+
+
+-- jessica 30/05/2023
+create table classificacao_dre
+(
+    idclassificacao int auto_increment,
+    nome            varchar(300) null,
+
+    constraint classificacao_dre_pk
+        primary key (idclassificacao)
+
+);
+
+alter table centros_custos
+    add idclassificacao int null;
+
+alter table centros_custos
+    add constraint centros_custos_classificacao_dre_null_fk
+        foreign key (idclassificacao) references classificacao_dre (idclassificacao);

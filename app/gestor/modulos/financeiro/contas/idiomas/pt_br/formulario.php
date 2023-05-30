@@ -14,7 +14,7 @@ $idioma["tipo_vazio"] = "Você precisa informar o tipo da conta.";
 $idioma["form_ativo_painel"] = "Ativo no painel";
 $idioma["ativo_vazio"] = "Você precisa informar se está ativo ou não.";
 $idioma["form_ativo_ajuda"] = "Essa funcionalidade não remove do painel, somente oculta em relacionamentos com outras funcionalidades";
-
+$idioma["idclassificacao"] = 'Classificação DRE';
 $idioma["form_idmantenedora"] = "Mantenedora:";
 $idioma["idmantenedora_vazio"] = "Informe a mantenedora da conta.";
 $idioma["form_idsindicato"] = "Sindicato:";
