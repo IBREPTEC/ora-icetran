@@ -561,14 +561,14 @@ $config["formulario"] = array(
                 "banco"      => true
             ),
             array(
-                "id"           => "idclassificacao", // Id do atributo HTML
-                "nome"         => "idclassificacao", // Name do atributo HTML
+                "id"           => "idclassificacao_dre", // Id do atributo HTML
+                "nome"         => "idclassificacao_dre", // Name do atributo HTML
                 "nomeidioma"   => "idclassificacao", // Referencia a variavel de idioma
                 "tipo"         => "select", // Tipo do input
                 "sql_valor"    => "idclassificacao",
                 "sql_label"    => "nome",
                 "sql"          => "SELECT idclassificacao,nome as nome FROM classificacao_dre order by nome",
-                "valor"        => "idclassificacao", // Nome da coluna da tabela do banco de dados que retorna o valor.
+                "valor"        => "idclassificacao_dre", // Nome da coluna da tabela do banco de dados que retorna o valor.
                 "class"        => "span2", //Class do atributo HTML
                 "classe_label" => "control-label",
                 "banco"        => true, // Verifica se é para ser salva no banco de dados (Utilizado na função SalvarDados)
