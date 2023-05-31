@@ -110,7 +110,6 @@ class Relatorio extends Core {
                         LEFT OUTER JOIN classificacao_dre cd ON (cd.idclassificacao=c.idclassificacao_dre)
                         INNER OUTER JOIN orio_transacoes o on json_unquote(json_extract(xml_requisicao,"$.matriculas.documentoaluno")) = p.documento and o.ativo="S" '.$filtro_data.' 
 
-
                       WHERE
                      
                         c.ativo = "S" AND
