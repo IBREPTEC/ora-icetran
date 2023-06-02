@@ -466,7 +466,7 @@
     ?>
 
     jQuery(document).ready(function ($) {
-        getClassificacao()
+        <?php if($url[3] == 'idconta'){?>getClassificacao(); <?php }?>
         $('#nome_unidade').parent(".controls").parent(".control-group").hide("fast");
         $('#desc_unidade').parent(".controls").parent(".control-group").hide("fast");
         $('#idordemdecompra').parent(".controls").parent(".control-group").hide("fast");
@@ -1538,6 +1538,7 @@
     		}				
     	}
     }
+    <?php if($url[3] == 'idconta'){?>
     function getClassificacao() {
 
         jQuery.ajax({
@@ -1557,6 +1558,7 @@
 
         });
     }
+    <?php } ?>
 </script>
 </div>
 </body>
