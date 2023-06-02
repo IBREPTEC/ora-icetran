@@ -80,7 +80,6 @@ switch ($url[3]) {
                                     mp.telefone AS telefone_aluno,
                                     mp.email AS email_aluno,
                                     cd.nome as classificacao_dre,
-                                    json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu,
                                     m.idcurso, m.valor_contrato, po.razao_social, po.documento as cnpj_cfc,
                                     v.nome AS vendedor');
         $dadosArray = $relatorioObj->gerarRelatorio();
@@ -108,7 +107,6 @@ switch ($url[3]) {
                                 f.email AS email_fornecedor,
                                 p.nome AS pessoa,
                                 e.nome AS empresa,
-                               json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu,
                                 p.documento_tipo AS documento_tipo_pessoa,
                                 p.documento AS documento_pessoa,
                                 p.telefone AS telefone_pessoa,

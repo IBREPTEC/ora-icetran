@@ -48,7 +48,6 @@ if ($_POST["acao"] == "salvar" && (($_POST['parcelas'] > 1 && !$_POST['parcelas_
     } else{
         $salvar = $linhaObj->Cadastrar();
     }
-
     if ($salvar["sucesso"]) {
         if ($_POST[$config["banco"]["primaria"]]) {
             $linhaObj->Set("pro_mensagem_idioma", "modificar_sucesso");
