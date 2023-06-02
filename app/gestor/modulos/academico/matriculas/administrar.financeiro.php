@@ -416,6 +416,7 @@ if ($url[6]) {
             $tiposContasObj->set("campos","c.*");
             $tiposContasObj->set("id",$url[7]);
             $pagamento = $tiposContasObj->retornarPagamentoConta();
+            $orio_transacao = $tiposContasObj->retornarDadosOrioTransacao($url[3]);
 
             include("idiomas/".$config["idioma_padrao"]."/administrar.financeiro.infocartao.php");
             include("telas/".$config["tela_padrao"]."/administrar.financeiro.infocartao.php");

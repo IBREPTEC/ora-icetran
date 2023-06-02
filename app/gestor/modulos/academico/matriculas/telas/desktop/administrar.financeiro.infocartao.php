@@ -13,15 +13,11 @@
     </li>
     <br />
     <li><?= $idioma["dados_cielo_tid"]; ?></li>
-    <li class="active"><strong><?= $pagamento["tid"]; ?></strong></li>
+    <li class="active"><strong><?= $orio_transacao["autorizacao"]; ?></strong></li>
     <br />
     <li><?= $idioma["dados_cielo_nsu"]; ?></li>
-    <li class="active"><strong><?= $pagamento["nsu"]; ?></strong></li>
+    <li class="active"><strong><?= $orio_transacao["nsu"]; ?></strong></li>
     <br />
-    <li><?= $idioma["dados_cielo_arp"]; ?></li>
-    <li class="active"><strong><?= $pagamento["arp"]; ?></strong></li>
-    <br />
-    <li><?= $idioma["dados_cielo_pan"]; ?></li>
-    <li class="active"><strong><?= $pagamento["pan"]; ?></strong></li>
+
   </ul>
 </section>

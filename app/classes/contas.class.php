@@ -2551,6 +2551,19 @@ class Contas extends Core
         return $this->retornarLinha($this->sql);
     }
 
+    public function retornarDadosOrioTransacao($idmatricula){
+        $this->sql = 'select json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu, json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.autorizacao_tid")) as autorizacao from orio_transacoes o inner join pessoas p  on
+                        json_unquote(json_extract(xml_requisicao,"$.matriculas.documentoaluno")) = p.documento
+                        inner join matriculas m on p.idpessoa = m.idpessoa
+                        inner join
+                        contas c on c.idmatricula=m.idmatricula where  m.idmatricula='.$idmatricula;
+
+
+        return $this->retornarLinha($this->sql);
+    }
+
+
+
     public function retornarFatura($idFatura, $campos)
     {
         $this->sql = 'SELECT
