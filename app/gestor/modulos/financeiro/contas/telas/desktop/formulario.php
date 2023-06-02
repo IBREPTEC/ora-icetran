@@ -720,7 +720,7 @@
         			$('#idcategoria').html(options);
         		}
             );
-
+<?php if($linha['idcategoria']){?>
             $.getJSON('/gestor/financeiro/contas/cadastrar/ajax_subcategorias/', {
         		'idcategoria':<?=$linha['idcategoria'];?>, 'idsindicato' : <?=$linha['idsindicato'];?>, ajax:'true'
         		},
@@ -736,7 +736,7 @@
         		}
             );
             <?php
-        }
+        }}
 
         if ($_POST['idsindicato']) {
             ?>
@@ -1548,7 +1548,7 @@
             data: {
 
                 idcentro_custo: <?php if($linha['idcentro_custo']!='')
-                {echo $linha['idcentro_custo'];}else{echo $idcentro_custo;}?>
+                {echo $linha['idcentro_custo'];}elseif($idcentro_custo!=''){echo $idcentro_custo;}else{echo 'null';}?>
             },
             success: function (json) {
                 console.log(json.idclassificacao)
