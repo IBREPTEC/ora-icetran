@@ -73,7 +73,7 @@ $config["telas"] = array(
     "mobile" => "Mobile",
 );
 $config["tela_padrao"] = "desktop";
-if ($_GET["tela"]) {
+if (isset($_GET["tela"])) {
     $config["tela_padrao"] = $_GET["tela"];
     $_SESSION["tela"] = $_GET["tela"];
 } elseif ($_SESSION["tela"]) {
