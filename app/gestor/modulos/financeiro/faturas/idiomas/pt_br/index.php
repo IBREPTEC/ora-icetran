@@ -26,6 +26,7 @@ $idioma['tabela_ficha'] = 'Ficha';
 $idioma['tabela_opcoes'] = 'Opções';
 $idioma['tabela_cancelar'] = 'Cancelar';
 $idioma['tabela_baixa_manual'] = 'Baixa manual';
+$idioma['tabela_data_pagamento'] = 'Dt. Pagamentos';
 
 //Listagem Outros
 $idioma['tabela_pagar_tooltip'] = 'Clique para pagar a fatura.';
