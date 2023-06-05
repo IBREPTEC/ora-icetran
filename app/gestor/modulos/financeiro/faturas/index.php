@@ -124,6 +124,7 @@ if (isset($url[3])) {
     e.nome_fantasia AS escola,
     c.valor,
     c.data_vencimento,
+    c.data_pagamento,
     c.qnt_matriculas,
     cw.nome AS situacao,
     cw.cor_bg AS situacao_cor_bg,

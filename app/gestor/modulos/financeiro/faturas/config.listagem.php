@@ -83,6 +83,27 @@ $config['listagem'] = array(
         'busca_metodo' => 3
     ),
     array(
+        'id' => 'data_pagamento',
+        'variavel_lang' => 'tabela_data_pagamento',
+        'tipo' => 'php',
+        'coluna_sql' => 'c.data_pagamento',
+        'valor' => '
+            $vencido = null;
+            if (
+                (new DateTime($linha["data_pagamento"]))->format("Y-m-d") < (new DateTime())->format("Y-m-d")
+                && $linha["pago"] == "N"
+            ) {
+                $vencido = "color:#FF0000";
+            }
+
+            return "<span style=\"". $vencido . "\">
+                    " . formataData($linha["data_pagamento"], "br", 0) . "
+                </span>";',
+        'busca' => true,
+        'busca_class' => 'inputPreenchimentoCompleto',
+        'busca_metodo' => 3
+    ),
+    array(
         'id' => 'qnt_matriculas',
         'variavel_lang' => 'tabela_qnt_matriculas',
         'tipo' => 'banco',
@@ -166,7 +187,7 @@ $config['listagem'] = array(
         'busca_array' => 'statusTransacaoPagarme',
         'busca_metodo' => 6,
         'nao_ordenar' => true,
-        'tamanho' => 120
+        'tamanho' => 80
     ),
     array(
         'id' => 'pagar',
