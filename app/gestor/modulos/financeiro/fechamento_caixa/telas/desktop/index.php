@@ -46,6 +46,7 @@
                         <span class="pull-right" style="padding-top:3px; color:#999">
                            <a href="#iframe_xmlporperiodo" class="btn btn-primary" style="margin-right:20px;" rel="facebox"><?= $idioma["nav_xml_por_periodo"]; ?></a>
                           </span>
+
                         <div id="iframe_xmlporperiodo" style="display:none;">
                             <iframe id="iframe_xmlporperiodo"
                                     src="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/xmlporperiodo" width="450"

@@ -90,7 +90,7 @@ switch ($url[3]) {
         include 'telas/' . $config['tela_padrao'] . '/gerar.php';
         exit;
     case 'xmlporperiodo':
-        if ($_GET['gerar'] == 'Gerar' && $_GET['tipo_periodo']) {
+        if ($_GET['gerar'] == 'Gerar' && $_GET['tipo_periodo'] && !$_GET['cfc']) {
             if (
                 (
                     $_GET['tipo_periodo'] == 'PER'
@@ -111,12 +111,36 @@ switch ($url[3]) {
                 {
                     echo '<script>alert("Não existe nenhuma conta cadastrada no período informado."); window.close();</script>';
                 } else {
-                include("telas/" . $config["tela_padrao"] . "/xml.php");
+                    include("telas/" . $config["tela_padrao"] . "/xml.php");
                 }
             } else {
                 echo '<script>alert("Informe o período!"); window.close();</script>';
             }
-        } else {
+        }
+        elseif ($_GET['gerar'] == 'Gerar' && $_GET['tipo_periodo'] && $_GET['cfc']) {
+            if (
+                (
+                    $_GET['tipo_periodo'] == 'PER'
+                    && $_GET['periodo_inicio']
+                    && $_GET['periodo_final']
+                )
+                || $_GET['tipo_periodo'] != 'PER'
+            ) {
+
+                $contas_faturas = $linhaObj->retornarContasFaturasXMLPeriodo();
+                $unidade = $linhaObj->retornarUnidadeXMLPeriodo();
+                if(empty($contas_faturas))
+                {
+                    echo '<script>alert("Não existe nenhuma conta cadastrada no período informado."); window.close();</script>';
+                } else {
+                    include("telas/" . $config["tela_padrao"] . "/xml_cfc.php");
+                }
+            } else {
+                echo '<script>alert("Informe o período!"); window.close();</script>';
+            }
+        }
+
+        else {
             $linhaInsObj = new Escolas();
             $linhaInsObj->Set("campos","*");
             $escolas = $linhaInsObj->ListarTodas();
@@ -125,6 +149,7 @@ switch ($url[3]) {
             include 'telas/' . $config['tela_padrao'] . '/xmlporperiodo.php';
         }
         exit;
+
     case 'json':
         include("telas/" . $config["tela_padrao"] . "/json.php");
         exit;

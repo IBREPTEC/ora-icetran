@@ -590,7 +590,6 @@ class Fechamentos_Caixa extends Core
         $this->ordem = 'asc';
         $this->ordem_campo = 'c.idconta';
         $this->limite = -1;
-
         return $this->retornarLinhas();
     }
 
@@ -814,6 +813,110 @@ class Fechamentos_Caixa extends Core
 
         return $this->retornarLinhas();
     }
+    public function retornarContasFaturasXMLPeriodo(){
+
+        $situacaoPago = $this->retornarSituacaoPago();
+        $colunaData = "data_pagamento";
+
+        $this->sql = "SELECT
+                c.*,
+                e.idescola,
+                DATE_FORMAT(e.data_cad,'%Y-%m-%d') AS data_cadastro_escola,
+                e.nome_fantasia as escola,
+                e.email as email_escola,
+                e.razao_social AS escola_razao_social,
+                e.documento AS escola_documento,
+                e.slug AS escola_slug,
+                IF(l.nome IS NULL, e.endereco, CONCAT(l.nome, ' ', e.endereco)) AS escola_endereco,
+                e.numero AS escola_numero,
+                e.complemento AS escola_complemento,
+                e.bairro AS escola_bairro,
+                e.cep AS escola_cep,
+                e.telefone AS escola_telefone,
+                s.nome as sindicato,
+                es.nome as estado,
+                es.sigla as escola_sigla,
+                cc.nome as cidade,
+                cc.codigo as escola_cidade_codigo,
+                e.parceiro as escola_parceiro
+            FROM
+                contas c
+                INNER JOIN contas_matriculas cm ON (cm.idconta=c.idconta)
+                LEFT JOIN escolas e ON (c.idescola = e.idescola)
+                LEFT JOIN cfcs_valores_cursos cvv ON (cvv.idcfc = e.idescola AND cvv.ativo = 'S')
+                LEFT JOIN cidades cc ON (cc.idcidade = e.idcidade)
+                LEFT JOIN estados es ON (es.idestado = e.idestado)
+                LEFT JOIN sindicatos s ON (s.idsindicato = e.idsindicato)
+                LEFT JOIN sindicatos_valores_cursos svv ON (svv.idsindicato = s.idsindicato AND svv.ativo = 'S')
+                LEFT OUTER JOIN logradouros l ON (l.idlogradouro = e.idlogradouro)
+            WHERE
+                c.tipo = 'receita' and
+                c.ativo = 'S'";
+
+        if(empty($idMatricula))
+        {
+            $this->sql .= " and c.data_pagamento is not null";
+        } else {
+            $this->sql .= " and c.idmatricula = $idMatricula";
+            $colunaData = "data_vencimento";
+        }
+
+        if(empty($situacoes))
+        {
+            $this->sql .= " and c.idsituacao = ".$situacaoPago['idsituacao']."";
+        } else {
+            $implode = array_column($situacoes, 'idsituacao');
+            $this->sql .= " and c.idsituacao in (" . implode(",", $implode) . ")";
+        }
+        if($_GET['tipo_periodo']) {
+            if($_GET['tipo_periodo'] == 'HOJ') {
+                $this->sql .= " and date_format(c.$colunaData,'%Y%m%d') = date_format(now(),'%Y%m%d')";
+            } else if($_GET['tipo_periodo'] == 'SET') {
+                $this->sql .= " and date_format(c.$colunaData,'%Y%m%d') <= date_format(now(),'%Y%m%d')
+                and date_format(c.$colunaData,'%Y%m%d') >= '".date("Ymd", mktime(0, 0, 0, date("m"), date("d") - 6, date("Y")))."'  ";
+            } else if($_GET['tipo_periodo'] == 'MAT') {
+                $this->sql .= " and date_format(c.$colunaData,'%Y%m') = date_format(now(),'%Y%m')";
+            } else if($_GET['tipo_periodo'] == 'MPR') {
+                $this->sql .= " and date_format(c.$colunaData,'%Y%m') = '".date("Ym", mktime(0, 0, 0, date("m") + 1, date("d"), date("Y")))."'";
+            } else if($_GET['tipo_periodo'] == 'MAN') {
+                $this->sql .= " and date_format(c.$colunaData,'%Y%m') = '".date("Ym", mktime(0, 0, 0, date("m") - 1, date("d"), date("Y")))."'";
+            } else if($_GET['tipo_periodo'] == 'PER') {
+                if($_GET['periodo_inicio'])
+                    $this->sql .= " and DATE_FORMAT(c.$colunaData,'%Y-%m-%d') >= '".formataData($_GET['periodo_inicio'],'en',0)."' ";
+                if($_GET['periodo_final'])
+                    $this->sql .= " and DATE_FORMAT(c.$colunaData,'%Y-%m-%d') <= '".formataData($_GET['periodo_final'],'en',0)."' ";
+            }
+        }
+
+        $idsindicato = implode(', ', $_GET['idsindicato']);
+        if($idsindicato) {
+            $this->sql .= " and c.idsindicato in (".$idsindicato.") ";
+        } else {
+            if ($_SESSION['adm_gestor_sindicato'] != 'S') {
+                if (!$_SESSION['adm_sindicatos'])
+                    $_SESSION['adm_sindicatos'] = 0;
+                $this->sql .= ' and c.idsindicato in (' . $_SESSION['adm_sindicatos'] . ') ';
+            }
+        }
+
+        $idescola = implode(', ', $_GET['idescola']);
+        if($idescola) {
+            $this->sql .= " and c.idescola in (".$idescola.") ";
+        } else {
+            if ($_SESSION['adm_gestor_sindicato'] != 'S') {
+                if (!$_SESSION['adm_sindicatos'])
+                    $_SESSION['adm_sindicatos'] = 0;
+                $this->sql .= ' and c.idsindicato in (' . $_SESSION['adm_sindicatos'] . ') ';
+            }
+        }
+        $this->sql .= ' GROUP BY	c.idconta ';
+
+        $this->ordem = 'asc';
+        $this->ordem_campo = "c.$colunaData asc, idconta";
+        $this->limite = -1;
+        return $this->retornarLinhas();
+    }
+
 
     public function retornarUnidadeXMLPeriodo()
     {
