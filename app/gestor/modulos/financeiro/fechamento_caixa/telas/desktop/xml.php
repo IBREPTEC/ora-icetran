@@ -23,7 +23,7 @@ $formaPagamentoXML = array(
 
 $simpleXml = simplexml_load_file(dirname(__FILE__) . '/model.xml');
 $simpleXml->versao = '1.00';
-$simpleXml->unidade = $unidade;
+$simpleXml->unidade = 'M1I1';
 $simpleXml->lote = str_pad($linha['idfechamento'], 6, '0', STR_PAD_LEFT);
 $contador = 0;
 
@@ -45,7 +45,6 @@ foreach ($contas as $conta) {
         $informacoes = null;
         if ($conta['idmatricula']) {
             $informacoes = $linhaObj->retornarMatricula($conta['idmatricula']);
-
             $idcurso = $informacoes->idcurso;
             $idcurso = $config['conflitoCodigoCurso'] && $idcurso == 28 ? 1028 : $idcurso;
 
@@ -58,10 +57,7 @@ foreach ($contas as $conta) {
             }
         } elseif ($conta['idpessoa']) {
             $informacoes = $linhaObj->retornarPessoa($conta['idpessoa']);
-        } else {
-            $informacoes = $linhaObj->retornarMatriculaFatura($conta['idconta']);
         }
-
         if (!is_array($informacoes)) {
             $informacoes = [$informacoes];
         }
@@ -221,43 +217,45 @@ foreach ($contas as $conta) {
     }
 }
 
-foreach ($dados as $key => $informacao) {
-    foreach ($informacao['pagamento'] as $data_pagamento => $pagamento) {
-        foreach ($pagamento as $parcela_numero => $parcela) {
-            $simpleXml->cupomfiscal[$contador] = new StdClass;
-            $simpleXml->cupomfiscal[$contador]->aluno->cpf = $informacao['cpf'];
-            $simpleXml->cupomfiscal[$contador]->aluno->matricula = $key;
-            $simpleXml->cupomfiscal[$contador]->aluno->curso = 4;
-            $simpleXml->cupomfiscal[$contador]->aluno->nome = $informacao['nome'];
-            $simpleXml->cupomfiscal[$contador]->aluno->endereco = $informacao['endereco'];
-            $simpleXml->cupomfiscal[$contador]->aluno->numero = $informacao['numero'];
-            $simpleXml->cupomfiscal[$contador]->aluno->complemento = $informacao['complemento'];
-            $simpleXml->cupomfiscal[$contador]->aluno->bairro = $informacao['bairro'];
-            $simpleXml->cupomfiscal[$contador]->aluno->municipio = $informacao['municipio'];
-            $simpleXml->cupomfiscal[$contador]->aluno->codmunic = $informacao['codmunic'];
-            $simpleXml->cupomfiscal[$contador]->aluno->cep = $informacao['cep'];
-            $simpleXml->cupomfiscal[$contador]->aluno->uf = $informacao['uf'];
-            $simpleXml->cupomfiscal[$contador]->aluno->fone = $informacao['fone'];
-            $simpleXml->cupomfiscal[$contador]->aluno->email = $informacao['email'];
-
-            $simpleXml->cupomfiscal[$contador]->pagamento->datapgto = $data_pagamento;
-            $simpleXml->cupomfiscal[$contador]->pagamento->valor = number_format($parcela['valor'], 2, '.', '');
-            $simpleXml->cupomfiscal[$contador]->pagamento->formapgto = $parcela['formapgto'];
-            $simpleXml->cupomfiscal[$contador]->pagamento->parcela = $parcela_numero;
-            if(intval($parcela['qtdparcelas']) == 0)
-                $simpleXml->cupomfiscal[$contador]->pagamento->qtdparcelas = count($informacao['pagamento']);
-            else
-                $simpleXml->cupomfiscal[$contador]->pagamento->qtdparcelas = $parcela['qtdparcelas'];
-
-            $simpleXml->cupomfiscal[$contador]->pagamento->valorcontrato = number_format($informacao['total'], 2, '.', '');
-            $simpleXml->cupomfiscal[$contador]->pagamento->datacontrato = $informacao['datacontrato'];
-            $contador++;
-        }
-    }
-}
+//foreach ($dados as $key => $informacao) {
+//    foreach ($informacao['pagamento'] as $data_pagamento => $pagamento) {
+//        foreach ($pagamento as $parcela_numero => $parcela) {
+//            $simpleXml->cupomfiscal[$contador] = new StdClass;
+//            $simpleXml->cupomfiscal[$contador]->aluno->cpf = $informacao['cpf'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->matricula = $key;
+//            $simpleXml->cupomfiscal[$contador]->aluno->curso = 4;
+//            $simpleXml->cupomfiscal[$contador]->aluno->nome = $informacao['nome'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->endereco = $informacao['endereco'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->numero = $informacao['numero'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->complemento = $informacao['complemento'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->bairro = $informacao['bairro'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->municipio = $informacao['municipio'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->codmunic = $informacao['codmunic'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->cep = $informacao['cep'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->uf = $informacao['uf'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->fone = $informacao['fone'];
+//            $simpleXml->cupomfiscal[$contador]->aluno->email = $informacao['email'];
+//
+//            $simpleXml->cupomfiscal[$contador]->pagamento->datapgto = $data_pagamento;
+//            $simpleXml->cupomfiscal[$contador]->pagamento->valor = number_format($parcela['valor'], 2, '.', '');
+//            $simpleXml->cupomfiscal[$contador]->pagamento->formapgto = $parcela['formapgto'];
+//            $simpleXml->cupomfiscal[$contador]->pagamento->parcela = $parcela_numero;
+//            if(intval($parcela['qtdparcelas']) == 0)
+//                $simpleXml->cupomfiscal[$contador]->pagamento->qtdparcelas = count($informacao['pagamento']);
+//            else
+//                $simpleXml->cupomfiscal[$contador]->pagamento->qtdparcelas = $parcela['qtdparcelas'];
+//
+//            $simpleXml->cupomfiscal[$contador]->pagamento->valorcontrato = number_format($informacao['total'], 2, '.', '');
+//            $simpleXml->cupomfiscal[$contador]->pagamento->datacontrato = $informacao['datacontrato'];
+//            $contador++;
+//        }
+//    }
+//}
 
 foreach ($eventos as $matricula => $evento) {
+
     foreach ($evento as $key => $informacao) {
+
         $simpleXml->cupomfiscal[$contador] = new StdClass;
         $simpleXml->cupomfiscal[$contador]->aluno->cpf = $informacao['cpf'];
         $simpleXml->cupomfiscal[$contador]->aluno->matricula = $matricula;

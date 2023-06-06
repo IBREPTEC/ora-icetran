@@ -90,7 +90,8 @@ switch ($url[3]) {
         include 'telas/' . $config['tela_padrao'] . '/gerar.php';
         exit;
     case 'xmlporperiodo':
-        if ($_GET['gerar'] == 'Gerar' && $_GET['tipo_periodo'] && !$_GET['cfc']) {
+
+        if ($_GET['gerar'] == 'Gerar' && $_GET['tipo_periodo'] && $_GET['cfc'] == 'matricula') {
             if (
                 (
                     $_GET['tipo_periodo'] == 'PER'
@@ -102,9 +103,9 @@ switch ($url[3]) {
                 if(is_numeric($_GET['matricula']))
                 {
                     $situacoes = $linhaObj->retornarSituacoesFiltradas(["cancelada" => "!= 'S'"]);
-                    $contas = $linhaObj->retornarContasXMLPeriodo($_GET['matricula'], $situacoes);
+                    $contas = $linhaObj->retornarContasMatriculaXMLPeriodo($_GET['matricula'], $situacoes);
                 } else {
-                    $contas = $linhaObj->retornarContasXMLPeriodo();
+                    $contas = $linhaObj->retornarContasMatriculaXMLPeriodo();
                 }
                 $unidade = $linhaObj->retornarUnidadeXMLPeriodo();
                 if(empty($contas))
@@ -117,7 +118,7 @@ switch ($url[3]) {
                 echo '<script>alert("Informe o período!"); window.close();</script>';
             }
         }
-        elseif ($_GET['gerar'] == 'Gerar' && $_GET['tipo_periodo'] && $_GET['cfc']) {
+        elseif ($_GET['gerar'] == 'Gerar' && $_GET['tipo_periodo'] && $_GET['cfc'] == 'cfc') {
             if (
                 (
                     $_GET['tipo_periodo'] == 'PER'
