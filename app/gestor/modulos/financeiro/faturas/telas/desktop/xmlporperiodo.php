@@ -32,21 +32,7 @@
             <input class="span2" id="periodo_final" name="periodo_final" type="text" value=""/>
         </div>
     </div>
-
-    <div class="control-group" id="cfc">
-        <label class="control-label" for="cfc">Tipo</label>
-
-         <div class="controls">
-            <select name="cfc" id="form_cfc" class="span3"
-                   >
-                <option value=""></option>
-                <option value="cfc">CFC</option>
-
-            </select>
-        </div>
-    </div>
     <br/>
-
     <input type="submit" class="btn btn-primary" name="gerar" value="<?= $idioma["btn_gerar"]; ?>"/>
 </form>
 <script src="/assets/js/jquery.1.7.1.min.js"></script>
