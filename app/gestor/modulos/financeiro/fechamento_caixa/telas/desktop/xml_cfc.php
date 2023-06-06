@@ -2,7 +2,7 @@
 
 $simpleXml = simplexml_load_file(dirname(__FILE__) . '/model.xml');
 $simpleXml->versao = '1.00';
-$simpleXml->unidade = $unidade;
+$simpleXml->unidade = 'M1I1';
 $simpleXml->lote = str_pad($linha['idfechamento'], 6, '0', STR_PAD_LEFT);
 $contador = 0;
 $formaPagamentoXML = array(
@@ -52,7 +52,7 @@ foreach ($contas_faturas as $conta) {
         $simpleXml->cupomfiscal[$contador]->pagamento->qtdparcelas = $conta['total_parcelas'];
 
         $simpleXml->cupomfiscal[$contador]->pagamento->valorcontrato = number_format($conta['valor'], 2, '.', '');
-        $simpleXml->cupomfiscal[$contador]->pagamento->datacontrato =$conta['data_cadastro_escola'];
+        $simpleXml->cupomfiscal[$contador]->pagamento->datacontrato =$conta['data_pagamento'];
 
 
 

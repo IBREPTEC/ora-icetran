@@ -37,9 +37,9 @@
         <label class="control-label" for="cfc">Tipo</label>
 
          <div class="controls">
-            <select name="cfc" id="form_cfc" class="span3"
-                   >
+            <select name="cfc" id="form_cfc" class="span3">
                 <option value=""></option>
+                <option value="matricula">Matricula</option>
                 <option value="cfc">CFC</option>
 
             </select>
