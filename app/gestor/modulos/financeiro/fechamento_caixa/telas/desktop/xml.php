@@ -21,7 +21,7 @@ $formaPagamentoXML = array(
     8 => 'OUT'
 );
 
-$simpleXml = simplexml_load_file(dirname(__FILE__) . '/model.xml');
+$simpleXml = simplexml_load_file(dirname(__FILE__) . '/model_matricula.xml');
 $simpleXml->versao = '1.00';
 $simpleXml->unidade = 'M1I1';
 $simpleXml->lote = str_pad($linha['idfechamento'], 6, '0', STR_PAD_LEFT);
@@ -198,6 +198,7 @@ foreach ($contas as $conta) {
                             'fone' => $informacao->telefone,
                             'email' => $informacao->email,
                             'pagamentos' => array(
+                                'idconta'=>$conta['idconta'],
                                 'datapgto' => $conta['data_pagamento'],
                                 'valor' => $valor_parcela,
                                 'formapgto' => $formaPagamentoXML[$conta['forma_pagamento']],
@@ -255,7 +256,7 @@ foreach ($contas as $conta) {
 foreach ($eventos as $matricula => $evento) {
 
     foreach ($evento as $key => $informacao) {
-
+        if($informacao['pagamentos']['parcela'] == 1){
         $simpleXml->cupomfiscal[$contador] = new StdClass;
         $simpleXml->cupomfiscal[$contador]->aluno->cpf = $informacao['cpf'];
         $simpleXml->cupomfiscal[$contador]->aluno->matricula = $matricula;
@@ -271,6 +272,7 @@ foreach ($eventos as $matricula => $evento) {
         $simpleXml->cupomfiscal[$contador]->aluno->uf = $informacao['uf'];
         $simpleXml->cupomfiscal[$contador]->aluno->fone = $informacao['fone'];
         $simpleXml->cupomfiscal[$contador]->aluno->email = $informacao['email'];
+        $simpleXml->cupomfiscal[$contador]->pagamento->idconta = $informacao['pagamentos']['idconta'];
         $simpleXml->cupomfiscal[$contador]->pagamento->datapgto = $informacao['pagamentos']['datapgto'];
         $simpleXml->cupomfiscal[$contador]->pagamento->valor = number_format($informacao['pagamentos']['valor'], 2, '.', '');
         $simpleXml->cupomfiscal[$contador]->pagamento->formapgto = $informacao['pagamentos']['formapgto'];
@@ -287,7 +289,7 @@ foreach ($eventos as $matricula => $evento) {
         }
         $simpleXml->cupomfiscal[$contador]->pagamento->datacontrato = $informacao['pagamentos']['datacontrato'];
         $contador++;
-    }
+    }}
 }
 
 $dom = new DOMDocument('1.0');

@@ -21,6 +21,7 @@
             <email/>
         </aluno>
         <pagamento>
+            <idfatura/>
             <datapgto/>
             <valor/>
             <formapgto/>
