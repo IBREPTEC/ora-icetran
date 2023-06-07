@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ibrep xmlns="http://www.autocominformatica.com.br">
+    <versao/>
+    <unidade/>
+    <lote/>
+    <cupomfiscal>
+        <aluno>
+            <cpf/>
+            <matricula/>
+            <curso/>
+            <nome/>
+            <endereco/>
+            <numero/>
+            <complemento/>
+            <bairro/>
+            <municipio/>
+            <codmunic/>
+            <cep/>
+            <uf/>
+            <fone/>
+            <email/>
+        </aluno>
+        <pagamento>
+            <idconta/>
+            <datapgto/>
+            <valor/>
+            <formapgto/>
+            <parcela/>
+            <qtdparcelas/>
+            <valorcontrato/>
+            <datacontrato/>
+        </pagamento>
+    </cupomfiscal>
+</ibrep>

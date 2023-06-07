@@ -44,7 +44,7 @@ foreach ($contas_faturas as $conta) {
         $simpleXml->cupomfiscal[$contador]->aluno->fone =  $conta['escola_telefone'];
         $simpleXml->cupomfiscal[$contador]->aluno->email = $conta['email_escola'];
 
-
+        $simpleXml->cupomfiscal[$contador]->pagamento->idfatura =  $conta['idconta'];
         $simpleXml->cupomfiscal[$contador]->pagamento->datapgto =  $conta['data_pagamento'];
         $simpleXml->cupomfiscal[$contador]->pagamento->valor = number_format($conta['valor'], 2, '.', '');
         $simpleXml->cupomfiscal[$contador]->pagamento->formapgto = $formaPagamentoXML[$conta['forma_pagamento']];
