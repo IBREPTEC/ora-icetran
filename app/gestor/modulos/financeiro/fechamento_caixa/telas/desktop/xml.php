@@ -255,7 +255,7 @@ foreach ($contas as $conta) {
 foreach ($eventos as $matricula => $evento) {
 
     foreach ($evento as $key => $informacao) {
-
+        if($informacao['pagamentos']['parcela'] == 1){
         $simpleXml->cupomfiscal[$contador] = new StdClass;
         $simpleXml->cupomfiscal[$contador]->aluno->cpf = $informacao['cpf'];
         $simpleXml->cupomfiscal[$contador]->aluno->matricula = $matricula;
@@ -287,7 +287,7 @@ foreach ($eventos as $matricula => $evento) {
         }
         $simpleXml->cupomfiscal[$contador]->pagamento->datacontrato = $informacao['pagamentos']['datacontrato'];
         $contador++;
-    }
+    }}
 }
 
 $dom = new DOMDocument('1.0');
