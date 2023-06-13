@@ -282,32 +282,59 @@
 					type: "POST",
 					data: {cep: cep_informado},
 					success: function(json){ //Se ocorrer tudo certo
-						if(json.sucesso){
+						if (json.erro) {
+							alert (json.erro);
+						} else {
 							$("select[name='idlogradouro']").val(json.idlogradouro);
-							$("input[name='endereco']").val(json.endereco)
-							$("input[name='bairro']").val(json.bairro)
-							$("select[name='idestado']").val(json.idestado);
+							$("input[name='bairro']").val(json.bairro);
+							$("select[name='idestado']").val(json.idestado); 
+							$("input[name='endereco']").val(json.logradouro);
+							$("#idlogradouro option").each(function() {
+								if (json.logradouro.includes($(this).text())) {
+								$(this).attr("selected", 'selected');
+								}
+							});
+
 							$.getJSON('/aluno/secretaria/perfil/ajax_cidades',{idestado: json.idestado, ajax: 'true'}, function(jsonCidade){
 								var options = '<option value="">– <?=$idioma['selecione_cidade']; ?> –</option>';
 								for (var i = 0; i < jsonCidade.length; i++) {
 									var selected = '';
-									if(jsonCidade[i].idcidade == json.idcidade)
+									if(jsonCidade[i].nome == json.localidade)
 										var selected = 'selected';
 									options += '<option value="' + jsonCidade[i].idcidade + '" '+ selected +'>' + jsonCidade[i].nome  + '</option>';
 								}	
 								$('#idcidade').html(options);
-							});	
-							self.unblock();				
-						} else {
-							if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                                    $('#cep_n_encontrado').removeAttr('hidden')
-                                }
-                           else{
-                                    alert('<?= $idioma["erro_cep"]; ?>');
+							});
+						}
 
-                                }
-							self.unblock();
-						}				  
+						self.unblock();
+						
+						// if(json.sucesso){
+						// 	$("select[name='idlogradouro']").val(json.idlogradouro);
+						// 	$("input[name='endereco']").val(json.endereco)
+						// 	$("input[name='bairro']").val(json.bairro)
+						// 	$("select[name='idestado']").val(json.idestado);
+						// 	$.getJSON('/aluno/secretaria/perfil/ajax_cidades',{idestado: json.idestado, ajax: 'true'}, function(jsonCidade){
+						// 		var options = '<option value="">– <?=$idioma['selecione_cidade']; ?> –</option>';
+						// 		for (var i = 0; i < jsonCidade.length; i++) {
+						// 			var selected = '';
+						// 			if(jsonCidade[i].idcidade == json.idcidade)
+						// 				var selected = 'selected';
+						// 			options += '<option value="' + jsonCidade[i].idcidade + '" '+ selected +'>' + jsonCidade[i].nome  + '</option>';
+						// 		}	
+						// 		$('#idcidade').html(options);
+						// 	});	
+						// 	self.unblock();				
+						// } else {
+						// 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        //             $('#cep_n_encontrado').removeAttr('hidden')
+                        //         }
+                        //    else{
+                        //             alert('<?= $idioma["erro_cep"]; ?>');
+
+                        //         }
+						// 	self.unblock();
+						// }				  
 					} 	
 				});	
 			} 
