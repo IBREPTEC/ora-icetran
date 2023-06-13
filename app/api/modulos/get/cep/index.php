@@ -1,46 +1,77 @@
-<?php
-//$ch = curl_init();
+<?php 
+header('Content-type: application/json');
 
-// informar URL e outras funções ao CURL
-//curl_setopt($ch, CURLOPT_URL, "http://cep.construtor.alfamaweb.com.br/cep.php");
-//curl_setopt($ch, CURLOPT_URL, "https://construtor.de/vendas/cep.php");
-//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// Criação do array em branco $address, a ser retornado no final da execução.
+$address = [];
 
-// Faz um POST
-//curl_setopt($ch, CURLOPT_POST, true);
-//curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST);
+// Array auxiliar com as siglas dos estados para busca do idestado.
+$estados = [
+    '-',
+    'AC', 
+    'AL', 
+    'AP', 
+    'AM', 
+    'BA', 
+    'CE', 
+    'DF', 
+    'ES', 
+    'GO', 
+    'MA', 
+    'MT', 
+    'MS', 
+    'MG', 
+    'PA', 
+    'PB', 
+    'PR', 
+    'PE', 
+    'PI', 
+    'RJ', 
+    'RN', 
+    'RS', 
+    'RO', 
+    'RR', 
+    'SC', 
+    'SP', 
+    'SE', 
+    'TO',
+];
 
-// Acessar a URL e retornar a saída
-//$output = curl_exec($ch);
-// liberar
-//curl_close($ch);
+// Verificação se o valor recebido existe e é diferente de vazio.
+if (isset($_POST['cep']) && !empty($_POST['cep'])) {
+    // Recebe o parametro 'cep' de $_POST e remove todos os caracteres não númericos encontrados;
+    $cep = $_POST['cep'];
+    $cep = preg_replace('/[^0-9]/', '', $cep);
 
-// Imprimir a saída
-//echo $output;
+    // Validação para conferir se o após a limpeza de carcteres indesejados o CEP informado está no padrão correto de 8 digitos.
+    if (!preg_match('/[0-9]{8}/', $cep)) {
+        $address = [
+            'erro' => 'Formato de CEP inválido.',
+        ];
+    } else {
+        // Insere o valor tratado dentro do link da requisição como parametro;
+        $url = 'https://viacep.com.br/ws/'.$cep.'/json/';
 
+        // Preenche o array com o retorno da API
+        $address = json_decode(file_get_contents($url), true);
 
+        $idestado = array_search($address['uf'], $estados);
+        $address += [
+            'idestado' => $idestado,
+        ];
 
-$url = 'https://construtor.de/vendas/cep.php?env=' . $config["database"];
-$curl = curl_init();
+        // Insere uma mensagem de erro caso a busca na API retorne erro = true
+        if (isset($address['erro'])) {
+            $address = [
+                'erro' => 'CEP não encontrado.',
+            ];
+        }
+    }    
+} else {
+    $address = [
+        'erro' => 'O campo CEP não pode ser deixado em branco.',
+    ];
+}
 
-curl_setopt_array($curl, array(
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => "",
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 15,
-    CURLOPT_CONNECTTIMEOUT => 15,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "POST",
-    CURLOPT_SSL_VERIFYHOST => 0,
-    CURLOPT_SSL_VERIFYPEER => 0,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => $_POST
-));
+echo json_encode($address);
 
-$response = curl_exec($curl);
-$err = curl_error($curl);
-curl_close($curl);
-
-// Imprimir a saída
-echo $response;
+?>

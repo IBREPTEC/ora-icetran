@@ -398,6 +398,66 @@ $('#<?= $campo["id"]; ?>').change(function () {
     })
     ;
     }
+
+    function buscarCEP(cep_informado){
+        $.msg({
+          autoUnblock : true,
+          clickUnblock : false,
+          klass : 'white-on-black',
+          content: 'Processando solicitação.',
+          afterBlock : function(){
+          var self = this;
+
+          jQuery.ajax({
+              url: "/api/get/cep",
+              dataType: "json", //Tipo de Retorno
+              type: "POST",
+              data: {cep: cep_informado},
+              success: function(json){
+                if (json.erro) {
+                  alert (json.erro);
+                } else {
+                  $("input[name='endereco']").val(json.logradouro)
+                  $("input[name='bairro']").val(json.bairro)
+                  $("select[name='idestado']").val(json.idestado); 
+
+                  $("#idlogradouro option").each(function() {
+                      if (json.logradouro.includes($(this).text())) {
+                      $(this).attr("selected", 'selected');
+                      }
+                  });
+
+                  <?php
+                      foreach($config["formulario"] as $fieldsetid => $fieldset) {
+                        foreach($fieldset["campos"] as $campoid => $campo) {
+                          if($campo["json"] && $campo["nome"] == "idcidade"){ ?>
+                          $.getJSON('<?=$campo["json_url"];?><?=$pessoa[$campo["json_idpai"]];?>',{<?=$campo["json_idpai"];?> : json.idestado, ajax: 'true'}, function(jsonCidade){
+                              var options = '<option value="">- <?=$idioma[$campo["json_input_vazio"]]; ?> -</option>';   
+
+                              for (var i = 0; i < jsonCidade.length; i++) {
+                                var selected = '';
+                                if(jsonCidade[i].nome == json.localidade) {
+                                    var selected = 'selected';
+                                }
+
+                                options += '<option value="' + jsonCidade[i].<?=$campo["valor"];?> + '" '+ selected +'>' + jsonCidade[i].<?=$campo["json_campo_exibir"];?> + '</option>';
+                              }
+                              
+                              $('#<?=$campo["id"];?>').html(options);
+                          });
+                          <?php
+                          }
+                        }
+                      }
+                  ?>    
+                  
+                  self.unblock();
+                }
+              }
+            });
+          }
+        });
+      }
     $(document).ready(function () {
         $("input[name='cep']").blur(function () {
             buscarCEP($("input[name='cep']").val());

@@ -200,7 +200,7 @@ class Escolas extends Core
 	
     public function cadastrarPlano($idescola, $valor_minimo = null){
         $idplano =  $this->post['idplano'];
-				var_dump($valor_minimo);
+				// var_dump($valor_minimo);
 
         if($idplano!='3'){
             $this->sql = 'INSERT INTO
