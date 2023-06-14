@@ -44,9 +44,9 @@ $idioma['form_modificar_matricula'] = 'Modificar matrícula:';
 $idioma['form_bloquear_mudanca_turma'] = 'Bloquear mudança de turma:';
 $idioma['form_parceiro'] = 'CFC Externo:';
 $idioma['form_periodo_fatura'] = 'Período para gerar fatura:';
-
 $idioma['form_plano'] = 'Optante pelo plano:';
 $idioma['valor_minimo'] = 'Valor mínimo:';
+
 $idioma['legenda_foto'] = 'Logo';
 $idioma['form_foto'] = 'Logo:';
 $idioma['legendadadosdeacesso'] = 'Senha de acesso';
@@ -54,11 +54,6 @@ $idioma['form_senha'] = 'Senha:';
 $idioma['campo_senha_vazio'] = 'Preencha o campo senha';
 $idioma['plano_vazio'] = 'Preencha o campo plano';
 $idioma['valor_vazio'] = 'Preencha o campo valor mínimo';
-
-$idioma['legenda_foto'] = 'Logo';
-$idioma['form_foto'] = 'Logo:';
-$idioma['legendadadosdeacesso'] = 'Senha de acesso';
-$idioma['form_senha'] = 'Senha:';
 $idioma['form_confirma'] = 'Confirme:';
 $idioma['legenda_dados_gerente'] = 'Dados do Administrador';
 $idioma['form_gerente_nome'] = 'Nome:';
@@ -123,6 +118,7 @@ $idioma['arquivo_excluir_confirma'] = 'Deseja realmente deletar esse arquivo?';
 $idioma['arquivo_enviado'] = 'Arquivo enviado: ';
 
 //Ajuda
+$idioma['form_valor_ajuda'] = 'Insira um valor mínimo para o plano';
 $idioma['form_cpf_ajuda'] = 'Somente será aceito um cadastro por CPF';
 $idioma['form_cnpj_ajuda'] = 'Somente será aceito um cadastro por CNPJ';
 $idioma['form_numero_ajuda'] = 'Caso não tem número, informe "Sem número"';
@@ -130,7 +126,6 @@ $idioma['form_ativo_ajuda'] = 'Essa funcionalidade não remove do painel, soment
 $idioma['form_foto_ajuda'] = 'Extensões permitidas: .jpg .jpeg .gif .png .bmp';
 $idioma['form_senha_ajuda'] = ' A senha deve ter no mínimo 8 caracteres e no máximo 30 caracteres entre letras e números.';
 $idioma['form_confirma_ajuda'] = 'Confirme a sua senha.';
-$idioma['confirmacao_senha_vazio'] = 'Preencha a o campo confirmação de senha.';
 $idioma['form_gerente_numero_ajuda'] = 'Caso não tem número, informe "Sem número"';
 $idioma['form_gerente_assinatura_ajuda'] = 'Extensões permitidas: .jpg .jpeg .gif .png .bmp';
 $idioma['form_responsavel_legal_numero_ajuda'] = 'Caso não tem número, informe "Sem número"';

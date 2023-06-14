@@ -381,20 +381,26 @@
                         type: "POST",
                         data: {cep: cep_informado},
                         success: function(json) {
-                            if (json.sucesso) {
-                                $("input[name='endereco']").val(json.endereco)
+                            if (json.erro) {
+                                    alert (json.erro);
+                            } else {
+                                $("select[name='idlogradouro'] option").each(function() {
+                                    if (json.logradouro.includes($(this).text())) {
+                                        $(this).attr("selected", 'selected');
+                                    }
+                                });
+                                regarregarLinceform('idlogradouro');
+
+                                $("input[name='endereco']").val(json.logradouro)
                                 $("input[name='bairro']").val(json.bairro)
 
-                                idcidade = json.idcidade;
+                                idcidade = $("select[name='idlogradouro'] option:selected").val();
                                 $("select[name='idestado']").val(json.idestado);
                                 clicarValor('idestado', json.idestado);
-
-                                self.unblock();
-                            } else {
-                                alert('<?= $idioma['json_cep_nao_encontrado']; ?>');
-                                self.unblock();
                             }
-                        }
+
+                            self.unblock();               
+                        } 
                     });
                 }
             });
