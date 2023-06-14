@@ -332,87 +332,128 @@
     <script type="text/javascript" src="/assets/plugins/jquery.msg/jquery.msg.min.js"></script>
     <script type="text/javascript">
         function buscarCEP(cep_informado, onde){
-          $.msg({
-            autoUnblock : true,
-            clickUnblock : false,
-            klass : 'white-on-black',
-            content: 'Processando solicitação.',
-            afterBlock : function(){
-              var self = this;
-              jQuery.ajax({
-                url: "/api/get/cep",
-                dataType: "json",
-                type: "POST",
-                data: {cep: cep_informado},
-                success: function(json){
-                  console.log(json);
 
-                  if(json.erro) {
-                    alert(json.erro);
-                  } else {
-                    if (onde == 'escola') {
-                        $("input[name='endereco']").val(json.logradouro);
-                        $("input[name='bairro']").val(json.bairro);
-                        $("select[name='idestado']").val(json.idestado);
-                        $("#idlogradouro option").each(function() {
-                          if (json.logradouro.includes($(this).text())) {
-                            $(this).attr("selected", 'selected');
-                          }
-                        });
-
-                        <?php
-                          foreach($config["formulario"] as $fieldsetid => $fieldset) {
-                            foreach($fieldset["campos"] as $campoid => $campo) {
-                              if($campo["json"] && $campo["nome"] == "idcidade"){ ?>
-                                $.getJSON('<?=$campo["json_url"];?><?=$pessoa[$campo["json_idpai"]];?>',{<?=$campo["json_idpai"];?> : json.idestado, ajax: 'true'}, function(jsonCidade){
-                                  var options = '<option value="">- <?=$idioma[$campo["json_input_vazio"]]; ?> -</option>';   
-
-                                  for (var i = 0; i < jsonCidade.length; i++) {
-                                    var selected = '';
-                                    if(jsonCidade[i].nome == json.localidade) {
-                                        var selected = 'selected';
-                                    }
-
-                                    options += '<option value="' + jsonCidade[i].<?=$campo["valor"];?> + '" '+ selected +'>' + jsonCidade[i].<?=$campo["json_campo_exibir"];?> + '</option>';
-                                  }
-                                  
-                                  $('#<?=$campo["id"];?>').html(options);
-                                });
-                              <?php
-                              }
-                          }
-                        }
-                      ?>
-                    } else if (onde == 'gerente') {
-                      $("input[name='gerente_endereco']").val(json.logradouro);
-                      $("input[name='gerente_bairro']").val(json.bairro);
-                      $("select[name='gerente_idestado']").val(json.idestado);
-                      $("#form_gerente_idlogradouro option").each(function() {
-                        if (json.logradouro.includes($(this).text())) {
-                          $(this).attr("selected", 'selected');
-                        }
-                      });
-
-                      <?php
-                        foreach($config["formulario"] as $fieldsetid => $fieldset) {
-                          foreach($fieldset["campos"] as $campoid => $campo) {
-                            if($campo["json"] && $campo["nome"] == "gerente_idcidade"){ ?>
-                              $.getJSON('<?=$campo["json_url"];?><?=$pessoa[$campo["json_idpai"]];?>',{<?=$campo["json_idpai"];?> : json.idestado, ajax: 'true'}, function(jsonCidade) {
-                                var options = '<option value="">- <?=$idioma[$campo["json_input_vazio"]]; ?> -</option>';   
-
-                                for (var i = 0; i < jsonCidade.length; i++) {
-                                  var selected = '';
-                                  if(jsonCidade[i].nome == json.localidade) {
-                                      var selected = 'selected';
-                                  }
-
-                                  options += '<option value="' + jsonCidade[i].<?=$campo["valor"];?> + '" '+ selected +'>' + jsonCidade[i].<?=$campo["json_campo_exibir"];?> + '</option>';
+            $.msg({
+                autoUnblock : true,
+                clickUnblock : false,
+                klass : 'white-on-black',
+                content: 'Processando solicitação.',
+                afterBlock : function(){
+                    var self = this;
+                    jQuery.ajax({
+                        url: "/api/get/cep",
+                        dataType: "json",
+                        type: "POST",
+                        data: {cep: cep_informado},
+                        success: function(json){
+                          if (json.erro) {
+                            alert (json.erro);
+                          } else {
+                            if (onde == 'escola') {
+                              $("select[name='idlogradouro']").val(json.idlogradouro);
+                              $("input[name='bairro']").val(json.bairro);
+                              $("select[name='idestado']").val(json.idestado); 
+                              $("input[name='endereco']").val(json.logradouro);
+                              $("#idlogradouro option").each(function() {
+                                if (json.logradouro.includes($(this).text())) {
+                                  $(this).attr("selected", 'selected');
                                 }
-                                
-                                $('#<?=$campo["id"];?>').html(options);
                               });
-                            <?php
+
+                              <?php
+                                foreach($config["formulario"] as $fieldsetid => $fieldset) {
+                                  foreach($fieldset["campos"] as $campoid => $campo) {
+                                    if($campo["json"] && $campo["nome"] == "idcidade"){ ?>
+                                    $.getJSON('<?=$campo["json_url"];?><?=$pessoa[$campo["json_idpai"]];?>',{<?=$campo["json_idpai"];?> : json.idestado, ajax: 'true'}, function(jsonCidade){
+                                        var options = '<option value="">- <?=$idioma[$campo["json_input_vazio"]]; ?> -</option>';   
+
+                                        for (var i = 0; i < jsonCidade.length; i++) {
+                                          var selected = '';
+                                          if(jsonCidade[i].nome == json.localidade) {
+                                              var selected = 'selected';
+                                          }
+
+                                          options += '<option value="' + jsonCidade[i].<?=$campo["valor"];?> + '" '+ selected +'>' + jsonCidade[i].<?=$campo["json_campo_exibir"];?> + '</option>';
+                                        }
+                                        
+                                        $('#<?=$campo["id"];?>').html(options);
+                                    });
+                                    <?php
+                                    }
+                                  }
+                                }
+                              ?>
+                            } else if (onde == 'gerente') {
+                              $("select[name='gerente_idlogradouro']").val(json.idlogradouro);
+                              $("input[name='gerente_bairro']").val(json.bairro);
+                              $("select[name='gerente_idestado']").val(json.idestado); 
+                              $("input[name='gerente_endereco']").val(json.logradouro);
+                              $("#form_gerente_idlogradouro option").each(function() {
+                                if (json.logradouro.includes($(this).text())) {
+                                  $(this).attr("selected", 'selected');
+                                }
+                              });
+                              
+                              <?php
+                                foreach($config["formulario"] as $fieldsetid => $fieldset) {
+                                  foreach($fieldset["campos"] as $campoid => $campo) {
+                                    if($campo["json"] && $campo["nome"] == "gerente_idcidade"){ ?>
+                                    $.getJSON('<?=$campo["json_url"];?><?=$pessoa[$campo["json_idpai"]];?>',{<?=$campo["json_idpai"];?> : json.idestado, ajax: 'true'}, function(jsonCidade){
+                                        var options = '<option value="">- <?=$idioma[$campo["json_input_vazio"]]; ?> -</option>';   
+
+                                        for (var i = 0; i < jsonCidade.length; i++) {
+                                          var selected = '';
+                                          if(jsonCidade[i].nome == json.localidade) {
+                                              var selected = 'selected';
+                                          }
+
+                                          options += '<option value="' + jsonCidade[i].<?=$campo["valor"];?> + '" '+ selected +'>' + jsonCidade[i].<?=$campo["json_campo_exibir"];?> + '</option>';
+                                        }
+                                        
+                                        $('#<?=$campo["id"];?>').html(options);
+                                    });
+                                    <?php
+                                    }
+                                  }
+                                }
+                              ?>
+                            } else if (onde == 'responsavel_legal') {
+                              $("select[name='responsavel_legal_idlogradouro']").val(json.idlogradouro);
+                              $("input[name='responsavel_legal_bairro']").val(json.bairro);
+                              $("select[name='responsavel_legal_idestado']").val(json.idestado); 
+                              $("input[name='responsavel_legal_endereco']").val(json.logradouro);
+                              $("#form_responsavel_legal_idlogradouro option").each(function() {
+                                if (json.logradouro.includes($(this).text())) {
+                                  $(this).attr("selected", 'selected');
+                                }
+                              });
+
+                              <?php
+                                foreach($config["formulario"] as $fieldsetid => $fieldset) {
+                                  foreach($fieldset["campos"] as $campoid => $campo) {
+                                    if($campo["json"] && $campo["nome"] == "responsavel_legal_idcidade"){ ?>
+                                    $.getJSON('<?=$campo["json_url"];?><?=$pessoa[$campo["json_idpai"]];?>',{<?=$campo["json_idpai"];?> : json.idestado, ajax: 'true'}, function(jsonCidade){
+                                        var options = '<option value="">- <?=$idioma[$campo["json_input_vazio"]]; ?> -</option>';   
+
+                                        for (var i = 0; i < jsonCidade.length; i++) {
+                                          var selected = '';
+                                          if(jsonCidade[i].nome == json.localidade) {
+                                              var selected = 'selected';
+                                          }
+
+                                          options += '<option value="' + jsonCidade[i].<?=$campo["valor"];?> + '" '+ selected +'>' + jsonCidade[i].<?=$campo["json_campo_exibir"];?> + '</option>';
+                                        }
+                                        
+                                        $('#<?=$campo["id"];?>').html(options);
+                                    });
+                                    <?php
+                                    }
+                                  }
+                                }
+                              ?>
                             }
+
+                            self.unblock();
                           }
                         }
                       ?>

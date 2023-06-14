@@ -453,9 +453,10 @@
                       }
                       }
                   ?>    
+                  
+                  self.unblock();
                 }
 
-                self.unblock();
               }
             });
           }
