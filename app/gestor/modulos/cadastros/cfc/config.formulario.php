@@ -110,12 +110,12 @@ $config['formulario'] = array(
                 'nome' => 'idusuario',
                 'nomeidioma' => 'form_usuario',
                 'tipo' => 'select',
-                'sql' => "SELECT idusuario, nome FROM usuarios_adm WHERE idperfil IN (26) ORDER BY nome",
+                'sql' => "SELECT idusuario, nome FROM usuarios_adm WHERE idperfil IN (17) ORDER BY nome",
                 'sql_valor' => 'idusuario',
                 'sql_label' => 'nome',
                 'valor' => 'idusuario',
                 'class' => 'span5',
-                'banco' => true,
+                'banco' => true
             ),
             array(
                 'id' => 'form_inscricao_estadual',
@@ -139,17 +139,17 @@ $config['formulario'] = array(
                 'banco_string' => true,
                 'evento' => "maxlength='100'"
             ),
-            //array(
-                //'id' => 'form_fax',
-                //'nome' => 'fax',
-                //'nomeidioma' => 'form_fax',
-                //'tipo' => 'input',
-                //'valor' => 'fax',
-                //'class' => 'span3',
-                //'mascara' => '(99) 9999-9999',
-                //'banco' => true,
-                //'banco_string' => true
-            //),
+//            array(
+//                'id' => 'form_fax',
+//                'nome' => 'fax',
+//                'nomeidioma' => 'form_fax',
+//                'tipo' => 'input',
+//                'valor' => 'fax',
+//                'class' => 'span3',
+//                'mascara' => '(99) 9999-9999',
+//                'banco' => true,
+//                'banco_string' => true
+//            ),
             array(
                 'id' => 'form_email',
                 'nome' => 'email',

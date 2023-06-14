@@ -114,7 +114,7 @@ $config["listagem"] = array(
         "busca" => true,
         "busca_tipo" => "select",
         "busca_class" => "inputPreenchimentoCompleto",
-        "busca_array" => "sim_nao",
+        "busca_array" => "igual_maior",
         "busca_metodo" => 1,
         "tamanho" => 60
     ),

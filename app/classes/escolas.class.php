@@ -2,7 +2,7 @@
 
 class Escolas extends Core
 {
-    public function listarTodas($retornarEstadosCidades = false, $json = false)
+    public function listarTodas($retornarEstadosCidades = false)
     {
         $this->sql = 'SELECT
                ' . $this->campos . '
@@ -16,10 +16,6 @@ class Escolas extends Core
 
         if ($this->idsindicato) {
             $this->sql .= ' AND e.idsindicato = ' . $this->idsindicato;
-        }
-		
-		if($_SESSION['adm_gestor_cfc'] != 'S' && $_SESSION["adm_idperfil"] == 26) {
-            $this->sql .= ' and e.idescola in ('.$_SESSION['adm_cfcs'].')';
         }
 
         $this->aplicarFiltrosBasicos();
@@ -57,14 +53,8 @@ class Escolas extends Core
                 $retorno[$ind]['estados_cidades'] = $this->listarEstadosCidadesAssociadas();
             }
         }
-		
-		if($json == true){
-            echo json_encode($retorno);
-        }else{
 
-            return $retorno;
-        }
-
+        return $retorno;
     }
 
     public function retornar($retornarEstadosCidades = false)
@@ -198,36 +188,29 @@ class Escolas extends Core
         return $retorno;
     }
 	
-    public function cadastrarPlano($idescola, $valor_minimo = null){
+	public function cadastrarPlano($idescola,$valor_minimo){
         $idplano =  $this->post['idplano'];
-				var_dump($valor_minimo);
 
-        if($idplano!='3'){
+        if($idplano!='1'){
             $this->sql = 'INSERT INTO
                         planos_cfc
                     SET
-                        idplano = '.$idplano.',
-                        idcfc = '.$idescola.',
-                        valor_minimo = '.$valor_minimo;
+                        idplano = "'.$idplano.'",
+                        idcfc = "'.$idescola.'",
+                        valor_minimo = '.$valor_minimo.'';
         }
         else{
             $this->sql = 'INSERT INTO
                         planos_cfc
                     SET
-                        idplano = '.$idplano.',
-                        idcfc = '.$idescola;
+                        idplano = "'.$idplano.'",
+                        idcfc = "'.$idescola.'"';
         }
-
-
 
             $this->executaSql($this->sql);
 
-
-
-
-
     }
-    public function cadastrarValorMinimoPlano($valor_minimo = null, $idcfc){
+    public function cadastrarValorMinimoPlano($valor_minimo,$idcfc){
         $idplano =  $this->post['idplano'];
         if($valor_minimo == ''){
             $this->sql = 'INSERT INTO
@@ -235,31 +218,21 @@ class Escolas extends Core
                     SET
                         idplano = "'.$idplano.'",
                         valor_minimo = null,
-                        idcfc = "'.$idcfc.'"
-                ';
+                        idcfc = "'.$idcfc.'"';
         }else{
 
             $this->sql = 'INSERT INTO
                         planos_cfc
                     SET
-                        idplano = '.$idplano.',
+                        idplano = "'.$idplano.'",
                         valor_minimo = '.$valor_minimo.',
-                        idcfc = '.$idcfc.'
-                ';
-
+                        idcfc = "'.$idcfc.'"';
         }
 
-
-
         $this->executaSql($this->sql);
-
-
-
-
-
     }
+	
     public function retornarValorMinimoPlano($idcfc){
-
 
         $this->sql = 'select valor_minimo from  planos_cfc p
         where  p.idcfc = "'.$idcfc.'" and valor_minimo is not null';
@@ -269,7 +242,7 @@ class Escolas extends Core
 
     }
 
-    public function modificarPlano($idescola,$idplano,$valor_minimo = null){
+    public function modificarPlano($idescola,$idplano,$valor_minimo){
 
         $sql ='Select count(idcfc) as total from planos_cfc where idcfc="'.$idescola.'"';
         $this->executaSql($sql);
@@ -278,50 +251,28 @@ class Escolas extends Core
                 $this->sql = 'UPDATE planos_cfc set  idplano ="'.$idplano.'",
              valor_minimo = '.$valor_minimo.'
                     where    
-                       idcfc = "'.$idescola.'" 
-                      
-                       
-                      
-                ';
+                       idcfc = "'.$idescola.'"';
             }else{
                 $this->sql = 'UPDATE planos_cfc set  idplano ="'.$idplano.'", valor_minimo = '.$valor_minimo.'
                     where    
-                       idcfc = "'.$idescola.'" 
-                      
-                       
-                      
-                ';
+                       idcfc = "'.$idescola.'"';
             }
-
-
 
             $this->executaSql($this->sql);
 
-
         }
         else{
-            $this->cadastrarPlano($idescola,$valor_minimo = null);
+            $this->cadastrarPlano($idescola,$valor_minimo);
         }
-
-
-
-
     }
-    public function modificarValorMinimoPlano($idplano,$valor_minimo = null,$idcfc){
-
-
-
+    public function modificarValorMinimoPlano($idplano,$valor_minimo,$idcfc){
         $this->sql = 'UPDATE planos_cfc set  valor_minimo ='.$valor_minimo.'
                     where    
                      
                        idplano = "'.$idplano.'"
-                       and idcfc = "'.$idcfc.'"
-                       
-                      
-                ';
+                       and idcfc = "'.$idcfc.'"';
 
         $this->executaSql($this->sql);
-
 
     }
 
@@ -329,7 +280,6 @@ class Escolas extends Core
     {
 		unset($this->post['documento_cnpj']);
         unset($this->post['valor_plano_minimo']);
-		
         unset($this->config['formulario'][0]['campos'][2]);
         unset($this->config['formulario'][0]['campos'][3]);
         unset($this->config['formulario'][0]['campos'][4]);
@@ -567,7 +517,7 @@ class Escolas extends Core
                         c.nome
                     FROM
                         escolas e
-                        INNER JOIN cidades c ON (e.idcidade = c.idcidade)
+                        INNER JOIN cidades c ON (p.idcidade = c.idcidade)
                     WHERE
                         e.ativo = "S"
                     GROUP BY c.idcidade, c.nome';
