@@ -30,8 +30,9 @@ if ($_POST['acao'] == 'salvar') {
         $idplano = $_POST['idplano'];
         $salvar = $linhaObj->modificar();
 		$valor_minimo = $_POST['valor_plano_minimo'];
+
         $linhaObj->modificarPlano($idescola,$idplano,$valor_minimo);
-        if($valor_minimo != '' and $valor_minimo != null ) {
+        if($valor_minimo != '' and $valor_minimo != null ){
         $linhaObj->modificarValorMinimoPlano($idplano,$valor_minimo,$url[3]);
 		} else {
             $linhaObj->cadastrarValorMinimoPlano($valor_minimo,$url[3]);
@@ -214,7 +215,6 @@ if (isset($url[3])) {
         echo $Obj->retornarValorMinimoPlano($url[3]);
         exit;
     }
-	
     if ($url[4] == 'ajax_cidades') {
         $campos = 'idcidade, nome';
         if ($_REQUEST['idestado']) {

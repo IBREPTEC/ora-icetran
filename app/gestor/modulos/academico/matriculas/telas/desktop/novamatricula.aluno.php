@@ -453,9 +453,9 @@
                       }
                       }
                   ?>    
-                  
-                  self.unblock();
                 }
+
+                self.unblock();
               }
             });
           }
