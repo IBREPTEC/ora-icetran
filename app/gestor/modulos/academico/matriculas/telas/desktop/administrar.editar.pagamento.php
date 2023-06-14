@@ -164,6 +164,21 @@ body {
                       <td><input name="autorizacao_cartao" type="text" id="autorizacao_cartao" maxlength="40" class="span2" value="<? echo $formapagamento_editar['autorizacao_cartao']; ?>" /></td>
                     </tr>
                   </table>
+
+          <table id="financeiro_informacoes_boleto" cellpadding="5" cellspacing="0" class="table table-bordered table-condensed tabelaSemTamanho" style="display:none;" >
+              <tr>
+                  <td bgcolor="#F4F4F4" colspan="2" style="text-transform:uppercase;"><strong><?=$idioma["financeiro_informacoes_boleto"];?></strong></td>
+              </tr>
+              <tr>
+                  <td bgcolor="#F4F4F4"><strong><?=$idioma["financeiro_idboleto"];?></strong></td>
+              </tr>
+              <tr>
+
+                  <td><input name="idboleto" type="text" id="idboleto" maxlength="40" class="span2" value="<? echo $formapagamento_editar['idboleto']; ?>" /></td>
+              </tr>
+          </table>
+
+
                   <table id="financeiro_informacoes_cheque" cellpadding="5" cellspacing="0" class="table table-bordered table-condensed tabelaSemTamanho" style="display:none;" >
                     <tr>
                       <td bgcolor="#F4F4F4" colspan="5" style="text-transform:uppercase;"><strong><?=$idioma["financeiro_informacoes_cheque"];?></strong></td>
@@ -244,13 +259,48 @@ function liberaCamposFinanceiro(valor) {
     var contemEmitenteCheque = false;
     $("#quantidade_parcelas").attr('readonly', false);
     if (valor != -1) {
-      if(valor == 2 || valor == 3) {
+        if(valor == 1){
+            $("#financeiro_informacoes_cheque").hide("fast");
+            $("#financeiro_informacoes_cartao").hide("fast");
+            $("#financeiro_informacoes_boleto").show("fast");
+            if (!contemBandeiraCartao) {
+                //regras_financeiro.push("required,idbanco,<?= $idioma["bandeira_cartao_vazio"] ?>");
+            }
+            if(regras_financeiro[i] == "required,idbanco,<?= $idioma["banco_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if(regras_financeiro[i] == "required,agencia_cheque,<?= $idioma["agencia_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if(regras_financeiro[i] == "required,cc_cheque,<?= $idioma["cc_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if(regras_financeiro[i] == "required,numero_cheque,<?= $idioma["numero_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if(regras_financeiro[i] == "required,emitente_cheque,<?= $idioma["emitente_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if (regras_financeiro[i] == "required,idbandeira,<?= $idioma["bandeira_cartao_vazio"] ?>") {
+                contemBandeiraCartao = false;
+            }
+            if (regras_financeiro[i] == "required,autorizacao_cartao,<?= $idioma["autorizacao_cartao_vazio"] ?>") {
+                contemAutorizacaoCartao = false;
+            }
+
+
+
+
+        }
+      else if(valor == 2 || valor == 3) {
         if(valor == 3) {
           $("#quantidade_parcelas").val(1);
           $("#quantidade_parcelas").attr('readonly', true);
         }
         $("#financeiro_informacoes_cheque").hide("fast");
-        $("#financeiro_informacoes_cartao").show("fast");
+            $("#financeiro_informacoes_boleto").hide("fast");
+
+            $("#financeiro_informacoes_cartao").show("fast");
         for (var i = 0; i < regras_financeiro.length; i++) { 
           if(regras_financeiro[i] == "required,idbanco,<?= $idioma["banco_cheque_vazio"] ?>") {
           regras_financeiro.splice(i, 1);
@@ -282,7 +332,9 @@ function liberaCamposFinanceiro(valor) {
         }
       } else {
       if(valor == 4) {
-        $("#financeiro_informacoes_cartao").hide("fast");
+          $("#financeiro_informacoes_boleto").hide("fast");
+
+          $("#financeiro_informacoes_cartao").hide("fast");
         $("#financeiro_informacoes_cheque").show("fast");
         for (var i = 0; i < regras_financeiro.length; i++) { 
           if(regras_financeiro[i] == "required,idbandeira,<?= $idioma["bandeira_cartao_vazio"] ?>") {

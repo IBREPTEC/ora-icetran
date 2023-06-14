@@ -44,9 +44,12 @@ $idioma["editar_pagamento_erro"] = "Ocorreu um erro durante a tentativa de ediç
 
 $idioma["financeiro_informacoes_cartao"] = "Informações do cartão";
 $idioma["financeiro_informacoes_cheque"] = "Informações do cheque";
+$idioma["financeiro_informacoes_boleto"] = "Informações do boleto";
 
 $idioma["financeiro_id"] = "Id.";
 $idioma["financeiro_parcela"] = "Parcela";
+$idioma["financeiro_idboleto"] = "Id boleto";
+
 $idioma["financeiro_vencimento"] = "Vencimento";
 $idioma["financeiro_situacao"] = "Situação";
 $idioma["selecione_bandeira_cartao"] = "- Selecione -";

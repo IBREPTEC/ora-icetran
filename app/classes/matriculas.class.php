@@ -1992,7 +1992,11 @@ class Matriculas extends Core
                         numero_cheque = '" . str_pad($numero_cheque, 6, '0', STR_PAD_LEFT) . "',
                         emitente_cheque = '" . $this->post['emitente_cheque'] . "'";
                     $numero_cheque++;
-                } else {
+                } elseif($this->post['forma_pagamento'] == 1){
+                    $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
+                        idboleto = " . $this->post['idboleto'] . "";
+                }
+                else {
                     $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'];
                 }
                 $this->executaSql($this->sql);

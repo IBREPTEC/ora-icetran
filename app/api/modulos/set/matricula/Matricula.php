@@ -215,7 +215,7 @@ class Matricula
                     }
                     $sql .= ", idbandeira = '" . $bandeira['idbandeira'] . "'";
                 } else if ($matricula["financeiro"]["forma_pagamento"] == "Boleto") {
-                    $sql .= ", forma_pagamento = 1";
+                    $sql .= ", forma_pagamento = 1,idboleto'".$matriculas['financeiro']['idboleto'];
                 }
             }
 
@@ -395,7 +395,9 @@ class Matricula
                                     autorizacao_cartao = '" . $matricula["financeiro"]['autorizacao_tid'] . "'";
                         } elseif ($matricula["financeiro"]["forma_pagamento"] == "Boleto") {
                             $forma_pagamento = 1;
-                            $sql .= ", forma_pagamento = 1";
+                            $sql .= ", forma_pagamento = 1,
+                               idboleto = '" . $matricula["financeiro"]['idboleto'] . "'";
+
                         }
                         $this->acessoBanco->executaSql($sql);
                         $idconta = mysql_insert_id();

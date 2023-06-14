@@ -638,7 +638,8 @@ class Contas extends Core
                 idsituacao = '" . $situacao . "',
                 idrelacao = '" . $id_relacao . "',
                 parcela = '" . $numero_parcela . "',
-                total_parcelas = '" . $total_parcelas . "' ";
+                total_parcelas = '" . $total_parcelas . "',
+                idclassificacao_dre= '".$this->post['idclassificacao_dre']."'";
 
         if ($this->post["forma_pagamento"] == 2 || $this->post["forma_pagamento"] == 3) {
             $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
@@ -651,7 +652,11 @@ class Contas extends Core
                         cc_cheque = '" . $this->post['cc_cheque'] . "',
                         numero_cheque = '" . $this->post['numero_cheque'] . "',
                         emitente_cheque = '" . $this->post['emitente_cheque'] . "'";
-        } else {
+        } elseif ($this->post["forma_pagamento"] == 1){
+            $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
+                        idboleto = " . $this->post['idboleto'] . "";
+        }
+        else {
             $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'];
         }
 
@@ -985,7 +990,8 @@ class Contas extends Core
                 'idbandeira',
                 'autorizacao_cartao'
             );
-        } else {
+        }
+        else {
             $config_remover = array(
                 'idbandeira',
                 'autorizacao_cartao',
@@ -1662,6 +1668,7 @@ class Contas extends Core
             $this->post['idbandeira'] = $post['idbandeira'][$val];
             $this->post['autorizacao_cartao'] = $post['autorizacao_cartao'][$val];
             $this->post['idbanco'] = $post['idbanco'][$val];
+            $this->post['idboleto'] = $post['idboleto'][$val];
             $this->post['agencia_cheque'] = $post['agencia_cheque'][$val];
             $this->post['cc_cheque'] = $post['cc_cheque'][$val];
             $this->post['numero_cheque'] = $post['numero_cheque'][$val];
@@ -1712,6 +1719,11 @@ class Contas extends Core
                         emitente_cheque = '" . $this->post['emitente_cheque'] . "',
                         idbandeira = NULL,
                         autorizacao_cartao = NULL";
+        }elseif($this->post['forma_pagamento'] == 1){
+
+            $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
+                        idboleto = " . $this->post['idboleto'] . "";
+
         } else {
 
             $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",

@@ -252,6 +252,18 @@
                                             <td><input name="valor_parcela" type="text" id="valor_parcela" maxlength="13" class="span2" disabled="disabled" /></td>
                                         </tr>
                                     </table>
+                                    <table id="financeiro_informacoes_boleto" cellpadding="5" cellspacing="0" class="table table-bordered table-condensed tabelaSemTamanho" style="display:none;">
+                                        <tr>
+                                            <td bgcolor="#F4F4F4" colspan="2" style="text-transform:uppercase;"><strong><?= $idioma['financeiro_informacoes_boleto']; ?> </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td bgcolor="#F4F4F4"><strong><?= $idioma['financeiro_idboleto']; ?></strong></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td><input name="idboleto" type="text" id="idboleto" maxlength="40" class="span2" /></td>
+                                        </tr>
+                                    </table>
                                     <table id="financeiro_informacoes_cartao" cellpadding="5" cellspacing="0" class="table table-bordered table-condensed tabelaSemTamanho" style="display:none;">
                                         <tr>
                                             <td bgcolor="#F4F4F4" colspan="2" style="text-transform:uppercase;"><strong><?= $idioma['financeiro_informacoes_cartao']; ?> </strong></td>
@@ -530,7 +542,7 @@
                                                         </a>
                                                         <?php
                                                     } else {
-                                                        echo '--';
+                                                        echo $conta['idboleto'];
                                                     }
                                                     ?>
                                                 </td>
@@ -708,7 +720,14 @@
         var contemEmitenteCheque = false;
         $("#quantidade_parcelas").attr('readonly', false);
         if (valor != -1) {
-            if (valor == 2 || valor == 3) {
+            if(valor == 1){
+                $('#financeiro_informacoes_boleto').show('fast')
+                $("#financeiro_informacoes_cheque").hide("fast");
+                $("#financeiro_informacoes_cartao").hide("fast");
+
+
+            }
+            else if (valor == 2 || valor == 3) {
                 if (valor == 3) {
                     $("#quantidade_parcelas").val(1);
                     $("#quantidade_parcelas").attr('readonly', true);
