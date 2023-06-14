@@ -78,7 +78,7 @@ $config["formulario"] = array(
                 "banco"            => true,
                 "banco_string"     => true,
             ),
-             array(
+            array(
                 "id"           => "form_numdoc", // Id do atributo HTML
                 "nome"         => "numero_documento", // Name do atributo HTML
                 "nomeidioma"   => "form_numdoc", // Referencia a variavel de idioma
@@ -144,7 +144,6 @@ $config["formulario"] = array(
                 "sql_valor"        => "idfornecedor",
                 "sql_label"        => "nome",
                 "valor"            => "idfornecedor",
-                //"validacao" => array("required" => "idfornecedor_vazio"),
                 "referencia_label" => "cadastro_fornecedor",
                 "referencia_link"  => "/gestor/financeiro/fornecedores",
                 "banco"            => true,
@@ -237,7 +236,7 @@ $config["formulario"] = array(
                 "nome"         => "forma_pagamento",
                 "nomeidioma"   => "form_forma_pagamento",
                 "botao_hide"   => true,
-                "iddivs"       => array("idbandeira", "autorizacao_cartao", "idbanco", "agencia_cheque", "cc_cheque", "numero_cheque", "emitente_cheque",'idboleto'),
+                "iddivs"       => array("idbandeira", "autorizacao_cartao", "idbanco", "agencia_cheque", "cc_cheque", "numero_cheque", "emitente_cheque"),
                 "iddiv3"       => "idbandeira",
                 "iddiv4"       => "autorizacao_cartao",
                 "iddiv5"       => "idbanco",
@@ -245,7 +244,6 @@ $config["formulario"] = array(
                 "iddiv7"       => "cc_cheque",
                 "iddiv8"       => "numero_cheque",
                 "iddiv9"       => "emitente_cheque",
-                "iddiv10"       => "idboleto",
                 "tipo"         => "select",
                 "array"        => "forma_pagamento_conta", // Array que alimenta o select
                 "class"        => "span2",
@@ -450,7 +448,7 @@ $config["formulario"] = array(
                 "banco"        => true, // Verifica se é para ser salva no banco de dados (Utilizado na função SalvarDados)
                 "banco_string" => true, // Verifica se é uma string para ser salva no banco de dados (Utilizado na função SalvarDados)
             ),
-			array(
+            array(
                 "id" => "data_pagamento",
                 "nome" => "data_pagamento",
                 "nomeidioma" => "form_data_pagamento",
@@ -466,7 +464,7 @@ $config["formulario"] = array(
                 "banco_string" => true
             ),
 
-			array(
+            array(
                 "id"           => "documento",
                 "nome"         => "documento",
                 "nomeidioma"   => "form_documento",
@@ -496,7 +494,7 @@ $config["formulario"] = array(
                 "id"         => "idcategoria",
                 "nome"       => "idcategoria",
                 "nomeidioma" => "form_idcategoria",
-				"json"                 => true,
+                "json"                 => true,
                 "json_idpai"           => "idsindicato",
                 "json_url"             => '/' . $url["0"] . '/' . $url["1"] . '/' . $url["2"] . '/' . $url["3"] . "/ajax_categorias/" . $linha['idconta'],
                 "json_input_pai_vazio" => "form_selecione_inst",
@@ -552,11 +550,11 @@ $config["formulario"] = array(
                 "banco"            => true,
                 "banco_string"     => true,
             ),
-			array(
+            array(
                 "id"         => "form_idcentro_custo",
                 "nome"       => "idcentro_custo",
                 "nomeidioma" => "form_idcentro_custo",
-				"json"                 => true,
+                "json"                 => true,
                 "json_idpai"           => "idsindicato",
                 "json_url"             => '/' . $url["0"] . '/' . $url["1"] . '/' . $url["2"] . '/' . $url["3"] . "/ajax_centros_custos/" . $linha['idconta'],
                 "json_input_pai_vazio" => "form_selecione_inst",
