@@ -33,6 +33,7 @@ $idioma["form_documento"] = "Doc. referência:";
 $idioma["form_idbandeira"] = "Bandeira:";
 $idioma["idbandeira_vazio"] = "Informe a bandeira do cartão.";
 $idioma["form_idbanco"] = "Banco:";
+$idioma["form_id_boleto"] = "Id do boleto:";
 $idioma["desc_unidade"] = "Descrição da unidade de rateio:";
 $idioma["nome_unidade"] = "Nome da unidade de rateio:";
 $idioma["form_idordemdecompra"] = "Ordem de compra:";

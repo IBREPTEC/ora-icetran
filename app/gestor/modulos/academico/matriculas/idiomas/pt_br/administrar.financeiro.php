@@ -53,6 +53,10 @@ $idioma['financeiro_descricao'] = 'Descrição';
 
 $idioma['financeiro_informacoes_cartao'] = 'Informações do cartão';
 $idioma['financeiro_informacoes_cheque'] = 'Informações do cheque';
+$idioma['financeiro_informacoes_boleto'] = 'Informações do cartão';
+$idioma['financeiro_informacoes_boleto'] = 'Informações do boleto';
+
+$idioma['financeiro_idboleto'] = 'Id do Boleto';
 
 $idioma['financeiro_editarsel'] = 'Editar Selecionados';
 $idioma['financeiro_editarsel_vazio'] = 'Selecione as parcelas que deseja editar!';
