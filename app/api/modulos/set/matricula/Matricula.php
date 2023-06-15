@@ -215,7 +215,7 @@ class Matricula
                     }
                     $sql .= ", idbandeira = '" . $bandeira['idbandeira'] . "'";
                 } else if ($matricula["financeiro"]["forma_pagamento"] == "Boleto") {
-                    $sql .= ", forma_pagamento = 1,idboleto'".$matriculas['financeiro']['idboleto'];
+                    $sql .= ", forma_pagamento = 1,idboleto=".$matriculas['financeiro']['idboleto']."";
                 }
             }
 
