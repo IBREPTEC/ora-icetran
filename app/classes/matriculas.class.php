@@ -1994,7 +1994,7 @@ class Matriculas extends Core
                     $numero_cheque++;
                 } elseif($this->post['forma_pagamento'] == 1){
                     $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
-                        idboleto = " . $this->post['idboleto'] . "";
+                        idboleto =  '".$this->post['idboleto']."' ";
                 }
                 else {
                     $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'];
