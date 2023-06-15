@@ -51,6 +51,8 @@ $idioma["editar_pagamentomassa_erro"] = "Ocorreu um erro durante a tentativa de 
 
 $idioma["financeiro_informacoes_cartao"] = "Informações do cartão";
 $idioma["financeiro_informacoes_cheque"] = "Informações do cheque";
+$idioma["financeiro_informacoes_boleto"] = "Informações do boleto";
+
 
 $idioma["financeiro_editarsel"] = "Editar Selecionados";
 $idioma["financeiro_editarsel_vazio"] = "Selecione as parcelas que deseja editar!";
@@ -79,6 +81,7 @@ $idioma["financeiro_emitente_cheque"] = "Emitente";
 $idioma["emitente_cheque_vazio"] = "Informe o emitente do cheque";
 $idioma["financeiro_desconto"] = "Desconto";
 $idioma["nenhum_financeiro"] = "Nenhuma parcela cadastrada.";
+$idioma['financeiro_idboleto'] = 'Id boleto';
 
 $idioma['financeiro_renegociar'] = 'Renegociar parcelas';
 $idioma['financeiro_transferir'] = 'Transferir parcelas';

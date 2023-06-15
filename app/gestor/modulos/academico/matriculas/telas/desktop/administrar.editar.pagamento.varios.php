@@ -184,6 +184,21 @@ legend span {
                       <td><input name="autorizacao_cartao[<?=$formapagamento_editar["idconta"];?>]" type="text" id="autorizacao_cartao<?=$formapagamento_editar["idconta"];?>" maxlength="40" class="span2" value="<? echo $formapagamento_editar['autorizacao_cartao']; ?>" /></td>
                     </tr>
                   </table>
+                        <table id="financeiro_informacoes_boleto<?=$formapagamento_editar["idconta"];?>" cellpadding="5" cellspacing="0" class="table table-bordered table-condensed tabelaSemTamanho" style="display:none;" >
+                            <tr>
+                                <td bgcolor="#F4F4F4" colspan="2" style="text-transform:uppercase;"><strong><?=$idioma["financeiro_informacoes_boleto"];?></strong></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#F4F4F4"><strong><?=$idioma["financeiro_idboleto"];?></strong></td>
+                            </tr>
+                            <tr>
+
+                                <td><input name="idboleto[<?=$formapagamento_editar["idconta"];?>]" type="text" id="idboleto<?=$formapagamento_editar["idconta"];?>" maxlength="40" class="span2" value="<? echo $formapagamento_editar['idboleto']; ?>" /></td>
+                            </tr>
+                        </table>
+
+
+
                   <table id="financeiro_informacoes_cheque<?=$formapagamento_editar["idconta"];?>" cellpadding="5" cellspacing="0" class="table table-bordered table-condensed tabelaSemTamanho" style="display:none;" >
                     <tr>
                       <td bgcolor="#F4F4F4" colspan="5" style="text-transform:uppercase;"><strong><?=$idioma["financeiro_informacoes_cheque"];?></strong></td>
@@ -265,7 +280,40 @@ legend span {
     $("#parcela"+idconta).attr('readonly', false);
     $("#total_parcelas"+idconta).attr('readonly', false);
     if (valor != -1) {
-        if(valor == 2 || valor == 3) {
+        if(valor == 1){
+            $("#financeiro_informacoes_cheque"+idconta).hide("fast");
+            $("#financeiro_informacoes_cartao"+idconta).hide("fast");
+            $("#financeiro_informacoes_boleto"+idconta).show("fast");
+
+            if (!contemBandeiraCartao) {
+                //regras_financeiro.push("required,idbanco,<?= $idioma["bandeira_cartao_vazio"] ?>");
+            }
+            if(regras_financeiro[i] == "required,idbanco,<?= $idioma["banco_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if(regras_financeiro[i] == "required,agencia_cheque,<?= $idioma["agencia_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if(regras_financeiro[i] == "required,cc_cheque,<?= $idioma["cc_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if(regras_financeiro[i] == "required,numero_cheque,<?= $idioma["numero_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if(regras_financeiro[i] == "required,emitente_cheque,<?= $idioma["emitente_cheque_vazio"] ?>") {
+                regras_financeiro.splice(i, 1);
+            }
+            if (regras_financeiro[i] == "required,idbandeira,<?= $idioma["bandeira_cartao_vazio"] ?>") {
+                contemBandeiraCartao = false;
+            }
+            if (regras_financeiro[i] == "required,autorizacao_cartao,<?= $idioma["autorizacao_cartao_vazio"] ?>") {
+                contemAutorizacaoCartao = false;
+            }
+
+
+
+        }
+        else if(valor == 2 || valor == 3) {
         if(valor == 3) {
           $("#parcela"+idconta).val(1);
           $("#parcela"+idconta).attr('readonly', true);
