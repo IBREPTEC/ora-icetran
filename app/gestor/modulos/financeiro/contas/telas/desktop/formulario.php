@@ -1123,24 +1123,7 @@
             var indNumero = -1;
             var indEmitente = -1;
             var qtd_removidos = 0;
-
-            if(valorCampo == 1){
-                $('#div_form_id_boleto').show("fast");
-
-                $('#div_form_idbanco').hide("fast");
-                $('#div_form_agencia_cheque').hide("fast");
-                $('#div_form_cc_cheque').hide("fast");
-                $('#div_form_numero_cheque').hide("fast");
-                $('#div_form_emitente_cheque').hide("fast");
-
-                $('#div_form_autorizacao_cartao').hide("fast");
-
-
-
-
-
-            }
-            else if (valorCampo == 2 || valorCampo == 3) {
+            if (valorCampo == 2 || valorCampo == 3) {
                 $('#form_idbanco').attr("value", "");
                 $('#div_form_idbanco').hide("fast");
                 $('#form_agencia_cheque').attr("value", "");
