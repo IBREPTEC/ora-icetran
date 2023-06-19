@@ -307,7 +307,37 @@
 							});
 						}
 
-						self.unblock();			  
+
+						self.unblock();
+						
+						// if(json.sucesso){
+						// 	$("select[name='idlogradouro']").val(json.idlogradouro);
+						// 	$("input[name='endereco']").val(json.endereco)
+						// 	$("input[name='bairro']").val(json.bairro)
+						// 	$("select[name='idestado']").val(json.idestado);
+						// 	$.getJSON('/aluno/secretaria/perfil/ajax_cidades',{idestado: json.idestado, ajax: 'true'}, function(jsonCidade){
+						// 		var options = '<option value="">– <?=$idioma['selecione_cidade']; ?> –</option>';
+						// 		for (var i = 0; i < jsonCidade.length; i++) {
+						// 			var selected = '';
+						// 			if(jsonCidade[i].idcidade == json.idcidade)
+						// 				var selected = 'selected';
+						// 			options += '<option value="' + jsonCidade[i].idcidade + '" '+ selected +'>' + jsonCidade[i].nome  + '</option>';
+						// 		}	
+						// 		$('#idcidade').html(options);
+						// 	});	
+						// 	self.unblock();				
+						// } else {
+						// 	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        //             $('#cep_n_encontrado').removeAttr('hidden')
+                        //         }
+                        //    else{
+                        //             alert('<?= $idioma["erro_cep"]; ?>');
+
+                        //         }
+						// 	self.unblock();
+						// }				  
+
+
 					} 	
 				});	
 			} 

@@ -1994,7 +1994,7 @@ class Matriculas extends Core
                     $numero_cheque++;
                 } elseif($this->post['forma_pagamento'] == 1){
                     $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
-                        idboleto = " . $this->post['idboleto'] . "";
+                        idboleto =  '".$this->post['idboleto']."' ";
                 }
                 else {
                     $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'];
@@ -5137,6 +5137,7 @@ class Matriculas extends Core
               situacao_carteirinha =        " . $this->post["situacao_carteirinha"] . ",
               idvendedor =                  " . $this->post["idvendedor"] . ",
               numero_contrato =             " . $this->post["numero_contrato"] . ",
+              forma_pagamento =             " . $this->post["forma_pagamento"] . ",
               bolsa =                       {$this->post["bolsa"]},
               idsolicitante =               {$this->post["idsolicitante"]},
               valor_contrato =              {$this->post["valor_contrato"]},
@@ -5144,7 +5145,6 @@ class Matriculas extends Core
               faturada =                    {$this->post["faturada"]},
               combo_matricula =             {$this->post["combo_matricula"]},
               combo =                       {$this->post["combo"]},
-              forma_pagamento =             {$this->post["forma_pagamento"]},
               limite_datavalid =            {$this->post["limite_datavalid"]},
               idbandeira =                  {$this->post["idbandeira"]},
               autorizacao_cartao =          {$this->post["autorizacao_cartao"]},
