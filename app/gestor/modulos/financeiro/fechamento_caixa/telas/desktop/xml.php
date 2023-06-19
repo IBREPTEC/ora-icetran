@@ -179,7 +179,6 @@ foreach ($contas as $conta) {
                                 $parcela;
                         }
                     }
-
                     # Verificando se não existe no vetor o evento
                     if(!array_key_exists($conta['idevento'], $eventos[$informacao->idmatricula])){
                         $eventos[$informacao->idmatricula][$conta['idevento']] = array(
@@ -198,7 +197,7 @@ foreach ($contas as $conta) {
                             'fone' => $informacao->telefone,
                             'email' => $informacao->email,
                             'pagamentos' => array(
-                                'idconta'=>$conta['idconta'],
+                                'idfatura'=>$conta['idconta'],
                                 'datapgto' => $conta['data_pagamento'],
                                 'valor' => $valor_parcela,
                                 'formapgto' => $formaPagamentoXML[$conta['forma_pagamento']],
@@ -272,7 +271,7 @@ foreach ($eventos as $matricula => $evento) {
         $simpleXml->cupomfiscal[$contador]->aluno->uf = $informacao['uf'];
         $simpleXml->cupomfiscal[$contador]->aluno->fone = $informacao['fone'];
         $simpleXml->cupomfiscal[$contador]->aluno->email = $informacao['email'];
-        $simpleXml->cupomfiscal[$contador]->pagamento->idconta = $informacao['pagamentos']['idconta'];
+        $simpleXml->cupomfiscal[$contador]->pagamento->idfatura = $informacao['pagamentos']['idfatura'];
         $simpleXml->cupomfiscal[$contador]->pagamento->datapgto = $informacao['pagamentos']['datapgto'];
         $simpleXml->cupomfiscal[$contador]->pagamento->valor = number_format($informacao['pagamentos']['valor'], 2, '.', '');
         $simpleXml->cupomfiscal[$contador]->pagamento->formapgto = $informacao['pagamentos']['formapgto'];
