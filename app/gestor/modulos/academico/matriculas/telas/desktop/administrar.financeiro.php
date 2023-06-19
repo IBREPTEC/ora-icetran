@@ -718,12 +718,41 @@
         var contemCcCheque = false;
         var contemNumeroCheque = false;
         var contemEmitenteCheque = false;
+        var contemBoleto = false;
         $("#quantidade_parcelas").attr('readonly', false);
         if (valor != -1) {
             if(valor == 1){
                 $('#financeiro_informacoes_boleto').show('fast')
                 $("#financeiro_informacoes_cheque").hide("fast");
                 $("#financeiro_informacoes_cartao").hide("fast");
+
+                if (!contemBandeiraCartao) {
+                    //regras_financeiro.push("required,idbanco,<?= $idioma["bandeira_cartao_vazio"] ?>");
+                }
+                if(regras_financeiro[i] == "required,idbanco,<?= $idioma["banco_cheque_vazio"] ?>") {
+                    regras_financeiro.splice(i, 1);
+                }
+                if(regras_financeiro[i] == "required,agencia_cheque,<?= $idioma["agencia_cheque_vazio"] ?>") {
+                    regras_financeiro.splice(i, 1);
+                }
+                if(regras_financeiro[i] == "required,cc_cheque,<?= $idioma["cc_cheque_vazio"] ?>") {
+                    regras_financeiro.splice(i, 1);
+                }
+                if(regras_financeiro[i] == "required,numero_cheque,<?= $idioma["numero_cheque_vazio"] ?>") {
+                    regras_financeiro.splice(i, 1);
+                }
+                if(regras_financeiro[i] == "required,emitente_cheque,<?= $idioma["emitente_cheque_vazio"] ?>") {
+                    regras_financeiro.splice(i, 1);
+                }
+                if (regras_financeiro[i] == "required,idbandeira,<?= $idioma["bandeira_cartao_vazio"] ?>") {
+                    contemBandeiraCartao = false;
+                }
+                if (regras_financeiro[i] == "required,autorizacao_cartao,<?= $idioma["autorizacao_cartao_vazio"] ?>") {
+                    contemAutorizacaoCartao = false;
+                }
+                if (regras_financeiro[i] == "required,idboleto,<?= $idioma['boleto_vazio'] ?>") {
+                    contemBoleto = true;
+                }
 
 
             }

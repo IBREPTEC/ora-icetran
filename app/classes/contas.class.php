@@ -1722,7 +1722,7 @@ class Contas extends Core
         }elseif($this->post['forma_pagamento'] == 1){
 
             $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
-                        idboleto = " . $this->post['idboleto'] . "";
+                        idboleto = '" . $this->post['idboleto'] . "'";
 
         } else {
 

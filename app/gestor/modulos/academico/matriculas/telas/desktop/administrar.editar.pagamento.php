@@ -257,6 +257,7 @@ function liberaCamposFinanceiro(valor) {
     var contemCcCheque = false;
     var contemNumeroCheque = false;
     var contemEmitenteCheque = false;
+    var contemBoleto = false;
     $("#quantidade_parcelas").attr('readonly', false);
     if (valor != -1) {
         if(valor == 1){
@@ -287,8 +288,9 @@ function liberaCamposFinanceiro(valor) {
             if (regras_financeiro[i] == "required,autorizacao_cartao,<?= $idioma["autorizacao_cartao_vazio"] ?>") {
                 contemAutorizacaoCartao = false;
             }
-
-
+            if (regras_financeiro[i] == "required,idboleto,<?= $idioma["idboleto_vazio"] ?>") {
+                contemBoleto= false;
+            }
 
 
         }

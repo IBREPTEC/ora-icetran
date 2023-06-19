@@ -48,6 +48,7 @@ if ($_POST["acao"] == "salvar" && (($_POST['parcelas'] > 1 && !$_POST['parcelas_
     } else{
         $salvar = $linhaObj->Cadastrar();
     }
+
     if ($salvar["sucesso"]) {
         if ($_POST[$config["banco"]["primaria"]]) {
             $linhaObj->Set("pro_mensagem_idioma", "modificar_sucesso");
@@ -215,7 +216,7 @@ if (isset($url[3]) && $url[3] != "apagar" && $url[3] != "areceber") {
                 $linhaEscolaObj->Set('ordem','asc');
                 $linhaEscolaObj->Set('limite',-1);
                 $linhaEscolaObj->Set('campos','e.idescola,e.razao_social');
-                $linhaEscolaObj->ListarTodas(null, true);
+                echo json_encode($linhaEscolaObj->ListarTodas());
             }
             exit();
         }
@@ -273,7 +274,7 @@ if (isset($url[3]) && $url[3] != "apagar" && $url[3] != "areceber") {
                 $linhaEscolaObj->Set('ordem','asc');
                 $linhaEscolaObj->Set('limite',-1);
                 $linhaEscolaObj->Set('campos','e.idescola,e.razao_social');
-                $linhaEscolaObj->ListarTodas(null,true);
+                echo json_encode($linhaEscolaObj->ListarTodas());
             }
             exit();
         }
@@ -281,6 +282,8 @@ if (isset($url[3]) && $url[3] != "apagar" && $url[3] != "areceber") {
         if ($url[3] == 'idconta') {
             $linhaObj->Set("id", intval($url[4]));
             $linhaObj->Set("campos", "c.*, cw.cancelada, IF(c.tipo = 'despesa', (c.valor*-1), c.valor) as valor");
+            $linha = $linhaObj->Retornar();
+
             $idcentro_custo = $linhaObj->retornarCentroCusto();
 
             $linha = $linhaObj->Retornar();
@@ -292,7 +295,6 @@ if (isset($url[3]) && $url[3] != "apagar" && $url[3] != "areceber") {
             }
 
             $classificacao_dre = $linhaObj->retornarClassificacaoDre();
-
 
             if (($linha['idpagamento_compartilhado'] || $linha['idmatricula']) && $url[5] == 'editar') {
                 header("Location: /" . $url[0] . "/" . $url[1] . "/" . $url[2]);
@@ -409,7 +411,7 @@ if (isset($url[3]) && $url[3] != "apagar" && $url[3] != "areceber") {
                 case 'visualizafacebox':
                     $listagem = 'listagem_matriculas';
 
-                    $linhaObj->Set('campos', 'c.*, p.nome as aluno, m.idmatricula, cw.nome as situacao, cw.cor_bg as situacao_cor_bg, cw.cor_nome as situacao_cor_nome');
+                    $linhaObj->Set('campos', 'c.*, e.nome as aluno, m.idmatricula, cw.nome as situacao, cw.cor_bg as situacao_cor_bg, cw.cor_nome as situacao_cor_nome');
                     $arrayContas = $linhaObj->RetornarMatriculasDia($url[4]);
 
                     include('idiomas/' . $config['idioma_padrao'] . '/contas.detalhes.php');

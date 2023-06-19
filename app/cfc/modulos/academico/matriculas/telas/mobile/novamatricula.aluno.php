@@ -398,10 +398,12 @@
               type: "POST",
               data: {cep: cep_informado},
 
+
               success: function(json){ //Se ocorrer tudo certoasdadasdads
                 if(json.sucesso){
                   $("select[name='idlogradouro']").val(json.idlogradouro);
                   $("input[name='endereco']").val(json.endereco)
+
 
                   $("input[name='bairro']").val(json.bairro)
                   $("select[name='idestado']").val(json.idestado); 
