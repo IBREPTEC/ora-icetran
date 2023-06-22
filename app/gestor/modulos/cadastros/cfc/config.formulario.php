@@ -440,8 +440,23 @@ $config['formulario'] = array(
                 'banco' => true,
                 'banco_string' => true,
                 'class' => 'span2',
+                'decimal'=>'decimal',
                 'ajudaidioma' => 'form_valor_ajuda',
                 'input_hidden' => true,
+            ),
+            array(
+                'id' => 'vencimento',
+                'nome' => 'vencimento',
+                'nomeidioma' => 'vencimento',
+                'tipo' => 'input',
+                'class' => 'span2',
+                'valor'=>'vencimento',
+                'ajudaidioma' => 'form_vencimento_ajuda',
+                'input_hidden' => true,
+                'mascara' => '99/99/9999',
+                'banco' => true,
+                'banco_php' => 'return formataData("%s", "en", 0)',
+                'banco_string' => true
             ),
             array(
                 'id' => 'form_periodo_fatura',

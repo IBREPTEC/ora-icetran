@@ -44,8 +44,8 @@ $idioma['form_modificar_matricula'] = 'Modificar matrícula:';
 $idioma['form_bloquear_mudanca_turma'] = 'Bloquear mudança de turma:';
 $idioma['form_parceiro'] = 'CFC Externo:';
 $idioma['form_periodo_fatura'] = 'Período para gerar fatura:';
-$idioma['form_plano'] = 'Optante pelo plano:';
-$idioma['valor_minimo'] = 'Valor mínimo:';
+$idioma['form_plano'] = 'Aula Remota:';
+$idioma['valor_minimo'] = 'Valor:';
 
 $idioma['legenda_foto'] = 'Logo';
 $idioma['form_foto'] = 'Logo:';
@@ -116,9 +116,12 @@ $idioma['form_selecione_cidade'] = 'Escolha uma cidade';
 $idioma['arquivo_excluir'] = 'Remover';
 $idioma['arquivo_excluir_confirma'] = 'Deseja realmente deletar esse arquivo?';
 $idioma['arquivo_enviado'] = 'Arquivo enviado: ';
+$idioma['vencimento'] = 'Vencimento da Fatura: ';
 
 //Ajuda
-$idioma['form_valor_ajuda'] = 'Insira um valor mínimo para o plano';
+$idioma['form_valor_ajuda'] = 'Insira um valor para o plano';
+$idioma['form_vencimento_ajuda'] = 'Caso o valor não seja preenchido, será considerado o período para gerar a fatura.  ';
+
 $idioma['form_cpf_ajuda'] = 'Somente será aceito um cadastro por CPF';
 $idioma['form_cnpj_ajuda'] = 'Somente será aceito um cadastro por CNPJ';
 $idioma['form_numero_ajuda'] = 'Caso não tem número, informe "Sem número"';

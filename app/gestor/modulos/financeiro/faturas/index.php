@@ -81,12 +81,20 @@ if (isset($url[3])) {
                     cm.total_parcelas,
                     cs.nome as curso, 
                     e.nome_fantasia as cfc, 
-                    c.data_vencimento AS vencimento                    
+                    c.data_vencimento AS vencimento,e.idescola
+                                    
                     ');
                 $linhaObj->set('ordem_campo','cm.idconta_matricula');
                 $linhaObj->set('ordem','DESC');
                 $linhaObj->set('limite',-1);
-                $dadosArray = $linhaObj->retornarMatriculasFatura($linha['idconta']);
+                $plano = $linhaObj->retornarOptantePlano($linha["idescola"]);
+                if($plano['aula_remota']==2){
+                    $dadosArray = $linhaObj->retornarContaAulaRemota($linha['idconta']);
+
+                }else{
+                    $dadosArray = $linhaObj->retornarMatriculasFatura($linha['idconta']);
+
+                }
 
                 include('idiomas/' . $config['idioma_padrao'] . '/ficha.php');
                 include('telas/' . $config['tela_padrao'] . '/ficha.php');

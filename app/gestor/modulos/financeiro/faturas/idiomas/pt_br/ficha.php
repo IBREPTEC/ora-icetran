@@ -17,6 +17,8 @@ $idioma['tabela_cfc'] = 'CFC';
 $idioma['tabela_vencimento'] = 'Vencimento da Fatura';
 
 
+$idioma["tabela_idconta"]="Id Fatura";
+$idioma["tabela_descricao"]="Descrição";
 
 
 //Listagem Outros

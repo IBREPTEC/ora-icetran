@@ -70,3 +70,50 @@ alter table centros_custos
 alter table centros_custos
     add constraint centros_custos_classificacao_dre_null_fk
         foreign key (idclassificacao) references classificacao_dre (idclassificacao);
+
+
+
+--jessica 20/06/2023
+
+alter table planos
+    modify descricao varchar(255) not null;
+
+INSERT INTO oraculo_ibreptran.planos (descricao) VALUES ('Sim')
+
+alter table escolas
+    add idplano int null;
+
+alter table escolas
+    add constraint escolas_planos_idplano_fk
+        foreign key (idplano) references planos (idplano);
+
+
+create table planos_cfc
+(
+    idplanos_cfc int unsigned auto_increment
+        primary key,
+    idplano      int(10)        not null,
+    idcfc        int unsigned   not null,
+    valor_minimo decimal(10, 2) null,
+    constraint fk_cfcs_planos
+        foreign key (idcfc) references escolas (idescola),
+    constraint fk_planos
+        foreign key (idplano) references planos (idplano)
+);
+
+
+-- JESSICA 21/06/2023
+
+INSERT INTO cursos (ativo, ativo_painel, data_cad, nome, codigo, dias_acesso_ava, percentual_ideal_ava, tipo, carga_horaria_presencial, carga_horaria_distancia, carga_horaria_total, fundamentacao, fundamentacao_legal, autorizacao, perfil, regulamento, email_boas_vindas, sms_boas_vindas, imagem_exibicao_nome, imagem_exibicao_servidor, imagem_exibicao_tipo, imagem_exibicao_tamanho, valor, abreviacao, area, cofeci, se_quilometragem, email, ordem, gestaoacessos, usar_datavalid, acesso_simultaneo) VALUES ('S', 'S', '2023-06-21 10:04:41', 'AULA REMOTA', 'AR', null, null, 'EAD', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, DEFAULT, null, null, null, DEFAULT, DEFAULT, DEFAULT)
+
+
+alter table contas
+    add aula_remota int null;
+
+alter table contas
+    add constraint contas_planos_idplano_fk
+        foreign key (aula_remota) references planos (idplano);
+
+
+alter table planos_cfc
+    add vencimento date null;

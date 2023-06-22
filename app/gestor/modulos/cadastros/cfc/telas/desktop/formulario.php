@@ -96,6 +96,7 @@
 
     function retornaValorPlano(){
         var valor = $('#valor_plano_minimo')
+        var vencimento = $('#vencimento')
         jQuery.ajax({
             type:'GET',
             dataType:'json',
@@ -103,7 +104,8 @@
             url: '/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?= $url[3]; ?>/<?= $url[4]; ?>/valor',
 
             success: function (data){
-                valor.val(data.valor)
+                valor.val(data.valor_minimo)
+                vencimento.val(data.vencimento)
 
             },
             error: function(xhr, status, error){
@@ -551,7 +553,7 @@
     aplicarRegrasFastConnect();
     function aplicarRegrasPlano() {
         valorCampo = $('#form_plano').val();
-        console.log(valorCampo)
+        valorData = $("#vencimento").val()
 
         //INÍCIO REGRAS QUE IRÃO INSERIR/REMOVER
         var regrasInserirRemover = new Array();
@@ -560,10 +562,10 @@
 
         //INÍCIO CAMPOS QUE IRÃO MOSTRAR/OCULTAR
         var camposMotrarOcultar = new Array();
-        camposMotrarOcultar.push('valor_plano_minimo');
+        camposMotrarOcultar.push('valor_plano_minimo',"vencimento");
         //FIM CAMPOS QUE IRÃO MOSTRAR/OCULTAR
 
-        if (valorCampo == '2' || valorCampo == '3') {
+        if (valorCampo == '2' ) {
             valor = $('#valor_plano_minimo').value;
             if(valor == ''){
                 alert('Preencha o campo valor minimo')
