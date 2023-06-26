@@ -422,3 +422,65 @@ $config['listagem_ficha'] = array(
     )
 
 );
+
+
+$config['listagem_ficha_aula_remota'] = array(
+    array(
+        'id' => 'idconta',
+        'variavel_lang' => 'tabela_idconta',
+        'tipo' => 'banco',
+        'valor' => 'idconta',
+    ),
+
+    array(
+        'id' => 'descricao',
+        'variavel_lang' => 'tabela_descricao',
+        'tipo' => 'banco',
+        'valor' => 'nome',
+    ),
+
+
+    array(
+        'id' => 'escola',
+        'variavel_lang' => 'tabela_cfc',
+        'tipo' => 'banco',
+        'valor' => 'nome_fantasia',
+
+    ),
+
+    array(
+        'id' => 'data_cad',
+        'variavel_lang' => 'tabela_data_cad',
+        'tipo' => 'php',
+        'valor' => 'return formataData($linha["data_cad"], "br", 0);'
+    ),
+
+    array(
+        'id' => 'parcela',
+        'variavel_lang' => 'tabela_parcela',
+        'tipo' => 'banco',
+        'valor' => 'parcela'
+    ),
+
+    array(
+        'id' => 'total_parcelas',
+        'variavel_lang' => 'tabela_total_parcelas',
+        'tipo' => 'banco',
+        'valor' => 'total_parcelas'
+    ),
+
+
+    array(
+        'id' => 'valor_total',
+        'variavel_lang' => 'tabela_valor_total',
+        'tipo' => 'php',
+        'valor' => 'return "R$ " . number_format($linha["valor"], 2, ",", ".") . "</span>";'
+    ),
+    array(
+        'id' => 'data_venc',
+        'variavel_lang' => 'tabela_vencimento',
+        'tipo' => 'php',
+        'valor' => 'return formataData($linha["data_vencimento"], "br", 0);'
+    )
+
+);

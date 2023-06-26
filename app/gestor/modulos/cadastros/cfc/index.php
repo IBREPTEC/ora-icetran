@@ -29,19 +29,19 @@ if ($_POST['acao'] == 'salvar') {
 		$idescola = $url[3];
         $idplano = $_POST['idplano'];
         $salvar = $linhaObj->modificar();
-		$valor_minimo = $_POST['valor_plano_minimo'];
+        $plano = $linhaObj->retornarOptantePlano($url[3]);
+        if(!$plano['idplanos_cfc']){
+            $linhaObj->CadastrarPlano($idescola);
 
-        $linhaObj->modificarPlano($idescola,$idplano,$valor_minimo);
-        if($valor_minimo != '' and $valor_minimo != null ){
-        $linhaObj->modificarValorMinimoPlano($idplano,$valor_minimo,$url[3]);
-		} else {
-            $linhaObj->cadastrarValorMinimoPlano($valor_minimo,$url[3]);
+        }else{
+            $linhaObj->modificarPlano($idescola,$idplano);
+
         }
+
     } else {
         $salvar = $linhaObj->cadastrar();
 		$valor_minimo = $_POST['valor_plano_minimo'];
-        $linhaObj->CadastrarPlano($salvar['id'],$valor_minimo);
-        $linhaObj->cadastrarValorMinimoPlano($valor_minimo,$salvar['id']);
+        $linhaObj->CadastrarPlano($salvar['id']);
     }
     if ($salvar['sucesso']) {
         if ($_POST[$config['banco']['primaria']]) {

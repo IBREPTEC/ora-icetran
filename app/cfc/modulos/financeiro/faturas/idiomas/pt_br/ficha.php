@@ -13,7 +13,11 @@ $idioma['tabela_parcela'] = 'Parcela';
 $idioma['tabela_total_parcelas'] = 'Total Parcelas';
 $idioma['tabela_curso'] = 'Curso';
 $idioma['tabela_vencimento'] = 'Vencimento da Fatura';
+$idioma['tabela_cfc'] = 'CFC';
 
+
+$idioma["tabela_idconta"]="Id Fatura";
+$idioma["tabela_descricao"]="Descrição";
 
 //Listagem Outros
 $idioma['total'] = 'Total';

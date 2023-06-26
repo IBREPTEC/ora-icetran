@@ -1,6 +1,7 @@
 <?php
 
 require_once DIR_APP . '/classes/pagarme.class.php';
+
 class Contas extends Core
 {
     const TABELA = "contas";
@@ -639,7 +640,7 @@ class Contas extends Core
                 idrelacao = '" . $id_relacao . "',
                 parcela = '" . $numero_parcela . "',
                 total_parcelas = '" . $total_parcelas . "',
-                idclassificacao_dre= '".$this->post['idclassificacao_dre']."'";
+                idclassificacao_dre= '" . $this->post['idclassificacao_dre'] . "'";
 
         if ($this->post["forma_pagamento"] == 2 || $this->post["forma_pagamento"] == 3) {
             $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
@@ -652,11 +653,10 @@ class Contas extends Core
                         cc_cheque = '" . $this->post['cc_cheque'] . "',
                         numero_cheque = '" . $this->post['numero_cheque'] . "',
                         emitente_cheque = '" . $this->post['emitente_cheque'] . "'";
-        } elseif ($this->post["forma_pagamento"] == 1){
+        } elseif ($this->post["forma_pagamento"] == 1) {
             $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
                         idboleto = " . $this->post['idboleto'] . "";
-        }
-        else {
+        } else {
             $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'];
         }
 
@@ -990,8 +990,7 @@ class Contas extends Core
                 'idbandeira',
                 'autorizacao_cartao'
             );
-        }
-        else {
+        } else {
             $config_remover = array(
                 'idbandeira',
                 'autorizacao_cartao',
@@ -1174,7 +1173,7 @@ class Contas extends Core
                         WHERE
                             c.ativo = 'S'
                             AND c.fatura = 'S'
-                            AND c.data_vencimento = '". $this->post['data_fatura'] ."'
+                            AND c.data_vencimento = '" . $this->post['data_fatura'] . "'
                             AND cw.renegociada <> 'S'
                             AND cw.transferida <> 'S'
                             AND cw.cancelada <> 'S'
@@ -1719,7 +1718,7 @@ class Contas extends Core
                         emitente_cheque = '" . $this->post['emitente_cheque'] . "',
                         idbandeira = NULL,
                         autorizacao_cartao = NULL";
-        }elseif($this->post['forma_pagamento'] == 1){
+        } elseif ($this->post['forma_pagamento'] == 1) {
 
             $this->sql .= ", forma_pagamento = " . $this->post['forma_pagamento'] . ",
                         idboleto = '" . $this->post['idboleto'] . "'";
@@ -1934,17 +1933,17 @@ class Contas extends Core
             $linhaAntiga = $this->retornarLinha($this->sql);
 
             $idmatricula_pagamentos_compartilhados = $linhaAntiga['idmatricula'];
-            if (empty($idmatricula_pagamentos_compartilhados)){
+            if (empty($idmatricula_pagamentos_compartilhados)) {
                 $sql = "select * from pagamentos_compartilhados_matriculas where idpagamento = " . intval($linhaAntiga['idpagamento_compartilhado']);
                 $sql = $this->retornarLinha($sql);
                 $idmatricula_pagamentos_compartilhados = $sql['idmatricula'];
             }
 
-            if($para == $this->retornarSituacaoPago()){
-                $this->sql = "update contas set idsituacao = '" . $para . "', idmatricula = '".$idmatricula_pagamentos_compartilhados."', data_pagamento = NOW()  where idconta = '" . $this->id . "'";
+            if ($para == $this->retornarSituacaoPago()) {
+                $this->sql = "update contas set idsituacao = '" . $para . "', idmatricula = '" . $idmatricula_pagamentos_compartilhados . "', data_pagamento = NOW()  where idconta = '" . $this->id . "'";
 
-            }else{
-                $this->sql = "update contas set idsituacao = '" . $para . "', idmatricula = '".$idmatricula_pagamentos_compartilhados."' where idconta = '" . $this->id . "'";
+            } else {
+                $this->sql = "update contas set idsituacao = '" . $para . "', idmatricula = '" . $idmatricula_pagamentos_compartilhados . "' where idconta = '" . $this->id . "'";
             }
             $this->executaSql($this->sql);
 
@@ -2519,6 +2518,7 @@ class Contas extends Core
         $this->sql = "SELECT *, idarquivo as iddocumento FROM contas_arquivos WHERE idarquivo = " . $this->iddocumento . " and ativo = 'S' and idconta = " . $this->id;
         return $this->retornarLinha($this->sql);
     }
+
     public function retornarClassificacaoDre()
     {
         $this->sql = 'select idclassificacao,UPPER(nome) as nome from classificacao_dre';
@@ -2526,13 +2526,16 @@ class Contas extends Core
         return $this->retornarLinhas();
 
     }
-    public function retornarCentroCusto(){
-        $sql = "SELECT idcentro_custo from contas_centros_custos where idconta=".$this->id;
+
+    public function retornarCentroCusto()
+    {
+        $sql = "SELECT idcentro_custo from contas_centros_custos where idconta=" . $this->id;
         $idcentro = $this->retornarLinha($sql);
         $retorno = $idcentro['idcentro_custo'];
 
         return $retorno;
     }
+
     public function retornarClassificacaoDreJson()
     {
         $this->sql = "select cc.idclassificacao from contas_centros_custos ccc inner join centros_custos cc on(ccc.idcentro_custo=cc.idcentro_custo)  where idconta=" . $this->id;
@@ -2563,17 +2566,17 @@ class Contas extends Core
         return $this->retornarLinha($this->sql);
     }
 
-    public function retornarDadosOrioTransacao($idmatricula){
+    public function retornarDadosOrioTransacao($idmatricula)
+    {
         $this->sql = 'select json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu, json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.autorizacao_tid")) as autorizacao from orio_transacoes o inner join pessoas p  on
                         json_unquote(json_extract(xml_requisicao,"$.matriculas.documentoaluno")) = p.documento
                         inner join matriculas m on p.idpessoa = m.idpessoa
                         inner join
-                        contas c on c.idmatricula=m.idmatricula where  m.idmatricula='.$idmatricula;
+                        contas c on c.idmatricula=m.idmatricula where  m.idmatricula=' . $idmatricula;
 
 
         return $this->retornarLinha($this->sql);
     }
-
 
 
     public function retornarFatura($idFatura, $campos)
@@ -2590,9 +2593,7 @@ class Contas extends Core
                     c.fatura = "S" AND
                     cw.emaberto = "S" AND
                     c.idconta = ' . $idFatura;
-
         $retorno['fatura'] = $this->retornarLinha($this->sql);
-
         $this->sql = 'SELECT *
                 FROM pagarme
                 WHERE
@@ -2649,7 +2650,7 @@ class Contas extends Core
         $sqlContas = $this->executaSql($sql);
 
         $this->id = $idFatura;
-        $this->AdicionarHistorico("situacao", "modificou",$idSituacaoatual, $cancelada);
+        $this->AdicionarHistorico("situacao", "modificou", $idSituacaoatual, $cancelada);
 
         if ($sqlContas) {
             return array('sucesso' => true);
@@ -2665,12 +2666,13 @@ class Contas extends Core
 
         return $this->retornarLinha($this->sql);
     }
+
     /**
      * Retorna todas as faturas
      * @access public
      * @param
-     * @var  int $this->campos: [Obrigatório] Campos das tabelas que serão retornados.
      * @return array
+     * @var  int $this- >campos: [Obrigatório] Campos das tabelas que serão retornados.
      * @author Yuri Costa-Silva <yuric@alfamaweb.com.br>
      */
     public function listarTodasFaturas()
@@ -2681,7 +2683,7 @@ class Contas extends Core
                             ' . $this->campos . '
                         FROM
                             contas c
-                            INNER JOIN contas_matriculas cm ON (cm.idconta = c.idconta)
+                            LEFT JOIN contas_matriculas cm ON (cm.idconta = c.idconta)
                             INNER JOIN contas_workflow cw ON (cw.idsituacao = c.idsituacao)
                             INNER JOIN escolas e ON (e.idescola = c.idescola)
                             INNER JOIN sindicatos s ON (s.idsindicato = e.idsindicato)
@@ -2759,9 +2761,9 @@ class Contas extends Core
         $retorno = $this->retornarLinhas();
         foreach ($retorno as $ind => $var) {
 
-            if( empty($var['idconta']) || empty($var['idescola']) ){
+            if (empty($var['idconta']) || empty($var['idescola'])) {
                 unset($retorno[$ind]);
-            }else{
+            } else {
                 $valorCorrigido = $this->calcularJurosMulta($var['idconta']);
 
                 $retorno[$ind]['valor_corrigido'] = $valorCorrigido['valor_corrigido'];
@@ -2826,8 +2828,8 @@ class Contas extends Core
 
         $retorno = $this->retornarLinhas();
         foreach ($retorno as $ind => $var) {
-            $idCfc       = NULL;
-            $idCfc       = $var['idescola'];
+            $idCfc = NULL;
+            $idCfc = $var['idescola'];
             $idSindicato = NULL;
             $idSindicato = $var['idsindicato'];
             $cursoFaturar = NULL;
@@ -2853,8 +2855,8 @@ class Contas extends Core
             }
 
             $sqlUp = "UPDATE contas_matriculas SET ";
-            $sqlUp.= "qtd_parcelas = '".$cursoFaturar['qtd_parcelas']."' ";
-            $sqlUp.= "WHERE idconta_matricula = '".$var['idconta_matricula']."' ";
+            $sqlUp .= "qtd_parcelas = '" . $cursoFaturar['qtd_parcelas'] . "' ";
+            $sqlUp .= "WHERE idconta_matricula = '" . $var['idconta_matricula'] . "' ";
             $this->executaSql($sqlUp);
 
         }
@@ -2862,11 +2864,13 @@ class Contas extends Core
 
     }
 
-    public function setTotalContas($total){
+    public function setTotalContas($total)
+    {
         $this->totalDados = $total;
     }
 
-    public function getTotalContas(){
+    public function getTotalContas()
+    {
         return $this->totalDados;
     }
 
@@ -2929,9 +2933,9 @@ class Contas extends Core
     /**
      * Retorna as matrículas de uma determinada fatura
      * @access public
-     * @param int $idescola: [Obrigatório] ID da escola que será retornada as matrículas.
-     * @var
+     * @param int $idescola : [Obrigatório] ID da escola que será retornada as matrículas.
      * @return array
+     * @var
      * @author Yuri Costa-Silva <yuric@alfamaweb.com.br>
      */
     public function retornarMatriculasFatura($idconta)
@@ -2988,19 +2992,88 @@ class Contas extends Core
                 }
             }
         }
-
         $this->groupby = 'cm.idconta_matricula';
+
+        return $this->retornarLinhas();
+    }
+
+
+    public function retornarContaAulaRemota($idconta)
+    {
+        if (!$idconta) {
+            $erros['erro'] = 'true';
+            $erros['erros'][] = 'parametros_incompletos';
+            return $erros;
+        }
+
+        $this->sql = 'SELECT
+                          idconta,nome,e.nome_fantasia,c.data_cad,parcela,total_parcelas,valor,c.data_vencimento
+                        FROM
+                            contas c
+	                        INNER JOIN escolas e ON (e.idescola = c.idescola)
+	                        INNER JOIN planos_cfc pc ON (pc.idcfc=e.idescola )
+                        WHERE
+                            c.idconta = ' . $idconta . ' AND
+                            c.fatura = "S" AND
+                            c.ativo = "S"';
+
+        if ($this->modulo == 'cfc') {
+            $this->sql .= ' AND c.idescola = ' . $this->idescola;
+        }
+        $this->sql .= " group by c.idconta";
+        if (is_array($_GET['q'])) {
+            foreach ($_GET['q'] as $campo => $valor) {
+                //explode = Retira, ou seja retira a '|' da variavel campo
+                $campo = explode('|', $campo);
+                $valor = str_replace('\'', '', $valor);
+                // Listagem se o valor for diferente de Todos ele faz um filtro
+                if (($valor || $valor === '0') && $valor <> 'todos') {
+                    // se campo[0] for = 1 é pq ele tem de ser um valor exato
+                    if ($campo[0] == 1) {
+                        $this->sql .= ' AND ' . $campo[1] . ' = "' . $valor . '"';
+                        // se campo[0] for = 2, faz o filtro pelo comando like
+                    } elseif ($campo[0] == 2) {
+                        $busca = str_replace("\\'", '', $valor);
+                        $busca = str_replace("\\", '', $busca);
+                        $busca = explode(' ', $busca);
+                        foreach ($busca as $ind => $buscar) {
+                            $this->sql .= ' AND ' . $campo[1] . ' LIKE "%' . urldecode($buscar) . '%"';
+                        }
+                    } elseif ($campo[0] == 3) {
+                        $this->sql .= ' AND DATE_FORMAT(' . $campo[1] . ', "%d/%m/%Y") = "' . $valor . '"';
+                    } elseif ($campo[0] == 4) {
+                        $valor = str_replace('.', '', $valor);
+                        $valor = str_replace(',', '.', $valor);
+                        $this->sql .= ' AND ' . $campo[1] . ' = "' . $valor . '"';
+                    }
+                }
+            }
+        }
+        $this->groupby = 'c.idconta';
+        $this->ordem_campo = null;
+        $this->ordem = 'c.idconta';
+
         return $this->retornarLinhas();
     }
 
     /**
      * Retorna as matrículas de uma determinada escola
      * @access private
-     * @param int $idescola: [Obrigatório] ID da escola que será retornada as matrículas.
-     * @var
+     * @param int $idescola : [Obrigatório] ID da escola que será retornada as matrículas.
      * @return array
+     * @var
      * @author Yuri Costa-Silva <yuric@alfamaweb.com.br>
      */
+
+    public function retornarOptantePlano($idcfc)
+    {
+        $sqlCfc = 'SELECT e.idplano,c.valor,idconta,aula_remota FROM escolas e inner join planos_cfc pc on(e.idescola=pc.idcfc) inner 
+                    join contas c on (c.idescola=e.idescola and c.aula_remota=pc.idplano)
+                    WHERE e.idescola=' . $idcfc . ' group by e.idescola';
+        $retornaPlano = $this->retornarLinha($sqlCfc);
+        return $retornaPlano;
+    }
+
     private function retornarMatriculas($idescola, $idCurso = null)
     {
         if (!$idescola) {
@@ -3016,7 +3089,7 @@ class Contas extends Core
                             matriculas m
                             INNER JOIN matriculas_workflow mw ON (mw.idsituacao = m.idsituacao)
                         WHERE
-                            m.idescola = " . (int) $idescola . " AND
+                            m.idescola = " . (int)$idescola . " AND
                             m.faturada = 'N' AND
                             m.ativo = 'S' AND
                             mw.cancelada = 'N' AND
@@ -3056,7 +3129,8 @@ class Contas extends Core
         ];
     }
 
-    private function retornarFaturaMesmoVencimento($idCfc, $idSituacaoEmAberto, $vencimento) {
+    private function retornarFaturaMesmoVencimento($idCfc, $idSituacaoEmAberto, $vencimento)
+    {
         $idCfc = intval($idCfc);
         $idSituacaoEmAberto = intval($idSituacaoEmAberto);
 
@@ -3081,7 +3155,8 @@ class Contas extends Core
         $valor,
         $quantidadeMatriculas,
         $idConta
-    ) {
+    )
+    {
         $idConta = intval($idConta);
         $quantidadeMatriculas = intval($quantidadeMatriculas);
         $valor = floatval($valor);
@@ -3099,7 +3174,8 @@ class Contas extends Core
         return $this->executaSql($sql);
     }
 
-    public function cadastrarContaFatura($idCfc, $idSindicato, $idSituacao, $valor, $vencimento, $total) {
+    public function cadastrarContaFatura($idCfc, $idSindicato, $idSituacao, $valor, $vencimento, $total)
+    {
         $idCfc = intval($idCfc);
         $idSindicato = intval($idSindicato);
         $idSituacao = intval($idSituacao);
@@ -3131,6 +3207,44 @@ class Contas extends Core
         return $this->executaSql($sql);
     }
 
+    public function gerarFaturaAulaRemota($idCfc)
+    {
+        if (!$idCfc) {
+            return $this->retornarErros(['idescola_vazio']);
+        }
+
+        $situacao = $this->retornarSituacaoEmAFaturar();
+
+        if (!$situacao) {
+            return $this->retornarErros(['nao_existe_situacao_em_aberto']);
+        }
+
+        $cursosObj = new Cursos();
+        $optantePlano = $cursosObj->retornarOptantePlano($idCfc);
+
+        $pagarmeObj = new PagarmeObj();
+        $pagarmeObj->criarTransacaoBoleto($optantePlano['idconta']);
+
+
+        if ($pagarmeObj['sucesso'] == true) {
+            $situacaoConta = "SELECT idsituacao from contas where idescola=$idCfc and aula_remota=2";
+            $retornar = $this->retornarLinha($situacaoConta);
+            if ($retornar['idsituacao'] == 1) {
+                $escolaObj = new Escolas();
+                $escolaObj->enviarEmailBoletoAulaRemotaDisponivel($idCfc);
+            }
+
+            $this->finalizaTransacao();
+            $retorno['sucesso'] = true;
+            return $retorno;
+
+        } else {
+             $retorno['erro'] = true;
+        }
+
+        return $retorno;
+    }
+
     public function gerarFatura($idCfc, $idSindicato)
     {
         if (!$idCfc) {
@@ -3156,7 +3270,6 @@ class Contas extends Core
                     quantidade_matriculas_2,
                     valor_excedente'
         );
-
         $valoresCursosSindicato = $cursosObj->retornarValoresCursoSindicato(
             $idSindicato,
             'valor_por_matricula,
@@ -3207,8 +3320,7 @@ class Contas extends Core
                 }
             }
 
-            if(empty($cursoFaturar['valor_por_matricula_2']))
-            {
+            if (empty($cursoFaturar['valor_por_matricula_2'])) {
 
                 $valorPorMatriculaSindicato = $cursosObj
                     ->retornarValoresCursoSindicato(
@@ -3221,27 +3333,24 @@ class Contas extends Core
                 $cursoFaturar['quantidade_matriculas_2'] = $valorPorMatriculaSindicato['quantidade_matriculas_2'];
 
 
-                if(!empty($cursoFaturar['quantidade_matriculas_2']) && ($cursoFaturar['quantidade_matriculas_2'] <= $cursoFaturar['quantidade_matriculas']))
-                {
+                if (!empty($cursoFaturar['quantidade_matriculas_2']) && ($cursoFaturar['quantidade_matriculas_2'] <= $cursoFaturar['quantidade_matriculas'])) {
                     $this->errosLog[] = 'Quantidade de matrículas 2 menor ou igual a quantidade de matrículas 1 - ' . $cursoFaturar['idcurso'];
                     continue;
                 }
 
 
-                if(
-                    ((!empty($cursoFaturar['valor_por_matricula_2']  || $cursoFaturar['quantidade_matriculas_2'] === "0")) && empty($cursoFaturar['quantidade_matriculas_2'])) ||
-                   ((!empty($cursoFaturar['quantidade_matriculas_2']) || $cursoFaturar['valor_por_matricula_2'] === "0.00") && empty($cursoFaturar['valor_por_matricula_2']))
-                )
-                {
+                if (
+                    ((!empty($cursoFaturar['valor_por_matricula_2'] || $cursoFaturar['quantidade_matriculas_2'] === "0")) && empty($cursoFaturar['quantidade_matriculas_2'])) ||
+                    ((!empty($cursoFaturar['quantidade_matriculas_2']) || $cursoFaturar['valor_por_matricula_2'] === "0.00") && empty($cursoFaturar['valor_por_matricula_2']))
+                ) {
                     $this->errosLog[] = 'Valor por matrícula 2 preenchido porém quantidade de matrículas 2 vazio ou quantidade de matrículas 2 preenchido porém valor por matrícula 2 vazio - ' . $cursoFaturar['idcurso'];
                     continue;
 
                 }
 
-                if(!empty($cursoFaturar['valor_por_matricula_2']) &&
-                   !empty($cursoFaturar['quantidade_matriculas_2']) &&
-                   empty($cursoFaturar['quantidade_matriculas']))
-                {
+                if (!empty($cursoFaturar['valor_por_matricula_2']) &&
+                    !empty($cursoFaturar['quantidade_matriculas_2']) &&
+                    empty($cursoFaturar['quantidade_matriculas'])) {
                     $this->errosLog[] = 'Quantidade de matrículas 1 vazio com valor por matrículas 2 e quantidades de matrículas 2 preenchidos - ' . $cursoFaturar['idcurso'];
                     continue;
                 }
@@ -3249,30 +3358,26 @@ class Contas extends Core
 
             } else {
 
-                if(empty($cursoFaturar['quantidade_matriculas']))
-                {
+                if (empty($cursoFaturar['quantidade_matriculas'])) {
                     $this->errosLog[] = 'Quantidade de matrículas 1 vazio com valor por matrículas 2 e quantidades de matrículas 2 preenchidos - ' . $cursoFaturar['idcurso'];
                     continue;
                 }
-                if(!empty($cursoFaturar['quantidade_matriculas_2']) && ($cursoFaturar['quantidade_matriculas_2'] <= $cursoFaturar['quantidade_matriculas']))
-                {
+                if (!empty($cursoFaturar['quantidade_matriculas_2']) && ($cursoFaturar['quantidade_matriculas_2'] <= $cursoFaturar['quantidade_matriculas'])) {
                     $this->errosLog[] = 'Quantidade de matrículas 2 menor ou igual a quantidade de matrículas 1 - ' . $cursoFaturar['idcurso'];
                     continue;
                 }
 
-                if(
-                    ((!empty($cursoFaturar['valor_por_matricula_2']  || $cursoFaturar['quantidade_matriculas_2'] === "0")) && empty($cursoFaturar['quantidade_matriculas_2'])) ||
-                   ((!empty($cursoFaturar['quantidade_matriculas_2']) || $cursoFaturar['valor_por_matricula_2'] === "0.00") && empty($cursoFaturar['valor_por_matricula_2']))
-                )
-                {
+                if (
+                    ((!empty($cursoFaturar['valor_por_matricula_2'] || $cursoFaturar['quantidade_matriculas_2'] === "0")) && empty($cursoFaturar['quantidade_matriculas_2'])) ||
+                    ((!empty($cursoFaturar['quantidade_matriculas_2']) || $cursoFaturar['valor_por_matricula_2'] === "0.00") && empty($cursoFaturar['valor_por_matricula_2']))
+                ) {
                     $this->errosLog[] = 'Valor por matrícula 2 preenchido porém quantidade de matrículas 2 vazio ou quantidade de matrículas 2 preenchido porém valor por matrícula 2 vazio - ' . $cursoFaturar['idcurso'];
                     continue;
 
                 }
             }
 
-            if(empty($cursoFaturar['valor_excedente']))
-            {
+            if (empty($cursoFaturar['valor_excedente'])) {
                 $valorExcedenteSindicato = $cursosObj
                     ->retornarValoresCursoSindicato(
                         $idSindicato,
@@ -3282,21 +3387,18 @@ class Contas extends Core
 
                 $cursoFaturar['valor_excedente'] = $valorExcedenteSindicato['valor_excedente'];
 
-                if(!empty($cursoFaturar['valor_excedente']) && empty($cursoFaturar['quantidade_matriculas']))
-                {
+                if (!empty($cursoFaturar['valor_excedente']) && empty($cursoFaturar['quantidade_matriculas'])) {
                     $this->errosLog[] = 'Valor excedente preenchido porém quantidades de matrículas 1 não está preenchido. -  ' . $cursoFaturar['idcurso'];
                     continue;
                 }
 
-                if(empty($cursoFaturar['valor_por_matricula_2']) && empty($cursoFaturar['quantidade_matriculas_2']) && empty($cursoFaturar['valor_excedente']) && !empty($cursoFaturar['quantidade_matriculas']))
-                {
+                if (empty($cursoFaturar['valor_por_matricula_2']) && empty($cursoFaturar['quantidade_matriculas_2']) && empty($cursoFaturar['valor_excedente']) && !empty($cursoFaturar['quantidade_matriculas'])) {
                     $this->errosLog[] = 'Quantidade de matrículas 1 e valor por matrícula 1 preenchido porém valor excedente não preenchido. -  ' . $cursoFaturar['idcurso'];
                     continue;
                 }
 
             } else {
-                if(empty($cursoFaturar['quantidade_matriculas']))
-                {
+                if (empty($cursoFaturar['quantidade_matriculas'])) {
                     $this->errosLog[] = 'Valor excedente preenchido porém quantidades de matrículas 1 não está preenchido. -  ' . $cursoFaturar['idcurso'];
                     continue;
                 }
@@ -3366,12 +3468,11 @@ class Contas extends Core
             $valorParcela = $valorMatriculaPorFatura * $this->total;
             $valorPrimeiraParcela = $valorPrimeiraParcelaMatricula * $this->total;
 
-            if(
-               !empty($cursoFaturar['valor_excedente']) &&
-               !empty($cursoFaturar['quantidade_matriculas']) &&
-               $this->total > $cursoFaturar['quantidade_matriculas']
-              )
-            {
+            if (
+                !empty($cursoFaturar['valor_excedente']) &&
+                !empty($cursoFaturar['quantidade_matriculas']) &&
+                $this->total > $cursoFaturar['quantidade_matriculas']
+            ) {
                 $valorMatriculaExcedente = round(
                     $cursoFaturar['valor_excedente'] / $cursoFaturar['quantidade_faturas_ciclo'],
                     2
@@ -3379,7 +3480,7 @@ class Contas extends Core
 
                 $valorTotalMatriculaExcedente = $valorMatriculaExcedente * $cursoFaturar['quantidade_faturas_ciclo'];
                 $valorPrimeiraParcelaMatriculaExcedente = $valorMatriculaExcedente
-                                                 + ($cursoFaturar['valor_excedente'] - $valorTotalMatriculaExcedente);
+                    + ($cursoFaturar['valor_excedente'] - $valorTotalMatriculaExcedente);
 
                 $valorParcela =
                     ($valorMatriculaPorFatura * $cursoFaturar['quantidade_matriculas'])
@@ -3390,8 +3491,7 @@ class Contas extends Core
                     + ($valorPrimeiraParcelaMatriculaExcedente * ($this->total - $cursoFaturar['quantidade_matriculas']));
             }
 
-            if(!empty($cursoFaturar['quantidade_matriculas_2']) && !empty($cursoFaturar['valor_por_matricula_2']))
-            {
+            if (!empty($cursoFaturar['quantidade_matriculas_2']) && !empty($cursoFaturar['valor_por_matricula_2'])) {
 
                 $valorMatriculaPorFatura2 = round(
                     $cursoFaturar['valor_por_matricula_2'] / $cursoFaturar['quantidade_faturas_ciclo'],
@@ -3400,10 +3500,9 @@ class Contas extends Core
 
                 $valorTotalMatricula2 = $valorMatriculaPorFatura2 * $cursoFaturar['quantidade_faturas_ciclo'];
                 $valorPrimeiraParcelaMatricula2 = $valorMatriculaPorFatura2
-                                                  + ($cursoFaturar['valor_por_matricula_2'] - $valorTotalMatricula2);
+                    + ($cursoFaturar['valor_por_matricula_2'] - $valorTotalMatricula2);
 
-                if($this->total > $cursoFaturar['quantidade_matriculas_2'])
-                {
+                if ($this->total > $cursoFaturar['quantidade_matriculas_2']) {
                     $valorParcela =
                         ($valorMatriculaPorFatura * $cursoFaturar['quantidade_matriculas']) +
                         ($valorMatriculaPorFatura2 * ($cursoFaturar['quantidade_matriculas_2'] - $cursoFaturar['quantidade_matriculas'])) +
@@ -3425,7 +3524,6 @@ class Contas extends Core
                 }
 
             }
-
 
 
             $diasVencimento = 5;
@@ -3486,46 +3584,41 @@ class Contas extends Core
                 $valorTotal = $cursoFaturar['valor_por_matricula'];
                 foreach ($matriculasArray as $ind => $matricula) {
 
-                    if(
-                       !empty($cursoFaturar['valor_por_matricula_2']) &&
-                       !empty($cursoFaturar['quantidade_matriculas_2']) &&
-                       $ind == $cursoFaturar['quantidade_matriculas']
-                      )
-                    {
+                    if (
+                        !empty($cursoFaturar['valor_por_matricula_2']) &&
+                        !empty($cursoFaturar['quantidade_matriculas_2']) &&
+                        $ind == $cursoFaturar['quantidade_matriculas']
+                    ) {
                         $valorPorMatricula = $valorMatriculaPorFatura2;
                         $valorTotal = $cursoFaturar['valor_por_matricula_2'];
-                        if ($parcela == 1)
-                        {
+                        if ($parcela == 1) {
                             $valorPorMatricula = $valorPrimeiraParcelaMatricula2;
                         }
                     }
 
-                    if(
+
+                    if (
                         empty($cursoFaturar['valor_excedente_2']) &&
                         empty($cursoFaturar['quantidade_matriculas_2']) &&
                         !empty($cursoFaturar['quantidade_matriculas']) &&
                         $ind == $cursoFaturar['quantidade_matriculas']
-                    )
-                    {
+                    ) {
                         $valorPorMatricula = $valorMatriculaExcedente;
                         $valorTotal = $cursoFaturar['valor_excedente'];
-                        if ($parcela == 1)
-                        {
+                        if ($parcela == 1) {
                             $valorPorMatricula = $valorPrimeiraParcelaMatriculaExcedente;
                         }
                     }
 
-                    if(
-                       !empty($cursoFaturar['valor_excedente']) &&
-                       !empty($cursoFaturar['quantidade_matriculas']) &&
-                       !empty($cursoFaturar['quantidade_matriculas_2']) &&
-                       $ind == $cursoFaturar['quantidade_matriculas_2']
-                      )
-                    {
+                    if (
+                        !empty($cursoFaturar['valor_excedente']) &&
+                        !empty($cursoFaturar['quantidade_matriculas']) &&
+                        !empty($cursoFaturar['quantidade_matriculas_2']) &&
+                        $ind == $cursoFaturar['quantidade_matriculas_2']
+                    ) {
                         $valorPorMatricula = $valorMatriculaExcedente;
                         $valorTotal = $cursoFaturar['valor_excedente'];
-                        if ($parcela == 1)
-                        {
+                        if ($parcela == 1) {
                             $valorPorMatricula = $valorPrimeiraParcelaMatriculaExcedente;
                         }
                     }
@@ -3564,7 +3657,7 @@ class Contas extends Core
             return $this->retornarErros($erros);
         }
 
-        if (!empty($matriculasFaturadas)){
+        if (!empty($matriculasFaturadas)) {
             $escolaObj = new Escolas();
             $escolaObj->enviarEmailBoletoDisponivel($idCfc);
         }
@@ -3572,7 +3665,6 @@ class Contas extends Core
         $this->finalizaTransacao();
 
         $retorno['sucesso'] = true;
-
         return $retorno;
     }
 
@@ -3604,7 +3696,6 @@ class Contas extends Core
         echo '</thead>';
         echo '<tbody>';
         echo '<tr>';
-
         if (count($dados) == 0) {
             echo '<tr>';
             echo '<td colspan="' . count($this->config[$configuracao]) . '">Nenhuma informação foi encontrada.</td>';
@@ -3614,8 +3705,10 @@ class Contas extends Core
             $totalValor = 0;
 
             foreach ($dados as $i => $linha) {
+
                 $totalValorFatura += $linha['valor_fatura'];
                 $totalValor += $linha['valor_total'];
+
 
                 echo '<tr>';
 
@@ -3637,16 +3730,94 @@ class Contas extends Core
                 echo '</tr>';
             }
 
-            if (is_null($idioma['colspan'])){ //Verifica o colspan na última linha da tabela
+            if (is_null($idioma['colspan'])) { //Verifica o colspan na última linha da tabela
                 $idioma['colspan'] = 4;
             }
 
             echo '<tr>';
-            echo '<td colspan="'. $idioma['colspan'] .'">&nbsp;</td>';
+            echo '<td colspan="' . $idioma['colspan'] . '">&nbsp;</td>';
             echo '<td><strong>' . $idioma['total'] . '</strong></td>';
             echo '<td>R$ ' . number_format($totalValorFatura, 2, ',', '.') . '</td>';
             echo '<td>R$ ' . number_format($totalValor, 2, ',', '.') . '</td>';
             echo '<td></td>';
+            echo '</tr>';
+        }
+
+        echo '</tbody>';
+        echo '</table>';
+    }
+
+    public function GerarTabelaRelatorioAula($dados, $q = null, $idioma, $configuracao = 'listagem')
+    {
+
+        echo '<table class="zebra-striped" id="sortTableExample">';
+        echo '<thead>';
+        echo '<tr>';
+
+        foreach ($this->config[$configuracao] as $ind => $valor) {
+            $tamanho = "";
+            if ($valor["tamanho"]) {
+                $tamanho = ' width="' . $valor["tamanho"] . '"';
+            }
+
+            $th = '<th class="';
+            $th .= $class . ' headerSortReloca" ' . $tamanho . '>';
+            echo $th;
+
+            echo '<div class="headerNew">
+                    ' . $idioma[$valor['variavel_lang']] . '
+                </div>';
+
+            echo '</th>';
+        }
+
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+        echo '<tr>';
+        if (count($dados) == 0) {
+            echo '<tr>';
+            echo '<td colspan="' . count($this->config[$configuracao]) . '">Nenhuma informação foi encontrada.</td>';
+            echo '</tr>';
+        } else {
+            $totalValorFatura = 0;
+            $totalValor = 0;
+
+            foreach ($dados as $i => $linha) {
+
+                $totalValorFatura += $linha['valor'];
+                $totalValor += $linha['valor'];
+
+
+                echo '<tr>';
+
+                foreach ($this->config[$configuracao] as $ind => $valor) {
+                    if ($valor['tipo'] == 'banco') {
+                        echo '<td>' . stripslashes($linha[$valor['valor']]) . '</td>';
+                    } elseif ($valor['tipo'] == 'php' && $valor['busca_tipo'] != 'hidden') {
+                        $valor = $valor['valor'] . " ?>";
+                        $valor = eval($valor);
+                        echo '<td>' . stripslashes($valor) . '</td>';
+                    } elseif ($valor['tipo'] == 'array') {
+                        $variavel = $GLOBALS[$valor["array"]];
+                        echo '<td>' . $variavel[$this->config['idioma_padrao']][$linha[$valor['valor']]] . '</td>';
+                    } elseif ($valor['busca_tipo'] != 'hidden') {
+                        echo '<td>' . stripslashes($valor['valor']) . '</td>';
+                    }
+                }
+
+                echo '</tr>';
+            }
+
+            if (is_null($idioma['colspan'])) { //Verifica o colspan na última linha da tabela
+                $idioma['colspan'] = 4;
+            }
+
+            echo '<tr>';
+            echo '<td colspan="5">&nbsp;</td>';
+            echo '<td><strong>' . $idioma['total'] . '</strong></td>';
+            echo '<td>R$ ' . number_format($totalValorFatura, 2, ',', '.') . '</td>';
+            echo "<td> </td>";
             echo '</tr>';
         }
 

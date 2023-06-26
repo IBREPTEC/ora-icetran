@@ -173,6 +173,8 @@ class Escolas extends Core
 		
 		unset($this->post['valor_plano_minimo']);
         unset($this->config['formulario'][0]['campos'][33]);
+        unset($this->post['vencimento']);
+        unset($this->config['formulario'][0]['campos'][34]);
 
         $this->config['formulario'] = $this->aplicarRegrasFormulario($this->config['formulario']);
 
@@ -188,92 +190,126 @@ class Escolas extends Core
         return $retorno;
     }
 	
-	public function cadastrarPlano($idescola,$valor_minimo){
-        $idplano =  $this->post['idplano'];
+	public function cadastrarPlano($idescola){
+        $idplano =  $_POST['idplano'];
+        if($_POST["vencimento"] == ""){
+            $diasVencimento = 7;
 
 
-        if($idplano!='1'){
-            $this->sql = 'INSERT INTO
-                        planos_cfc
-                    SET
-                        idplano = "'.$idplano.'",
-                        idcfc = "'.$idescola.'",
-                        valor_minimo = '.$valor_minimo.'';
-        }
-        else{
-            $this->sql = 'INSERT INTO
-                        planos_cfc
-                    SET
-                        idplano = "'.$idplano.'",
-                        idcfc = "'.$idescola.'"';
-        }
 
-            $this->executaSql($this->sql);
+            $dataInicio = (new \DateTime())
+                ->modify('+' . $diasVencimento . ' days');
 
-    }
-    public function cadastrarValorMinimoPlano($valor_minimo,$idcfc){
-        $idplano =  $this->post['idplano'];
-        if($valor_minimo == ''){
-            $this->sql = 'INSERT INTO
-                        planos_cfc
-                    SET
-                        idplano = "'.$idplano.'",
-                        valor_minimo = null,
-                        idcfc = "'.$idcfc.'"';
+            $parcela=1;
+
+            $dataVencimento = new DateTime($dataInicio->format('Y-m-d'));
+            $dataVencimento->modify('+' . ($parcela - 1) . ' month');
+            $vencimento = $dataVencimento->format('Y-m-d');
         }else{
-
-            $this->sql = 'INSERT INTO
-                        planos_cfc
-                    SET
-                        idplano = "'.$idplano.'",
-                        valor_minimo = '.$valor_minimo.',
-                        idcfc = "'.$idcfc.'"';
+            $vencimento =formataData($_POST['vencimento'], 'en', 0);
         }
 
-        $this->executaSql($this->sql);
+
+        $_POST['valor_plano_minimo'] = number_format($_POST['valor_plano_minimo'], 2, '.', ',');
+        if($idplano!=1){
+            $conta_sql = 'INSERT INTO
+                        contas
+                    SET
+                       
+                        idescola = "'.$idescola.'",
+                        valor = '. $_POST['valor_plano_minimo'].',
+                        aula_remota = '.$idplano.',
+                        data_cad=now(),
+                        tipo="receita",
+                        idsituacao=1,
+                        nome="Plano Aula Remota",
+                        idsindicato="'.$_POST['idsindicato'].'",
+                        parcela=1,
+                        total_parcelas=1,
+                        data_vencimento="'.$vencimento.'",
+                        fatura="S"';
+            $plano_sql = 'INSERT INTO
+            planos_cfc set
+            idcfc="'.$idescola.'",
+            valor_minimo= '.$_POST['valor_plano_minimo'].',
+            idplano = '.$idplano.',
+            vencimento="'.$vencimento.'"';
+
+            $this->executaSql($conta_sql);
+            $this->executaSql($plano_sql);
+        }
+
+
+
     }
-	
+
     public function retornarValorMinimoPlano($idcfc){
 
-        $this->sql = 'select valor_minimo from  planos_cfc p
+        $this->sql = 'select format(valor_minimo,2,"de_DE") as valor_minimo,date_format(vencimento,"%d/%m/%Y") as vencimento from  planos_cfc p
         where  p.idcfc = "'.$idcfc.'" and valor_minimo is not null';
-        $valor_minimo = $this->retornarLinha($this->sql);
+        $resultado = $this->retornarLinha($this->sql);
 
-        return json_encode(array('valor'=>$valor_minimo['valor_minimo']));
+        return json_encode($resultado);
 
     }
+    public function retornarOptantePlano($idcfc)
+    {
+        $sqlCfc = 'SELECT e.idplano,c.valor,idconta,aula_remota,pc.idplanos_cfc FROM escolas e inner join planos_cfc pc on(e.idescola=pc.idcfc) inner 
+                    join contas c on (c.idescola=e.idescola and c.aula_remota=pc.idplano)
+                    WHERE e.idescola='.$idcfc.' group by e.idescola';
+        $retornaPlano = $this->retornarLinha($sqlCfc);
+        return $retornaPlano;
+    }
+    public function modificarPlano($idescola,$idplano){
 
-    public function modificarPlano($idescola,$idplano,$valor_minimo){
+        if($_POST["vencimento"] == ""){
 
-        $sql ='Select count(idcfc) as total from planos_cfc where idcfc="'.$idescola.'"';
-        $this->executaSql($sql);
-        if($sql >= 1){
-            if($idplano!='1'){
-                $this->sql = 'UPDATE planos_cfc set  idplano ="'.$idplano.'",
-             valor_minimo = '.$valor_minimo.'
-                    where    
-                       idcfc = "'.$idescola.'"';
-            }else{
-                $this->sql = 'UPDATE planos_cfc set  idplano ="'.$idplano.'", valor_minimo = '.$valor_minimo.'
-                    where    
-                       idcfc = "'.$idescola.'"';
+            $diasVencimento = 5;
+
+            if (!empty($GLOBALS['config']['pagarme']['dias_vencimento'])) {
+                $diasVencimento = $GLOBALS['config']['pagarme']['dias_vencimento'];
             }
 
-            $this->executaSql($this->sql);
+            $dataInicio = (new \DateTime())
+                ->modify('+' . $diasVencimento . ' days');
 
-        }
-        else{
-            $this->cadastrarPlano($idescola,$valor_minimo);
-        }
-    }
-    public function modificarValorMinimoPlano($idplano,$valor_minimo,$idcfc){
-        $this->sql = 'UPDATE planos_cfc set  valor_minimo ='.$valor_minimo.'
-                    where    
-                     
-                       idplano = "'.$idplano.'"
-                       and idcfc = "'.$idcfc.'"';
+            $parcela=1;
 
-        $this->executaSql($this->sql);
+            $dataVencimento = new DateTime($dataInicio->format('Y-m-d'));
+            $dataVencimento->modify('+' . ($parcela - 1) . ' month');
+            $vencimento = $dataVencimento->format('Y-m-d');
+        }else{
+            $vencimento =formataData($_POST['vencimento'], 'en', 0);
+        }
+
+        $_POST['valor_plano_minimo'] = number_format($_POST['valor_plano_minimo'], 2, '.', ',');
+
+        $sql="SELECT idconta from contas where idescola=$idescola and  aula_remota=2";
+        $conta = $this->retornarLinha($sql);
+        if($conta['idconta']){
+            $conta_sql = 'UPDATE
+                        contas
+                        SET                                   
+                        valor = '. $_POST['valor_plano_minimo'].',                    
+                        idsindicato="'.$_POST['idsindicato'].'",                    
+                        data_vencimento="'.$vencimento.'"
+                        where idconta='.$conta["idconta"].'
+                        ';
+            $plano_sql = 'UPDATE
+                        planos_cfc set
+                        idcfc="'.$idescola.'",
+                        valor_minimo= '.$_POST['valor_plano_minimo'].',
+                        vencimento="'.$vencimento.'"
+                        where idcfc='.$idescola.' and idplano='.$idplano;
+
+            $this->executaSql($conta_sql);
+            $this->executaSql($plano_sql);
+        }else{
+
+            $this->cadastrarPlano($idescola);
+        }
+
+
 
     }
 
@@ -281,10 +317,12 @@ class Escolas extends Core
     {
 		unset($this->post['documento_cnpj']);
         unset($this->post['valor_plano_minimo']);
+        unset($this->post['vencimento']);
         unset($this->config['formulario'][0]['campos'][2]);
         unset($this->config['formulario'][0]['campos'][3]);
         unset($this->config['formulario'][0]['campos'][4]);
 		unset($this->config['formulario'][0]['campos'][33]);
+        unset($this->config['formulario'][0]['campos'][34]);
 
         $this->config['formulario'] = $this->aplicarRegrasFormulario($this->config['formulario']);
 
@@ -1456,6 +1494,33 @@ class Escolas extends Core
 
         return $this->enviarEmail($nomeDe, $emailDe, $assunto, $message, $nomePara, $emailPara);
     }
+
+    public function enviarEmailBoletoAulaRemotaDisponivel($idEscola)
+    {
+        $this->sql = 'SELECT nome_fantasia, email FROM escolas WHERE idescola = ' . $idEscola;
+        $escola = $this->retornarLinha($this->sql);
+
+        $nomePara = utf8_decode($escola["nome_fantasia"]);
+
+//        $message  = "Ol&aacute; <strong>" . $nomePara . "</strong>,
+//                    <br /><br />
+//                    Seu boleto j&aacute; est&aacute; dispon&iacute;vel para pagamento.
+//                    <br /><br />
+//                    <a href=\"http://" . $GLOBALS['config']['urlSistemaFixa'] . "/cfc/" . "\">Clique aqui</a> para acessar o painel.";
+
+        $message = "<p>Ol&aacute;, " . $nomePara . "! <br /><br /> Abaixo link do boleto referente ao plano <strong>Aula Remota</strong>. <br /> Poder&aacute; acessar tamb&eacute;m via " . $GLOBALS["config"]["tituloEmpresa"] . " clicando no menu <strong>Faturas</strong> ou <strong>Relat&oacute;rio de Transa&ccedil;&otilde;es das Faturas</strong>. <br /><br />Para visualizar o boleto,
+                       <a href=\"https://" . $GLOBALS['config']['urlSistemaFixa'] . "/cfc/" . "\"  >clique aqui!</a>
+                       &nbsp;<br /><br />Qualquer dificuldade conte com a gente pelo telefone <strong>" . $GLOBALS['config']['telefone'] . "</strong> ou e-mail <a href=\"mailto:" . $GLOBALS['config']['emailParceria'] . "\"> <strong> " . $GLOBALS['config']['emailParceria'] . " </strong> </a></p>";
+
+        $emailPara = $escola["email"];
+        $assunto = utf8_decode("Boleto disponível - " . date("d/m/Y"));
+
+        $nomeDe = $GLOBALS["config"]["tituloEmpresa"];
+        $emailDe = $GLOBALS["config"]["emailSistema"];
+
+        return $this->enviarEmail($nomeDe, $emailDe, $assunto, $message, $nomePara, $emailPara);
+    }
+
 
     public function cfcBloqueado()
     {

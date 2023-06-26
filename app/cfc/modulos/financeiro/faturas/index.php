@@ -60,7 +60,14 @@ if (isset($url[3])) {
                 $linhaObj->set('ordem_campo','cm.idconta_matricula');
                 $linhaObj->set('ordem','DESC');
                 $linhaObj->set('limite',-1);
-                $dadosArray = $linhaObj->retornarMatriculasFatura($linha['idconta']);
+                $plano = $linhaObj->retornarOptantePlano($linha["idescola"]);
+                if($plano['aula_remota']==2){
+                    $dadosArray = $linhaObj->retornarContaAulaRemota($linha['idconta']);
+
+                }else{
+                    $dadosArray = $linhaObj->retornarMatriculasFatura($linha['idconta']);
+
+                }
 
                 include('idiomas/' . $config['idioma_padrao'] . '/ficha.php');
                 include('telas/' . $config['tela_padrao'] . '/ficha.php');

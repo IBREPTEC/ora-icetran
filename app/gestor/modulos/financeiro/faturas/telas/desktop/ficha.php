@@ -127,7 +127,14 @@
     </table>
     <?php
     $idioma['colspan'] = 6; //Configura o colspan da última linha da tabela Gerada abaixo;
-    $linhaObj->GerarTabelaRelatorio($dadosArray, $_GET['q'], $idioma, 'listagem_ficha'); ?>
+    if($plano['aula_remota'] == 2){
+        $linhaObj->GerarTabelaRelatorioAula($dadosArray, $_GET['q'], $idioma, 'listagem_ficha_aula_remota');
+
+    }else{
+        $linhaObj->GerarTabelaRelatorio($dadosArray, $_GET['q'], $idioma, 'listagem_ficha');
+    } ?>
+
+
     <table width="100%" border="0" align="center" cellpadding="10" cellspacing="0">
         <tr>
             <td valign="top">
