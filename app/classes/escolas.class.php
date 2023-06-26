@@ -193,11 +193,9 @@ class Escolas extends Core
 	public function cadastrarPlano($idescola){
         $idplano =  $_POST['idplano'];
         if($_POST["vencimento"] == ""){
-            $diasVencimento = 5;
+            $diasVencimento = 7;
 
-            if (!empty($GLOBALS['config']['pagarme']['dias_vencimento'])) {
-                $diasVencimento = $GLOBALS['config']['pagarme']['dias_vencimento'];
-            }
+
 
             $dataInicio = (new \DateTime())
                 ->modify('+' . $diasVencimento . ' days');
