@@ -206,6 +206,10 @@ $ativo["en"] = array(
     "N" => "Inactive",
     "S" => "Active"
 );
+$aula_remota["pt_br"] = array(
+    "N" => "NÃO",
+    "S" => "SIM"
+);
 //Aula on-line
 // Tipo de repeticao para aula on-line
 $tipo_repeticao["pt_br"] = array(

@@ -136,6 +136,23 @@ $config["listagem"] = array(
         "tamanho" => 60
     ),
     array(
+        "id" => "plano",
+        "variavel_lang" => "tabela_plano",
+        "tipo" => "php",
+        "coluna_sql" => "e.idplano",
+        "valor" => 'if($linha["idplano"] == 2) {
+				  return "<span data-original-title=\"".$idioma["sim"]."\" class=\"label label-success\" data-placement=\"left\" rel=\"tooltip\">SIM</span>";
+				} else {
+				  return "<span data-original-title=\"".$idioma["nao"]."\" class=\"label label-important\" data-placement=\"left\" rel=\"tooltip\">NÃO</span>";
+				}',
+        "busca" => true,
+        "busca_tipo" => "select",
+        "busca_class" => "inputPreenchimentoCompleto",
+        "busca_array" => "aula_remota",
+        "busca_metodo" => 7,
+        "tamanho" => 60
+    ),
+    array(
         "id" => "acesso_bloqueado",
         "variavel_lang" => "tabela_acesso_bloqueado",
         "tipo" => "php",
