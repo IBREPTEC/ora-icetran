@@ -12,7 +12,8 @@ $idioma["todos_contratos_aceitos"] = "Todos os contratos desse cfc foram aceitos
 $idioma["contratos_nao_aceitos"] = "Existe um ou mais contratos desse cfc que não foram aceitos!";
 $idioma["tabela_opcoes_tooltip"] = "Clique para ver as opções.";
 $idioma["tabela_opcoes"] = "Opções";
-
+$idioma["sim"] = "SIM";
+$idioma["nao"] = "NÃO";
 $idioma["tabela_idescola"] = "Id.";
 $idioma["tabela_nome"] = "Nome fantasia";
 $idioma["tabela_acessou"] = "Acessou";
@@ -28,6 +29,8 @@ $idioma["tabela_acesso_bloqueado"] = "Bloq.";
 $idioma["bloqueado"] = "Acesso do CFC bloqueado.";
 $idioma["liberado"] = "Acesso do CFC liberado.";
 $idioma["tabela_datacad"] = "Data de criação";
+$idioma["tabela_plano"] = "Aula Remota";
+
 
 $idioma["buscar"] = "Buscar";
 $idioma["buscar_em"] = " em ";

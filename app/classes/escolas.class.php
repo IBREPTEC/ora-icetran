@@ -11,6 +11,7 @@ class Escolas extends Core
                 INNER JOIN sindicatos i ON (i.idsindicato = e.idsindicato)
                 LEFT OUTER JOIN estados es ON (es.idestado = e.idestado)
                 LEFT OUTER JOIN cidades c ON (c.idcidade = e.idcidade)
+                LEFT OUTER JOIN planos p ON(p.idplano=e.idescola)
             WHERE
                 e.ativo = "S"';
 
@@ -25,6 +26,7 @@ class Escolas extends Core
                 $campo = explode('|', $campo);
                 $valor = str_replace('\'', '', $valor);
 
+
                 if (($valor || $valor === '0') && $valor <> 'todos') {
                     if ($campo[0] == 6) {
                         $this->sql .= ' AND (
@@ -38,7 +40,18 @@ class Escolas extends Core
                                     ' . $campo[1] . ' = "' . $valor . '"
                             ) > 0 ';
                     }
+
+                    elseif($campo[1] == "e.idplano"){
+                        if($valor=="N" ){
+                            $this->sql.="and e.idplano=1 || e.idplano is null";
+                        }else{
+                            $this->sql.="and e.idplano=2";
+                        }
+
+                    }
                 }
+
+
             }
         }
 
