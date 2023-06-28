@@ -442,7 +442,7 @@ $matricula['sindicato'] = $matriculaObj->RetornarSindicato();
 $matricula['vendedor'] = $matriculaObj->RetornarVendedor();
 //$matricula['associados'] = $matriculaObj->RetornarAssociados();
 $matricula['curriculo'] = $matriculaObj->RetornarCurriculo();
-
+$matricula['aula_remota'] = $matriculaObj->RetornarAulaRemota();
 $situacaoWorkflow = $matriculaObj->RetornarSituacoesWorkflow();
 $situacaoWorkflowRelacionamento = array();
 foreach($matriculaObj->RetornarRelacionamentosWorkflow($matricula['idsituacao']) as $situacao) {

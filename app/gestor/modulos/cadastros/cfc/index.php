@@ -30,7 +30,7 @@ if ($_POST['acao'] == 'salvar') {
         $idplano = $_POST['idplano'];
         $salvar = $linhaObj->modificar();
         $plano = $linhaObj->retornarOptantePlano($url[3]);
-        if(!$plano['idplanos_cfc']){
+        if(!$plano['idplanos_cfc'] && $_POST['idplano']==2){
             $linhaObj->CadastrarPlano($idescola);
 
         }else{
@@ -241,6 +241,7 @@ if (isset($url[3])) {
         $linhaObj->Set('id', intval($url[3]));
         $linhaObj->Set('campos', 'e.*, i.nome as sindicato');
         $linha = $linhaObj->Retornar();
+        $optante = $linhaObj->retornarOptantePlano($linha['idescola']);
         $linha['contratos_nao_aceitos'] = $linhaObj->contratosNaoAceitos((int)$linha['idescola']);
         if ($linha) {
             switch ($url[4]) {
