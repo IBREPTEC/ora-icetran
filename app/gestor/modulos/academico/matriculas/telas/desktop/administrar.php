@@ -554,7 +554,13 @@
                                     <?php } ?>
                                     <?php
                                 }
+                                if($matricula['idoferta'] == 104 && $matricula['aula_remota']){
                                 ?>
+                                <tr>
+                                    <td>Retorno aula remota:</td>
+                                    <td><strong><?= $matricula['aula_remota']['logs']; ?></strong></td>
+                                </tr>
+                                <?php } ?>
                             </table>
                             <input type="button" value="Descrição das datas" id="legendas_datas_botao" class="btn btn-small" />
                             <br />

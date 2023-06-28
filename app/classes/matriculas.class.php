@@ -400,6 +400,19 @@ class Matriculas extends Core
 
         return $this->retornarLinha($this->sql);
     }
+    public function RetornarAulaRemota()
+    {
+        $this->sql = "select
+                        *
+                    from
+                       aula_remota_logs
+                       
+                    where idmatricula =".$this->id." order by data_cad desc";
+
+
+
+        return $this->retornarLinha($this->sql);
+    }
 
     public function RetornarDisciplinas($media_curriculo)
     {
@@ -1405,7 +1418,97 @@ class Matriculas extends Core
         $this->groupby = "idrelacionamento";
         return $this->retornarLinhas();
     }
+    public function IntegracaoAulaRemota(){
+        $this->sql = "SELECT p.email,categoria,celular,p.cnh,detran_codigo,p.documento,m.data_cad,data_nasc,p.idcidade,p.idestado,m.idturma,
+       m.idescola,p.nome,p.telefone,m.ultimo_acesso_ava,idplano,renach  FROM matriculas m INNER JOIN 
+        pessoas p ON(m.idpessoa=p.idpessoa) INNER JOIN escolas e ON(e.idescola=m.idescola) WHERE idmatricula=".$this->id;
+        $linha = $this->retornarLinha($this->sql);
+        //integração será realizada apenas se a escola tiver o plano da aula_remota
+        if($linha['idplano'] == 2){
+        $data_cad = date(DATE_ISO8601,strtotime($linha['data_cad']
+        ));
+        $data_nasc= date(DATE_ISO8601,strtotime($linha['data_nasc']
+        ));
+        $celular=str_replace('(','',str_replace(')','',$linha['celular']));
 
+        $arrayEnvio = [
+            'email' => $linha['email'],
+            'ativo' => 1,
+            'categoria' => $linha['categoria'],
+            'celular' => str_replace('-','',str_replace(' ','',$celular)),
+            'cnh' => $linha['cnh'],
+            'codigoDetran' => $linha['detran_codigo'],
+            'documento' => $linha['documento'],
+            'dtCadastro' =>null,
+            'dtDeletado' =>null,
+            'dtNascimenito' => null,
+            'fotoPerfil'=>null,
+            'idCidade'=>intval($linha['idcidade']),
+            'idEstado'=>intval($linha['idestado']),
+            'idTurma'=>351,
+            'nivelAcesso'=>3,
+            'idEscola'=>$linha["idescola"],
+            'nomeCompleto'=>$linha['nome'],
+            'processo'=>$linha["renach"],
+            'senha'=>$linha['documento'],
+            'telefone'=>$linha['telefone'],
+            'ultimoAcesso'=>null
+
+        ];
+
+
+
+        $_POST = json_encode($arrayEnvio);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.minhaaularemota.com.br/oraculo');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+
+            )
+        );
+
+        $chResult = curl_exec($ch);
+        $retorno = $chResult;
+        $retornoHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($chResult);
+        if ($retorno === false) {
+
+            $retornoAularemota['erro'] = true;
+            $retornoAularemota['mensagem'] = '(Retorno vazio)';
+            return $retornoAularemota;
+        }
+
+        $retornoAularemota['erro'] = false;
+        $retornoAularemota['mensagem'] = json_encode($retorno);
+        if($retornoHttpCode == 201) {
+            $sucesso = json_encode($retorno);
+            $retornoAularemota['erro'] = false;
+            $retornoAularemota['mensagem'] = $sucesso;
+            $sql = "INSERT INTO aula_remota_logs SET idmatricula = $this->id,logs='".$retornoAularemota["mensagem"]."',retorno='true',data_cad=now()";
+            $this->executaSql($sql);
+        }else{
+
+            $erros = json_encode($retorno);
+            $retornoAularemota['erro'] = true;
+            $retornoAularemota['mensagem'] = $erros;
+            $sql = "INSERT INTO aula_remota_logs SET idmatricula = $this->id,logs='".$retornoAularemota["mensagem"]."',retorno='false',data_cad=now()";
+            $this->executaSql($sql);
+        }
+
+
+
+        return $retornoAularemota;
+            }
+
+
+    }
     public function alterarSituacao($de, $para)
     {
         $this->executaSql('BEGIN');
@@ -1420,6 +1523,7 @@ class Matriculas extends Core
         $situacaoInativa = $this->retornarSituacaoInativa();
 
         $verificaPreRequesito = $this->VerificaPreRequesito($de, $para);
+
 
         if ($verificaPreRequesito["verifica"]) {
             $this->sql = 'UPDATE matriculas SET idsituacao = ' . $para;
@@ -1470,7 +1574,9 @@ class Matriculas extends Core
                     $this->adicionarHistorico($this->idusuario, "parcela_situacao", "modificou", $contasAlteradas["situacaoDe"], $contasAlteradas["situacaoPara"], $conta);
                 }
             }
-
+            if($para == 1 and $linhaAntiga["idoferta"]==104){
+                $this->IntegracaoAulaRemota();
+            }
             $this->retorno["sucesso"] = true;
             $this->retorno["mensagem"] = "mensagem_situacao_sucesso";
         } else {

@@ -117,3 +117,23 @@ alter table contas
 
 alter table planos_cfc
     add vencimento date null;
+
+
+-- JESSICA 28/06/2023
+
+create table aula_remota_logs
+(
+    idlog       int auto_increment,
+    idmatricula int unsigned not null,
+    logs        varchar(255) null,
+    constraint aula_remota_logs_pk
+        primary key (idlog),
+    constraint aula_remota_logs_matriculas_idmatricula_fk
+        foreign key (idmatricula) references matriculas (idmatricula)
+);
+
+alter table aula_remota_logs
+    add retorno varchar(255) null;
+
+alter table aula_remota_logs
+    add data_cad datetime null;

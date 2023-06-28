@@ -92,6 +92,12 @@
 <script type="text/javascript">
     $(document).ready ( function(){
         retornaValorPlano();
+
+        <?php if($optante["vencimento"]=="" ||$optante["vencimento"] == "0000-00-00" ){ ?>
+       $("#vencimento").val("")
+
+
+       <?php }?>
     });
 
     function retornaValorPlano(){
