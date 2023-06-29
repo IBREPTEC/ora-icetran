@@ -89,5 +89,7 @@ $documentosPendentesObj->Set("ordem","ASC");
 $documentosPendentesObj->Set("limite",-1);
 $documentosPendentes = $documentosPendentesObj->ListarTodas();
 
+$dadosNfsNaoPreenchidos = $documentosPendentesObj->retornaQtdeDadosNfNaoPreenchidos();
+
 include("idiomas/".$config["idioma_padrao"]."/index.php");
 include("telas/".$config["tela_padrao"]."/index.php");

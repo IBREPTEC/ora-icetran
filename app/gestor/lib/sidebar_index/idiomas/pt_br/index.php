@@ -15,3 +15,4 @@ $idioma['agendamentos_pendentes'] = 'Agendamentos - Em espera';
 $idioma['atendimentos'] = "Atendimentos";
 $idioma['documentos_pendentes'] = "Documentos Pendentes";
 $idioma['ordemdecompra_aguardando'] = "Ordem de Compra - Aguardando";
+$idioma['dadosnf_naopreenchidos'] = "Dados de Emissao de NF - Não Preenchidos";

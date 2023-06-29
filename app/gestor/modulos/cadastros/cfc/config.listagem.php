@@ -170,6 +170,23 @@ $config["listagem"] = array(
         "tamanho" => 60
     ),
     array(
+      "id" => "dados_emissao_preenchidos_nf",
+      "variavel_lang" => "tabela_dados_preenchidos_nf",
+      "tipo" => "php",
+      "coluna_sql" => "e.dados_emissao_preenchidos_nf",
+      "valor" => 'if($linha["dados_emissao_preenchidos_nf"] == "S") {
+        return "<span data-original-title=\"".$idioma["preenchido_nf"]."\" class=\"label label-success\" data-placement=\"left\" rel=\"tooltip\">SIM</span>";
+      } else {
+        return "<span data-original-title=\"".$idioma["nao_preenchido_nf"]."\" class=\"label label-important\" data-placement=\"left\" rel=\"tooltip\">NÃO</span>";
+      }',
+      "busca" => true,
+      "busca_tipo" => "select",
+      "busca_class" => "inputPreenchimentoCompleto",
+      "busca_array" => "sim_nao",
+      "busca_metodo" => 1,
+      "tamanho" => 60
+  ),
+    array(
         "id" => "data_cad",
         "variavel_lang" => "tabela_datacad",
         "tipo" => "php",

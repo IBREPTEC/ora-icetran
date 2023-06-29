@@ -307,4 +307,18 @@ class Documentos_Matriculas extends Core
 
         return $this->retorno;
     }
+
+    function retornaQtdeDadosNfNaoPreenchidos()
+    {
+        $this->sql = "  SELECT 
+                            count(*) as total
+                        FROM
+                            escolas e
+                        WHERE
+                            dados_emissao_preenchidos_nf = 'N'";
+
+        $contagem = $this->retornarLinha($this->sql);
+
+        return $contagem;
+    }
 }

@@ -13,6 +13,13 @@
       <?php } ?>
     </li>
     <li>
+      <?php if($linhaObj->verificaPermissao($perfil["permissoes"], $url[2]."|2", NULL)){ ?>
+        <a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?php echo $linha["idescola"]; ?>/dados_emissao_nf"><i class="icon-list-alt"></i> <? echo $idioma["emissao_nf"]; ?></a>
+      <?php } else { ?>
+        <a href="javascript:void(0)" data-original-title="<?= $idioma["opcao_permissao"] ?>"  data-placement="left" rel="tooltip" style="color:#999;"> <i class="icon-edit icon-white"></i> <? echo $idioma["editar"]; ?></a>
+      <?php } ?>
+    </li>
+    <li>
       <?php if($linhaObj->verificaPermissao($perfil["permissoes"], $url[2]."|10", NULL)){ ?>
         <a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?php echo $linha["idescola"]; ?>/estados_cidades"> <i class="icon-globe"></i> <? echo $idioma["estados_cidades"]; ?></a>
       <?php } else { ?>
@@ -36,12 +43,12 @@
                     class="icon-user icon-white"></i> <? echo $idioma["acessarcomo"]; ?></a>
         <?php } ?>
     </li>
-	<li>
-          <?php if($linhaObj->verificaPermissao($perfil["permissoes"], $url[2]."|4", NULL)){ ?>
-              <a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?php echo $linha["idescola"]; ?>/contatos"> <i class="icon-list-alt"></i> <? echo $idioma["contatos"]; ?></a>
-          <?php } else { ?>
-              <a href="javascript:void(0)" data-original-title="<?= $idioma["opcao_permissao"] ?>" data-placement="left" rel="tooltip" style="color:#999;"> <i class="icon-list-alt icon-white"></i> <? echo $idioma["contatos"]; ?></a>
-          <?php } ?>
+	  <li>
+      <?php if($linhaObj->verificaPermissao($perfil["permissoes"], $url[2]."|4", NULL)){ ?>
+          <a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?php echo $linha["idescola"]; ?>/contatos"> <i class="icon-list-alt"></i> <? echo $idioma["contatos"]; ?></a>
+      <?php } else { ?>
+          <a href="javascript:void(0)" data-original-title="<?= $idioma["opcao_permissao"] ?>" data-placement="left" rel="tooltip" style="color:#999;"> <i class="icon-list-alt icon-white"></i> <? echo $idioma["contatos"]; ?></a>
+      <?php } ?>
     </li>
     <li>
       <?php if($linhaObj->verificaPermissao($perfil["permissoes"], $url[2]."|8", NULL)){ ?>

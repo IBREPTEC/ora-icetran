@@ -1,5 +1,6 @@
 <?php
 $idioma['tab_editar'] = 'Editar';
+$idioma['tab_dados_emissao_nf'] = 'Dados Emissão NF';
 $idioma['tab_estados_cidades'] = 'Estados/Cidades';
 $idioma['tab_mensagens'] = 'Mensagens';
 $idioma['tab_pasta_virtual'] = 'Pasta Virtual';
