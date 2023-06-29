@@ -1757,4 +1757,72 @@ class Escolas extends Core
         }
         return $this->retorno;
     }
+
+    public function enviaDadosNf()
+    {   
+        if ($_POST['select_tipo_documento_emissao_nf'] == 'cpf') {
+            $numero_doc = $_POST['cpf_emissao_nf'];
+        } else if ($_POST['select_tipo_documento_emissao_nf'] == 'cnpj') {
+            $numero_doc = $_POST['cnpj_emissao_nf'];
+        }
+
+        $this->sql = "  UPDATE 
+                            escolas
+                        SET
+                            dados_emissao_preenchidos_nf = 'S',
+                            nome_emissao_nf = '".$_POST['nome_emissao_nf'] ."', 
+                            tipo_documento_emissao_nf = '".$_POST['select_tipo_documento_emissao_nf']."', 
+                            documento_emissao_nf = '".preg_replace('/[^0-9]/', '', $numero_doc)."', 
+                            cep_emissao_nf = '".preg_replace('/[^0-9]/', '', $_POST['cep_emissao_nf'])."',
+                            inscricao_estadual_emissao_nf = '".$_POST['insc_estadual_emissao_nf']."',
+                            inscricao_municipal_emissao_nf = '".$_POST['insc_municipal_emissao_nf']."',
+                            logradouro_emissao_nf = '".$_POST['logradouro_emissao_nf']."',
+                            endereco_emissao_nf = '".$_POST['endereco_emissao_nf']."',
+                            bairro_emissao_nf = '".$_POST['bairro_emissao_nf']."',
+                            numero_emissao_nf = '".$_POST['numero_emissao_nf']."',
+                            complemento_emissao_nf = '".$_POST['complemento_emissao_nf']."'
+                        WHERE
+                            idescola = $this->id";
+
+        $this->executaSql($this->sql);
+    }
+
+    public function retornaDadosNf($idescola)
+    {
+        $this->sql = "  SELECT 
+                            dados_emissao_preenchidos_nf as preenchidos
+                        FROM
+                            escolas e
+                        WHERE
+                            idescola = $idescola";
+
+        $preenchidos = $this->retornarLinha($this->sql);
+
+        if ($preenchidos['preenchidos'] == 'S') {
+            $this->sql = "  SELECT 
+                                dados_emissao_preenchidos_nf as preenchidos,
+                                nome_emissao_nf as nome_nf, 
+                                tipo_documento_emissao_nf as tipo_doc_nf, 
+                                documento_emissao_nf as doc_nf, 
+                                cep_emissao_nf as cep_nf,
+                                inscricao_estadual_emissao_nf as insc_est_nf,
+                                inscricao_municipal_emissao_nf as insc_mun_nf,
+                                logradouro_emissao_nf as logradouro_nf,
+                                endereco_emissao_nf as endereco_nf,
+                                bairro_emissao_nf as bairro_nf,
+                                numero_emissao_nf as numero_nf,
+                                complemento_emissao_nf as complemento_nf
+                            FROM 
+                                escolas 
+                            WHERE 
+                                idescola = $idescola";
+
+            $retorno = $this->retornarLinha($this->sql);
+
+        } else if ($preenchidos['preenchidos'] == 'N') {
+            $retorno = $preenchidos;
+        }
+
+        return $retorno;
+    }
 }

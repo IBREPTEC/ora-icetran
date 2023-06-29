@@ -15,4 +15,4 @@ $idioma['valores_cursos'] = 'Valores dos Cursos';
 $idioma["acessarcomo"] = "Acessar como (Painel CFC)";
 $idioma["contratos"] = "Contratos";
 $idioma["mensagens"] = "Mensagens";
-
+$idioma['emissao_nf'] = "Dados para emissão de NF";
