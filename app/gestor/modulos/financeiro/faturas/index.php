@@ -88,7 +88,7 @@ if (isset($url[3])) {
                 $linhaObj->set('ordem','DESC');
                 $linhaObj->set('limite',-1);
                 $plano = $linhaObj->retornarOptantePlano($linha["idescola"]);
-                if($plano['aula_remota']==2){
+                if($plano['idplano']==2){
                     $dadosArray = $linhaObj->retornarContaAulaRemota($linha['idconta']);
 
                 }else{
