@@ -205,14 +205,12 @@ class Escolas extends Core
 	public function cadastrarPlano($idescola){
         $idplano =  $_POST['idplano'];
         $_POST['valor_plano_minimo'] = number_format($_POST['valor_plano_minimo'], 2, '.', ',');
-        if($_POST["vencimento"] == "" || $_POST["vencimento"] == "00/00/0000"){
-            $vencimento = NULL;
-        }else{
-            $vencimento =formataData($_POST['vencimento'], 'en', 0);
+        $vencimento =formataData($_POST['vencimento'], 'en', 0);
+
+        if($vencimento != null ){
             $conta_sql = 'INSERT INTO
                         contas
-                    SET
-                       
+                    SET                       
                         idescola = "'.$idescola.'",
                         valor = '. $_POST['valor_plano_minimo'].',
                         aula_remota = '.$idplano.',
@@ -226,6 +224,7 @@ class Escolas extends Core
                         data_vencimento="'.$vencimento.'",
                         fatura="S"';
             $this->executaSql($conta_sql);
+
         }
 
         if($idplano!=1){
@@ -242,7 +241,6 @@ class Escolas extends Core
         }
 
 
-
     }
 
     public function retornarValorMinimoPlano($idcfc){
@@ -256,24 +254,53 @@ class Escolas extends Core
     }
     public function retornarOptantePlano($idcfc)
     {
-        $sqlCfc = 'SELECT  e.idplano,pc.valor_minimo,pc.idplanos_cfc,pc.idcfc FROM escolas e inner join planos_cfc pc on(e.idescola=pc.idcfc) 
+        $sqlCfc = 'SELECT  e.idplano,pc.valor_minimo,pc.idplanos_cfc,pc.idcfc,pc.vencimento FROM escolas e inner join planos_cfc pc on(e.idescola=pc.idcfc) 
                     WHERE e.idescola='.$idcfc.' group by e.idescola';
         $retornaPlano = $this->retornarLinha($sqlCfc);
         return $retornaPlano;
     }
     public function modificarPlano($idescola,$idplano){
         if($idplano == 2){
-        if($_POST["vencimento"] == ""){
-
-
-            $vencimento = NULL;
-        }else{
             $vencimento =formataData($_POST['vencimento'], 'en', 0);
-        }
+            $_POST['valor_plano_minimo'] = number_format($_POST['valor_plano_minimo'], 2, '.', ',');
+            $sql="SELECT idconta from contas where idescola=$idescola and  aula_remota=2";
+            $conta = $this->retornarLinha($sql);
 
-        $_POST['valor_plano_minimo'] = number_format($_POST['valor_plano_minimo'], 2, '.', ',');
+            if($vencimento != null ){
+                if($conta['idconta']){
+                    $conta_sql = 'UPDATE
+                        contas
+                        SET                                   
+                        valor = '. $_POST['valor_plano_minimo'].',                    
+                        idsindicato="'.$_POST['idsindicato'].'",                    
+                        data_vencimento="'.$vencimento.'"
+                        where idconta='.$conta["idconta"].'
+                        ';
 
-        $sql="SELECT idconta from contas where idescola=$idescola and  aula_remota=2";
+                    $this->executaSql($conta_sql);
+                }else{
+
+                    $this->cadastrarPlano($idescola);
+                }
+
+            }else{
+                if($conta['idconta']){
+                    $conta_sql = 'UPDATE
+                        contas
+                        SET                                   
+                        valor = '. $_POST['valor_plano_minimo'].',                    
+                        idsindicato="'.$_POST['idsindicato'].'"                                    
+                        where idconta='.$conta["idconta"].'
+                        ';
+
+                    $this->executaSql($conta_sql);
+                }else{
+
+                    $this->cadastrarPlano($idescola);
+                }
+            }
+
+
         $optante =$this->retornarOptantePlano($idescola);
         if($optante){
             $plano_sql = 'UPDATE
@@ -286,22 +313,7 @@ class Escolas extends Core
 
 
         }
-        $conta = $this->retornarLinha($sql);
-        if($conta['idconta']){
-            $conta_sql = 'UPDATE
-                        contas
-                        SET                                   
-                        valor = '. $_POST['valor_plano_minimo'].',                    
-                        idsindicato="'.$_POST['idsindicato'].'",                    
-                        data_vencimento="'.$vencimento.'"
-                        where idconta='.$conta["idconta"].'
-                        ';
 
-            $this->executaSql($conta_sql);
-        }else{
-
-            $this->cadastrarPlano($idescola);
-        }
 
             }
 

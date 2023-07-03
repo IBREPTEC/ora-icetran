@@ -549,9 +549,8 @@ class Cursos extends Core
     }
     public function retornarOptantePlano($idcfc)
     {
-        $sqlCfc = 'SELECT e.idplano,c.valor,idconta,aula_remota,pc.idplanos_cfc FROM escolas e inner join planos_cfc pc on(e.idescola=pc.idcfc) inner 
-                    join contas c on (c.idescola=e.idescola and c.aula_remota=pc.idplano)
-                    WHERE e.idescola='.$idcfc.' group by e.idescola';
+        $sqlCfc = 'SELECT pc.idplano,pc.valor_minimo,pc.vencimento FROM escolas e inner join planos_cfc pc on(e.idescola=pc.idcfc) 
+                   WHERE e.idescola=' . $idcfc . ' group by e.idescola';
         $retornaPlano = $this->retornarLinha($sqlCfc);
         return $retornaPlano;
     }

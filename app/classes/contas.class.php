@@ -3067,9 +3067,8 @@ class Contas extends Core
 
     public function retornarOptantePlano($idcfc)
     {
-        $sqlCfc = 'SELECT e.idplano,c.valor,idconta,aula_remota FROM escolas e inner join planos_cfc pc on(e.idescola=pc.idcfc) inner 
-                    join contas c on (c.idescola=e.idescola and c.aula_remota=pc.idplano)
-                    WHERE e.idescola=' . $idcfc . ' group by e.idescola';
+        $sqlCfc = 'SELECT pc.idplano,pc.valor_minimo,pc.vencimento FROM escolas e inner join planos_cfc pc on(e.idescola=pc.idcfc) 
+                   WHERE e.idescola=' . $idcfc . ' group by e.idescola';
         $retornaPlano = $this->retornarLinha($sqlCfc);
         return $retornaPlano;
     }
@@ -3206,8 +3205,38 @@ class Contas extends Core
 
         return $this->executaSql($sql);
     }
+    public function cadastrarContaFaturaAulaRemota($idCfc, $idSindicato, $valor, $vencimento)
+    {
+        $idCfc = intval($idCfc);
+        $idSindicato = intval($idSindicato);
+        $valor = floatval($valor);
 
-    public function gerarFaturaAulaRemota($idCfc)
+        $sql = "INSERT
+            INTO
+                " . self::TABELA . "
+            SET
+                ativo = 'S',
+                fatura = 'S',
+                data_cad = NOW(),
+                data_modificacao_fatura = NOW(),
+                nome = 'Referente ao Plano da Aula Remota {$idCfc}',
+                tipo = 'receita',
+                parcela = 1,
+                total_parcelas = 1,
+                idsindicato = {$idSindicato},
+                idescola = {$idCfc},
+                idsituacao = 1,
+                forma_pagamento = 1,
+                valor = '{$valor}',
+                data_vencimento = '{$vencimento}',
+                aula_remota=2
+              
+
+        ";
+
+        return $this->executaSql($sql);
+    }
+    public function gerarFaturaAulaRemota($idCfc,$idSindicato,$valor)
     {
         if (!$idCfc) {
             return $this->retornarErros(['idescola_vazio']);
@@ -3219,15 +3248,34 @@ class Contas extends Core
             return $this->retornarErros(['nao_existe_situacao_em_aberto']);
         }
 
-        $cursosObj = new Cursos();
-        $optantePlano = $cursosObj->retornarOptantePlano($idCfc);
+
+        $diasVencimento = 5;
+        if (!empty($GLOBALS['config']['pagarme']['dias_vencimento'])) {
+            $diasVencimento = $GLOBALS['config']['pagarme']['dias_vencimento'];
+        }
+
+        $dataInicio = (new \DateTime())
+            ->modify('+' . $diasVencimento . ' days');
+
+        $dataVencimento = new DateTime($dataInicio->format('Y-m-d'));
+        $vencimento = $dataVencimento->format('Y-m-d');
+
+
+        $salvar = $this->cadastrarContaFaturaAulaRemota(
+            $idCfc,
+            $idSindicato,
+            $valor,
+            $vencimento
+
+        );
+        $idConta = mysql_insert_id();
 
         $pagarmeObj = new PagarmeObj();
-        $pagarmeObj->criarTransacaoBoleto($optantePlano['idconta']);
 
+        $pagarmeObj->criarTransacaoBoleto($idConta);
 
         if ($pagarmeObj['sucesso'] == true) {
-            $situacaoConta = "SELECT idsituacao from contas where idescola=$idCfc and aula_remota=2";
+            $situacaoConta = "SELECT idsituacao from contas where idconta={$idConta} and aula_remota=2";
             $retornar = $this->retornarLinha($situacaoConta);
             if ($retornar['idsituacao'] == 1) {
                 $escolaObj = new Escolas();
