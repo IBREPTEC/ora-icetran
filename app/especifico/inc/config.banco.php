@@ -5,15 +5,10 @@
 //$config["database"] = "oraculo_icetran";
 // $config["database"] = "oraculo_icetran";
 
-//$config["host"]     = "177.47.183.71";
-//$config["usuario"] = "tech";
-//$config["senha"] = 'Wsj9b67@3';
-//$config["database"] = "ibreptran_oraculo";
-
-$config["host"]  = "localhost";
-$config["usuario"] = "root";
-$config["senha"] = "root";
-$config["database"] = "oraculo_ibreptran";
+$config["host"] = "177.47.183.17";
+$config["usuario"] = "jessica";
+$config["senha"] = "0l1Ly$57e";
+$config["database"] = "devtransito_";
 
 
 //$config["host"]     = "177.47.183.17";
