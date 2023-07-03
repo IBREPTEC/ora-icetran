@@ -1,5 +1,6 @@
 <ul class="nav nav-tabs">
     <li <?php if($url[4] == "editar") { ?> class="active"<?php } ?>><a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?= $url[3]; ?>/editar"><?= $idioma["tab_editar"]; ?></a></li>
+    <li <?php if($url[4] == "dados_emissao_nf") { ?> class="active"<?php } ?>><a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?= $url[3]; ?>/dados_emissao_nf"><?= $idioma["tab_dados_emissao_nf"]; ?></a></li>
     <li <?php if($url[4] == "estados_cidades") { ?> class="active"<?php } ?>><a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?= $url[3]; ?>/estados_cidades"><?= $idioma["tab_estados_cidades"]; ?></a></li>
     <li <?php if($url[4] == "mensagens") { ?> class="active"<?php } ?>><a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?= $url[3]; ?>/mensagens"><?= $idioma["tab_mensagens"]; ?></a></li>
     <li <?php if($url[4] == "contatos") { ?> class="active"<?php } ?>><a href="/<?= $url[0]; ?>/<?= $url[1]; ?>/<?= $url[2]; ?>/<?= $url[3]; ?>/contatos"><?= $idioma["tab_contatos"]; ?></a></li>

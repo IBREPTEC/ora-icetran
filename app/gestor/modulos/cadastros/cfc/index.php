@@ -1,5 +1,5 @@
 <?php
-//include("../classes/escolas.class.php");
+include("../classes/escolas.class.php");
 include('config.php');
 include('config.formulario.php');
 include('config.listagem.php');
@@ -250,6 +250,17 @@ if (isset($url[3])) {
                     $linhaObj->verificaPermissao($perfil['permissoes'], $url[2] . '|2');
                     include('idiomas/' . $config['idioma_padrao'] . '/formulario.php');
                     include('telas/' . $config['tela_padrao'] . '/formulario.php');
+                    break;
+                case 'dados_emissao_nf':
+                    $linhaObj->verificaPermissao($perfil['permissoes'], $url[2] . '|2');
+                    $linhaObj->Set('id', intval($url[3]));
+                    
+                    if ($_POST) {
+                        $linhaObj->enviaDadosNf();
+                    }
+                    
+                    include('idiomas/' . $config['idioma_padrao'] . '/dados_emissao_nf.php');
+                    include('telas/' . $config['tela_padrao'] . '/dados_emissao_nf.php');
                     break;
                 case 'estados_cidades':
                     $linhaObj->verificaPermissao($perfil['permissoes'], $url[2] . '|10');

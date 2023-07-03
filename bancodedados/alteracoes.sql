@@ -137,3 +137,18 @@ alter table aula_remota_logs
 
 alter table aula_remota_logs
     add data_cad datetime null;
+
+-- Natã 29/06/2023
+ALTER TABLE escolas 
+    dados_emissao_preenchidos_nf ENUM('S', 'N') default 'N',
+	ADD nome_emissao_nf varchar(100) NOT NULL,
+    ADD tipo_documento_emissao_nf enum('cpf', 'cnpj') NOT NULL,
+    ADD documento_emissao_nf varchar(100) NOT NULL,
+    ADD cep_emissao_nf int(8) NOT NULL,
+    ADD inscricao_estadual_emissao_nf varchar(100),
+	ADD inscricao_municipal_emissao_nf varchar(100),
+    ADD logradouro_emissao_nf int(10) NOT NULL,
+    ADD endereco_emissao_nf varchar(100) NOT NULL,
+    ADD bairro_emissao_nf varchar(100) NOT NULL,
+    ADD numero_emissao_nf int(10),
+    ADD complemento_emissao_nf varchar(100);

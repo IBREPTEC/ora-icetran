@@ -10,6 +10,8 @@ $idioma["ativo"] = "Objeto ativo no painel.";
 $idioma["inativo"] = "Objeto inativo no painel.";
 $idioma["todos_contratos_aceitos"] = "Todos os contratos desse cfc foram aceitos!";
 $idioma["contratos_nao_aceitos"] = "Existe um ou mais contratos desse cfc que não foram aceitos!";
+$idioma["preenchido_nf"] = "Os dados para emissão de NF estão preenchidos.";
+$idioma["nao_preenchido_nf"] = "É necessário preencher os dados para emissão de NF!";
 $idioma["tabela_opcoes_tooltip"] = "Clique para ver as opções.";
 $idioma["tabela_opcoes"] = "Opções";
 $idioma["sim"] = "SIM";
@@ -29,6 +31,7 @@ $idioma["tabela_acesso_bloqueado"] = "Bloq.";
 $idioma["bloqueado"] = "Acesso do CFC bloqueado.";
 $idioma["liberado"] = "Acesso do CFC liberado.";
 $idioma["tabela_datacad"] = "Data de criação";
+$idioma["tabela_dados_preenchidos_nf"] = "Dados NF Preenchidos";
 $idioma["tabela_plano"] = "Aula Remota";
 
 

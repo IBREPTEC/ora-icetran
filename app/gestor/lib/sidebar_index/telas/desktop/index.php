@@ -40,6 +40,27 @@
 					</tr> 
 				</table>
 			<?php } ?>
+
+			<?php
+				if($dadosNfsNaoPreenchidos['total']) {
+					?>
+					<table class="" border="0" cellpadding="5" cellspacing="0" style="width:100%">
+						<tr>
+							<td width="30">
+								<a target="_blank" href="/gestor/cadastros/cfc">
+									<span id="span_disponivel" class="btn" style="color: #FFF; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); background: #FF0000; ">
+										<?= $dadosNfsNaoPreenchidos['total']; ?>
+									</span>
+								</a>
+							</td>
+							<td>
+								<?= $idioma["dadosnf_naopreenchidos"]; ?>
+							</td>
+						</tr> 
+					</table>
+					<?php
+				}
+			?>
 			
 			<? if($declaracoes[0]['total']) { ?>
 				<table class="" border="0" cellpadding="5" cellspacing="0" style="width:100%">
