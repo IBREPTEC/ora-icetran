@@ -20,9 +20,8 @@ foreach ($escolas as $ind => $escola)
         if ($periodo_fatura["pt_br"][$escola['periodo_faturas']] === 'Semanal' && $diaDaSemana === 1)
         {
             $contasObj->gerarFatura($escola['idescola'], $escola['idsindicato']);
-            $optantePlano = $contasObj->retornarOptantePlano($escola['idescola']);
-            if($optantePlano['aula_remota'] == 2){
-                $contasObj->gerarFaturaAulaRemota($escola['idescola']);
+            if($optantePlano['idplano'] == 2){
+                $contasObj->gerarFaturaAulaRemota($escola['idescola'],$escola['idsindicato'],$optantePlano["valor_minimo"]);
 
             }
 
@@ -31,8 +30,8 @@ foreach ($escolas as $ind => $escola)
         if ($periodo_fatura["pt_br"][$escola['periodo_faturas']] === 'Mensal' && $mes === 01)
         {
             $contasObj->gerarFatura($escola['idescola'], $escola['idsindicato']);
-            if($optantePlano['aula_remota'] == 2){
-                $contasObj->gerarFaturaAulaRemota($escola['idescola']);
+            if($optantePlano['idplano'] == 2){
+                $contasObj->gerarFaturaAulaRemota($escola['idescola'],$escola['idsindicato'],$optantePlano["valor_minimo"]);
 
             }
         }
