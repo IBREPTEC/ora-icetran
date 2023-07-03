@@ -3829,4 +3829,48 @@ class Contas extends Core
     {
         return $this->errosLog;
     }
+
+    public function BuscaFaturasHoje($today) 
+    {
+        $this->sql="SELECT 
+                        *
+                    FROM
+                        (SELECT 
+                            COUNT(*) as quantidade_vencidas,
+                            SUM(c.valor) as valor_vencidas
+                        FROM 
+                            contas c 
+                        INNER JOIN 
+                            pagarme p on c.idconta = p.idconta
+                        WHERE 
+                            c.data_vencimento < '".$today."'
+                        AND
+                            p.status <> 'paid') as vencidas,
+                        (SELECT 
+                            COUNT(*) as quantidade_a_vencer,
+                            SUM(c.valor) as valor_a_vencer
+                        FROM
+                            contas c 
+                        INNER JOIN
+                            pagarme p on c.idconta = p.idconta
+                        WHERE
+                            c.data_vencimento = '".$today."'
+                        AND
+                            p.status <> 'paid') as para_vencer,
+                        (SELECT 
+                            COUNT(*) as quantidade_pagas,
+                            SUM(c.valor) as valor_pagas
+                        FROM
+                            contas c 
+                        INNER JOIN
+                            pagarme p on c.idconta = p.idconta
+                        WHERE
+                            c.data_pagamento = '".$today."'
+                        AND
+                            p.status = 'paid') as pagas";
+        
+        $return = $this->retornarLinha($this->sql);
+
+        return $return;
+    }
 }

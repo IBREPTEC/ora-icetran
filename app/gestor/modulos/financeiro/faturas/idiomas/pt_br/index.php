@@ -10,10 +10,10 @@ $idioma['buscar'] = 'Buscar';
 //Listagem
 $idioma['tabela_idconta'] = 'Id.';
 $idioma['tabela_escola'] = 'CFC';
-$idioma['tabela_valor'] = 'Valor';
-$idioma['tabela_valor_corrigido'] = 'Valor corrigido';
-$idioma['tabela_data_vencimento'] = 'Vencimento';
-$idioma['tabela_qnt_matriculas'] = 'Qnt. Matrículas';
+$idioma['tabela_valor'] = 'Valor Fatura';
+$idioma['tabela_valor_corrigido'] = 'Valor Pago';
+$idioma['tabela_data_vencimento'] = 'Data Vencimento';
+$idioma['tabela_qnt_matriculas'] = 'Qtde. Matrículas';
 $idioma['tabela_situacao'] = 'Situação';
 $idioma['tabela_data_modificacao_fatura'] = 'Data de Modificação';
 $idioma['tabela_datacad'] = 'Data de criação';
@@ -57,3 +57,12 @@ $idioma['cancelamento_sucesso'] = 'Cancelamento da fatura realizado com sucesso.
 
 $idioma['confirma_cancelamento'] = 'Tem certeza que deseja realizar o cancelamento?';
 $idioma['confirma_operacao'] = 'Tem certeza que deseja realizar esta operação?';
+
+// Pop-up
+$idioma['titulo_popup'] = 'Resumo Faturas: ';
+$idioma['popup_faturas'] = 'Faturas';
+$idioma['popup_qtde'] = 'Qtde.';
+$idioma['popup_valores'] = 'Valor';
+$idioma['popup_pagas'] = 'Pagas';
+$idioma['popup_a_vencer'] = 'A vencer';
+$idioma['popup_vencidas'] = 'Vencidas';
