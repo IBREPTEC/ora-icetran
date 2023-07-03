@@ -3,7 +3,7 @@ foreach ($_GET as $ind => $valor) {
     if (!is_array($_GET[$ind])) {
         $_GET[$ind] = SQLInjectionProtection($valor);
     } else {
-        $_GET[$ind] = array_map(SQLInjectionProtection, $valor);
+        $_GET[$ind] = array_map('SQLInjectionProtection', $valor);
     }
 }
 

@@ -48,20 +48,6 @@ $config['listagem'] = array(
         'busca_metodo' => 4
     ),
     array(
-        'id' => 'valor_corrigido',
-        'variavel_lang' => 'tabela_valor_corrigido',
-        'tipo' => 'php',
-        'coluna_sql' => 'c.valor',
-        'valor' => '
-            if (! empty($linha["valor_corrigido"])) {
-                return "<span style=\"color:#FF0000\">
-                        R$ " . number_format($linha["valor_corrigido"], 2, ",", ".") . "
-                    </span>";
-            }',
-        'nao_ordenar' => true,
-        'busca' => false
-    ),
-    array(
         'id' => 'data_vencimento',
         'variavel_lang' => 'tabela_data_vencimento',
         'tipo' => 'php',
@@ -81,6 +67,20 @@ $config['listagem'] = array(
         'busca' => true,
         'busca_class' => 'inputPreenchimentoCompleto',
         'busca_metodo' => 3
+    ),
+    array(
+        'id' => 'valor_corrigido',
+        'variavel_lang' => 'tabela_valor_corrigido',
+        'tipo' => 'php',
+        'coluna_sql' => 'c.valor',
+        'valor' => '
+            if (! empty($linha["valor_corrigido"])) {
+                return "<span style=\"color:#FF0000\">
+                        R$ " . number_format($linha["valor_corrigido"], 2, ",", ".") . "
+                    </span>";
+            }',
+        'nao_ordenar' => true,
+        'busca' => false
     ),
     array(
         'id' => 'data_pagamento',
@@ -136,6 +136,13 @@ $config['listagem'] = array(
         'busca_metodo' => 1
     ),
     array(
+        'id' => 'data_cad',
+        'variavel_lang' => 'tabela_datacad',
+        'tipo' => 'php',
+        'coluna_sql' => 'c.data_cad',
+        'valor' => 'return formataData($linha["data_cad"], "br", 1);'
+    ),
+    array(
         'id' => 'data_modificacao_fatura',
         'variavel_lang' => 'tabela_data_modificacao_fatura',
         'tipo' => 'php',
@@ -144,13 +151,6 @@ $config['listagem'] = array(
         'busca' => true,
         'busca_class' => 'inputPreenchimentoCompleto',
         'busca_metodo' => 3
-    ),
-    array(
-        'id' => 'data_cad',
-        'variavel_lang' => 'tabela_datacad',
-        'tipo' => 'php',
-        'coluna_sql' => 'c.data_cad',
-        'valor' => 'return formataData($linha["data_cad"], "br", 1);'
     ),
     array(
         'id' => 'pagarme_id',

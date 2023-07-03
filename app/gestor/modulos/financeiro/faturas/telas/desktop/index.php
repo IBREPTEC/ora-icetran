@@ -6,11 +6,125 @@
         .pagarme-checkout-btn {
             color: #000000;
         }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1040;
+            background-color: #000;
+        }
+
+        #popupDiario {
+            position: absolute !important;
+            width: 100%;
+            margin-right: initial !important;
+        }
+
+        #popupDiario #popupDiario-body {
+            position: fixed;
+            top: 25%;
+            left: 40%;
+            z-index: 99999;
+            background: #ffffff;
+            border: 5px solid #666869;
+            border-radius: 8px;
+        }
+
+        #popupDiario-header {
+           background: #1c81dc;
+           padding: 10px 20px;
+        }
+
+        .close-popup {
+            cursor: pointer;
+            background-color: #FFFFFF;
+            padding: 2px 5px;
+            border-radius: 50%;
+            font-weight: bold;
+            color: #333333;
+            margin: 4px;
+        }
+
+        #popupDiario-header h3 {
+            padding-bottom: 12px;
+            color: #FFFFFF;
+        }
+
+        #popupDiario-table {
+            padding: 20px;
+        }
+
+        .today-bills {
+            border-radius: 6px;
+        }
+
+        .today-bills th, .today-bills td {
+            padding: 10px 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .today-bills td.paid {
+            color: #1F6B01;
+        }
+
+        .today-bills td.expiry-today {
+            color: #1A4BC0;
+        }
+
+        .today-bills td.not-paid {
+            color: #D70C09;
+        }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
 <?php incluirLib("topo", $config, $usuario); ?>
+<?php $faturasHoje =  $linhaObj->BuscaFaturasHoje(date("Y-m-d")) ?>
+
+<!-- Pop-up Resumo Diário -->
+<div id="popupDiario">
+    <div id="popupDiario-body" tabindex="-1" role="dialog" aria-hidden="false">
+        <span id="close-popup" class="close-popup pull-right">&times;</span>
+        
+        <div id="popupDiario-header">
+            <h3> <?= $idioma['titulo_popup']; ?> <?= date("d/m/Y"); ?></h3>
+        </div>
+
+        <div id="popupDiario-table">
+            <table class="today-bills">
+                <tr class="table-popup-header">
+                    <th><?= $idioma['popup_faturas'] ?></th>
+                    <th><?= $idioma['popup_pagas'] ?></th>
+                    <th><?= $idioma['popup_a_vencer'] ?></th>
+                    <th><?= $idioma['popup_vencidas'] ?></th>
+                </tr>
+
+                <tr>
+                    <th><?= $idioma['popup_qtde'] ?></th>
+                    <td class="paid"><?= $faturasHoje['quantidade_pagas'] ?></td>
+                    <td class="expiry-today"><?= $faturasHoje['quantidade_a_vencer'] ?></td>
+                    <td class="not-paid"><?= $faturasHoje['quantidade_vencidas'] ?></td>
+                </tr>
+                
+                <tr>
+                    <th><?= $idioma['popup_valores'] ?></th>
+                    <td class="paid"><strong>R$</strong> <? $faturasHoje['valor_pagas'] == '' ? print_r('0,00') : print_r(str_replace('.', ',', $faturasHoje['valor_pagas'])) ?></td>
+
+                    <td class="expiry-today"><strong>R$</strong> <? $faturasHoje['valor_a_vencer'] == '' ? print_r('0,00') : print_r(str_replace('.', ',', $faturasHoje['valor_a_vencer'])) ?></td>
+
+                    <td class="not-paid"><strong>R$</strong> <? $faturasHoje['valor_vencidas'] == '' ? print_r('0,00') : print_r(str_replace('.', ',', $faturasHoje['valor_vencidas'])) ?></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="popupDiario-background" class="modal-backdrop"></div>
+
 <div class="container-fluid">
     <section id="global">
         <div class="page-header">
@@ -119,6 +233,11 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="popUp-action">
+                    <button id="popUp-open">Abrir Relatório Diário</button>
+                </div>
+
                 <?php
                 $linhaObj->paginas = ceil($numTotalRegistros/$_GET["qtd"]);
                 if (  $linhaObj->Get("paginas") > 1 ) {
@@ -171,7 +290,25 @@
             $("input[name='q[6|p.id]']").blur(isNumberCopy);
 
             $(".select231").select2();
+
+            $("#close-popup").click(function() {
+                closePopup();
+            });
+
+            $("#popUp-open").click(function() {
+                openPopup();
+            });
         });
+
+        function closePopup() {
+            $('#popupDiario').hide();
+            $('#popupDiario-background').hide();
+        }
+
+        function openPopup() {
+            $('#popupDiario').show();
+            $('#popupDiario-background').show();
+        }
 
         function confirmaCancelamento() {
             if (!confirm("<?php echo $idioma['confirma_cancelamento']; ?>")) {

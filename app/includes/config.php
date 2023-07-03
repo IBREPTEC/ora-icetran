@@ -76,7 +76,7 @@ $config["tela_padrao"] = "desktop";
 if (isset($_GET["tela"])) {
     $config["tela_padrao"] = $_GET["tela"];
     $_SESSION["tela"] = $_GET["tela"];
-} elseif ($_SESSION["tela"]) {
+} elseif (isset($_SESSION["tela"])) {
     $config["tela_padrao"] = $_SESSION["tela"];
 }
 
