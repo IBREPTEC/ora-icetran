@@ -2545,6 +2545,15 @@ class Contas extends Core
         return json_encode($retorno);
 
     }
+    public function retornarClassificacaoJson()
+    {
+        $this->sql = "select cc.idclassificacao from  centros_custos cc  where idcentro_custo=" . $_GET['idcentro_custo'];
+        $this->ordem_campo = null;
+
+        $retorno = $this->retornarLinha($this->sql);
+        return json_encode($retorno);
+
+    }
 
     public function retornarPagamentoConta()
     {
