@@ -175,6 +175,11 @@ if ($_POST["acao"] == "salvar" && (($_POST['parcelas'] > 1 && !$_POST['parcelas_
 if (isset($url[3]) && $url[3] != "apagar" && $url[3] != "areceber") {
 
     if ($url[3] == "cadastrar") {
+        if ($url[5] == 'classificacao') {
+            echo $linhaObj->retornarClassificacaoJson();
+            exit;
+
+        }
         if ($url[4] == "ajax_subcategorias") {
             include("../classes/categorias.class.php");
             $linhaCatObj = new Categorias();

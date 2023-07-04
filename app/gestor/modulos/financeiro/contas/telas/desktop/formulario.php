@@ -851,6 +851,8 @@
                     $('#div_form_quantidade_centro_custo').hide("fast");
                 }
                 ChecaOrdemDeCompra("",0);
+                var id =  $('#form_idcentro_custo').val()
+                getClassificacaoDre(id)
             });
 
             <?php
@@ -1559,7 +1561,7 @@
         function getClassificacao() {
 
             jQuery.ajax({
-                url: "/<?=$url["0"];?>/<?=$url["1"];?>/<?=$url["2"];?>/<?=$url["3"];?>/<?=$url["4"];?>/<?=$url["5"];?>/classificacao",
+                url: "/<?=$url["0"];?>/<?=$url["1"];?>/<?=$url["2"];?>/<?=$url["3"];?>/<?=$url["4"];?>/<?=$url["5"];?>classificacao",
                 dataType: "json",
                 type: "GET",
                 data: {
@@ -1568,14 +1570,32 @@
                     {echo $linha['idcentro_custo'];}elseif($idcentro_custo!=''){echo $idcentro_custo;}else{echo 'null';}?>
                 },
                 success: function (json) {
-                    console.log(json.idclassificacao)
-                    $('#idclassificacao').val(json.idclassificacao)
+                    $('#idclassificacao_dre').val(json.idclassificacao)
                 }
 
 
             });
         }
         <?php } ?>
+
+        function getClassificacaoDre(id) {
+
+            jQuery.ajax({
+                url: "/<?=$url["0"];?>/<?=$url["1"];?>/<?=$url["2"];?>/<?=$url["3"];?>/<?=$url["4"];?>/<?=$url["5"];?>classificacao",
+                dataType: "json",
+                type: "GET",
+                data: {
+
+                    idcentro_custo: id
+                },
+
+                success: function (json) {
+                    $('#idclassificacao_dre').val(json.idclassificacao)
+                }
+
+
+            });
+        }
     </script>
 </div>
 </body>
