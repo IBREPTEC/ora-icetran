@@ -3219,7 +3219,9 @@ class Contas extends Core
         $idCfc = intval($idCfc);
         $idSindicato = intval($idSindicato);
         $valor = floatval($valor);
-
+        $sql_conta="SELECT idconta from contas where idescola=$idCfc and idsindicato=$idSindicato and aula_remota=2";
+        $conta=$this->retornarLinha($sql_conta);
+        if(!$conta["idconta"]){
         $sql = "INSERT
             INTO
                 " . self::TABELA . "
@@ -3244,6 +3246,11 @@ class Contas extends Core
         ";
 
         return $this->executaSql($sql);
+        }
+        else{
+           $update= "UPDATE contas set data_vencimento='{$vencimento}' where idconta=".$conta['idconta'];
+            return $this->executaSql($update);
+        }
     }
     public function gerarFaturaAulaRemota($idCfc,$idSindicato,$valor)
     {
@@ -3282,7 +3289,7 @@ class Contas extends Core
         $pagarmeObj = new PagarmeObj();
 
         $pagarmeObj->criarTransacaoBoleto($idConta);
-
+        print_r($pagarmeObj);exit;
         if ($pagarmeObj['sucesso'] == true) {
             $situacaoConta = "SELECT idsituacao from contas where idconta={$idConta} and aula_remota=2";
             $retornar = $this->retornarLinha($situacaoConta);

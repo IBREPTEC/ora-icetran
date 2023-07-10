@@ -207,26 +207,6 @@ class Escolas extends Core
         $_POST['valor_plano_minimo'] = number_format($_POST['valor_plano_minimo'], 2, '.', ',');
         $vencimento =formataData($_POST['vencimento'], 'en', 0);
 
-        if($vencimento != null ){
-            $conta_sql = 'INSERT INTO
-                        contas
-                    SET                       
-                        idescola = "'.$idescola.'",
-                        valor = '. $_POST['valor_plano_minimo'].',
-                        aula_remota = '.$idplano.',
-                        data_cad=now(),
-                        tipo="receita",
-                        idsituacao=1,
-                        nome="Plano Aula Remota",
-                        idsindicato="'.$_POST['idsindicato'].'",
-                        parcela=1,
-                        total_parcelas=1,
-                        data_vencimento="'.$vencimento.'",
-                        fatura="S"';
-            $this->executaSql($conta_sql);
-
-        }
-
         if($idplano!=1){
 
             $plano_sql = 'INSERT INTO
