@@ -1445,7 +1445,7 @@ class Matriculas extends Core
             'fotoPerfil'=>null,
             'idCidade'=>intval($linha['idcidade']),
             'idEstado'=>intval($linha['idestado']),
-            'idTurma'=>351,
+            'idTurma'=>90,
             'nivelAcesso'=>3,
             'idEscola'=>$linha["idescola"],
             'nomeCompleto'=>$linha['nome'],

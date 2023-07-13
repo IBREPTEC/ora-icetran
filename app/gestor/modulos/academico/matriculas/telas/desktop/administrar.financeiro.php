@@ -342,7 +342,6 @@
                                             <td bgcolor="#F4F4F4"><strong><?= $idioma['financeiro_vencimento']; ?></strong></td>
                                             <td bgcolor="#F4F4F4"><strong><?= $idioma['financeiro_situacao']; ?></strong></td>
                                             <td bgcolor="#F4F4F4"><strong><?= $idioma['financeiro_status_transacao']; ?></strong></td>
-                                            <td bgcolor="#F4F4F4"><strong><?= $idioma['financeiro_pagar']; ?></strong></td>
                                             <td bgcolor="#F4F4F4"><strong><?= $idioma['financeiro_data_pagamento']; ?></strong></td>
                                             <td bgcolor="#F4F4F4"><strong><?= $idioma['financeiro_documento']; ?></strong></td>
                                             <td bgcolor="#F4F4F4"><strong><?= $idioma['financeiro_descricao']; ?></strong></td>
@@ -481,43 +480,7 @@
                                                     }
                                                     ?>
                                                 </td>
-                                                <td>
-                                                    <?php
-                                                    if (
-                                                        $conta['situacao_paga'] == 'N'
-                                                        && $conta['situacao_cancelada'] == 'N'
-                                                        && $conta['valor'] > 0
-                                                    ) {
-                                                        if (
-                                                            $conta['fastConnect']['fastconnect_client_code']
-                                                            && $conta['fastConnect']['fastconnect_client_key']
-                                                            && $conta['forma_pagamento'] == 11
-                                                        ) {
-                                                            $textoFastConnect = '';
 
-                                                            //Se o método de pagamento for 2:Boleto e tiver o link do boleto
-                                                            if ($conta['fastConnect']['tipo'] == "boleto" && $conta['fastConnect']['link_pagamento'] && $conta['situacao_fastconnect'] == "N") {
-                                                                $textoFastConnect .= '<a
-                                                                    class="btn btn-mini"
-                                                                    data-original-title="' . $idioma['financeiro_boleto_tooltip'] . '"
-                                                                    href="' . $conta['fastConnect']['link_pagamento'] . '"
-                                                                    target="_blank"
-                                                                    data-placement="left"
-                                                                    rel="tooltip">
-                                                                        ' . $idioma['financeiro_boleto'] . '
-                                                                    </a>';
-                                                            }
-
-                                                            if ($conta['totalPagamentosAbertos'] == 0 && $conta['fastconnect_url_link'] && $conta['situacao_fastconnect'] == "N") {
-
-                                                                $textoFastConnect .= '<a class="btn btn-mini" data-original-title="' . $idioma['financeiro_pagar_tooltip'] . '" data-placement="left" rel="tooltip" href="'. $conta['fastconnect_url_link'] .'" target="_blank">' . $idioma['financeiro_pagar'] . '</a>';
-                                                            }
-
-                                                            echo $textoFastConnect;
-                                                        }
-                                                    }
-                                                    ?>
-                                                </td>
                                                 <td>
                                                     <?= ($conta['data_pagamento'] && $conta['data_pagamento'] != '0000-00-00') ? formataData($conta['data_pagamento'], 'br', 0) :  '--'; ?>
                                                 </td>

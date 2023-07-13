@@ -416,7 +416,7 @@ if (isset($url[3]) && $url[3] != "apagar" && $url[3] != "areceber") {
                 case 'visualizafacebox':
                     $listagem = 'listagem_matriculas';
 
-                    $linhaObj->Set('campos', 'c.*, e.nome as aluno, m.idmatricula, cw.nome as situacao, cw.cor_bg as situacao_cor_bg, cw.cor_nome as situacao_cor_nome');
+                    $linhaObj->Set('campos', 'c.*, p.nome as aluno, m.idmatricula, cw.nome as situacao, cw.cor_bg as situacao_cor_bg, cw.cor_nome as situacao_cor_nome');
                     $arrayContas = $linhaObj->RetornarMatriculasDia($url[4]);
 
                     include('idiomas/' . $config['idioma_padrao'] . '/contas.detalhes.php');
