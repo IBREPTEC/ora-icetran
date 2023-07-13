@@ -91,7 +91,7 @@ $idioma['categoria'] = 'Categoria';
 $idioma['subcategoria'] = 'Subcategoria';
 $idioma['arquivos_conta'] = 'Link Pasta virtual';
 $idioma['classificacao_despesa'] = 'Classificação Despesa';
-$idioma['autorizacao'] = 'Autorização Cartão';
+$idioma['tid'] = 'TID';
 $idioma['nsu'] = 'Nsu';
 $idioma['classificacao_dre'] = 'Classificação DRE';
 

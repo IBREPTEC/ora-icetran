@@ -2577,7 +2577,8 @@ class Contas extends Core
 
     public function retornarDadosOrioTransacao($idmatricula)
     {
-        $this->sql = 'select json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu, json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.autorizacao_tid")) as autorizacao from orio_transacoes o inner join pessoas p  on
+        $this->sql = 'select json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu, json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.autorizacao")) as autorizacao
+                      from orio_transacoes o inner join pessoas p  on
                         json_unquote(json_extract(xml_requisicao,"$.matriculas.documentoaluno")) = p.documento
                         inner join matriculas m on p.idpessoa = m.idpessoa
                         inner join
@@ -3245,11 +3246,15 @@ class Contas extends Core
 
         ";
 
-        return $this->executaSql($sql);
+            $this->executaSql($sql);
+            $sql_last_id ="SELECT idconta FROM contas where idescola={$idcfc} and aula_remota=2 and data_vencimento='{$vencimento}'";
+            $idConta = $sql_last_id['idconta'];
+            return $idConta;
         }
         else{
-           $update= "UPDATE contas set data_vencimento='{$vencimento}' where idconta=".$conta['idconta'];
-            return $this->executaSql($update);
+            $update= "UPDATE contas set data_vencimento='{$vencimento}' where idconta=".$conta['idconta'];
+            $this->executaSql($update);
+            return $conta['idconta'];
         }
     }
     public function gerarFaturaAulaRemota($idCfc,$idSindicato,$valor)
@@ -3284,29 +3289,25 @@ class Contas extends Core
             $vencimento
 
         );
-        $idConta = mysql_insert_id();
+
 
         $pagarmeObj = new PagarmeObj();
 
-        $pagarmeObj->criarTransacaoBoleto($idConta);
-        print_r($pagarmeObj);exit;
-        if ($pagarmeObj['sucesso'] == true) {
-            $situacaoConta = "SELECT idsituacao from contas where idconta={$idConta} and aula_remota=2";
-            $retornar = $this->retornarLinha($situacaoConta);
-            if ($retornar['idsituacao'] == 1) {
-                $escolaObj = new Escolas();
-                $escolaObj->enviarEmailBoletoAulaRemotaDisponivel($idCfc);
-            }
+        $pagarmeObj->criarTransacaoBoleto($salvar);
+        $situacaoConta = "SELECT idsituacao from contas where idconta={$salvar} and aula_remota=2";
+        $retornar = $this->retornarLinha($situacaoConta);
+        if ($retornar['idsituacao'] == 1) {
+            $escolaObj = new Escolas();
+            $escolaObj->enviarEmailBoletoAulaRemotaDisponivel($idCfc);
 
-            $this->finalizaTransacao();
-            $retorno['sucesso'] = true;
-            return $retorno;
-
-        } else {
-             $retorno['erro'] = true;
         }
 
+        $this->finalizaTransacao();
+        $retorno['sucesso'] = true;
         return $retorno;
+
+
+
     }
 
     public function gerarFatura($idCfc, $idSindicato)

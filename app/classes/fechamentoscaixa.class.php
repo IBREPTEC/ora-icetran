@@ -56,7 +56,8 @@ class Fechamentos_Caixa extends Core
                     cc.nome AS conta_corrente,
                     cw.nome AS situacao,
                     s.nome_abreviado AS sindicato,
-                    IF(c.idmatricula, emat.nome_fantasia, econ.nome_fantasia) AS cfc
+                    IF(c.idmatricula, emat.nome_fantasia, econ.nome_fantasia) AS cfc,
+                    json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu
                 FROM
                     contas c
                     INNER JOIN contas_workflow cw ON (c.idsituacao = cw.idsituacao)
@@ -66,6 +67,8 @@ class Fechamentos_Caixa extends Core
                     LEFT OUTER JOIN sindicatos s ON (s.idsindicato = c.idsindicato)
                     LEFT OUTER JOIN escolas emat ON (emat.idescola = m.idescola)
                     LEFT OUTER JOIN escolas econ ON (econ.idescola = c.idescola)
+                    LEFT OUTER JOIN orio_transacoes o ON json_unquote(json_extract(xml_requisicao,"$.matriculas.documentoaluno")) = p.documento
+                
                 WHERE
                     c.tipo = "receita" AND
                     c.ativo = "S" AND
@@ -153,7 +156,6 @@ class Fechamentos_Caixa extends Core
             $this->limite = -1;
             $retorno['receita'] = $this->retornarLinhas();
         }
-
         //Trazer as despesas
         $retorno['despesa'] = array();
         if(($_POST['tipo_data_pagar'] == 'PER' && $_POST['periodo_inicio_pagar'] && $_POST['periodo_final_pagar']) || $_POST['tipo_data_pagar'] != 'PER') {

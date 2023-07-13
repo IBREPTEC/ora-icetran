@@ -202,7 +202,8 @@ if (count($array_contas['receita']) > 0) {//$_POST['btn_buscar'] &&
             <th style="background-color:#f5f5f5;">Cheque</th>
             <th style="background-color:#f5f5f5;">Valor</th>
 			<th style="background-color:#f5f5f5;">Doc. referência</th>
-			<th style="background-color:#f5f5f5;">Autorização do cartão</th>
+			<th style="background-color:#f5f5f5;">TID</th>
+            <th style="background-color:#f5f5f5;">NSU</th>
             <th style="background-color:#f5f5f5;">C/C destino</th>
         </tr>
         <tr>
@@ -220,6 +221,8 @@ if (count($array_contas['receita']) > 0) {//$_POST['btn_buscar'] &&
             <th style="background-color:#f5f5f5;"></th>
             <th style="background-color:#f5f5f5;"></th>
             <th style="background-color:#f5f5f5;"></th>
+            <th style="background-color:#f5f5f5;"></th>
+
             <th style="background-color:#f5f5f5;">
                 <select id="alterar_todas_correntes_receber"
                         onchange="alterar_elementos('alterar_todas_correntes_receber', 'receber_contas_correntes')">
@@ -257,6 +260,8 @@ if (count($array_contas['receita']) > 0) {//$_POST['btn_buscar'] &&
                 </td>
 				<td><?= ($receita['documento']) ? $receita['documento'] : '--'; ?></td>
 				<td><?= ($receita['autorizacao_cartao']) ? $receita['autorizacao_cartao'] : '--'; ?></td>
+                <td><?= ($receita['nsu']) ? $receita['nsu'] : '--'; ?></td>
+
                 <td class="correntes">
                     <?php
                     //if($receita['conta_corrente']) {

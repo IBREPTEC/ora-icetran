@@ -801,7 +801,6 @@ class Ofertas extends Core
                 ofertas_cursos oc
                 INNER JOIN cursos c ON (c.idcurso = oc.idcurso AND c.ativo = 'S')
                 INNER JOIN ofertas o ON (o.idoferta = oc.idoferta AND o.ativo = 'S' AND o.ativo_painel = 'S')
-                LEFT JOIN sindicatos_valores_cursos svc ON (svc.idcurso = c.idcurso AND svc.ativo = 'S')
             ";
 
         if (!$listandoOfertasSelect) {

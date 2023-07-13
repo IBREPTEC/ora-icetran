@@ -3,7 +3,7 @@ $idioma['opcoes'] = 'Informações da transação';
 $idioma['opcoes_subtitulo'] = 'LOJA';
 
 $idioma["dados_cielo_status_transacao"] = 'Situação da transação:';
-$idioma["dados_cielo_tid"] = 'Autorização/TID:';
+$idioma["dados_cielo_tid"] = 'TID:';
 $idioma["dados_cielo_nsu"] = 'NSU:';
 $idioma["dados_cielo_arp"] = 'ARP (Autorização):';
 $idioma["dados_cielo_pan"] = 'PAN:';

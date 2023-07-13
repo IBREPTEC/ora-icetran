@@ -59,7 +59,7 @@ switch ($url[3]) {
                                     cw.sigla AS situacao_sigla,
                                     po.nome_fantasia as escola,
                                     p.nome AS cliente,
-                                    c.autorizacao_cartao as autorizacao,
+                                    c.autorizacao_cartao as tid,
                                     p.documento_tipo AS documento_tipo_cliente,
                                     p.documento AS documento_cliente,
                                     p.telefone AS telefone_cliente,
@@ -81,7 +81,7 @@ switch ($url[3]) {
                                     mp.email AS email_aluno,
                                     cd.nome as classificacao_dre,
                                     m.idcurso, m.valor_contrato, po.razao_social, po.documento as cnpj_cfc,
-                                    v.nome AS vendedor');
+                                    v.nome AS vendedor,json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu');
         $dadosArray = $relatorioObj->gerarRelatorio();
 
         $eventosFinanceiros = $relatorioObj->retornarEventosFinanceiros();
@@ -97,7 +97,7 @@ switch ($url[3]) {
 	$relatorioObj->Set("campos",'c.*,
                                 c.nome AS descricao, 
                                 cw.nome AS situacao,
-                                 c.autorizacao_cartao as autorizacao,
+                                c.autorizacao_cartao as tid,
                                 cw.sigla AS situacao_sigla,
                                 po.nome_fantasia as escola,
                                 f.nome AS fornecedor,
@@ -117,7 +117,7 @@ switch ($url[3]) {
                                 mp.telefone AS telefone_aluno,
                                 mp.email AS email_aluno,
                                 m.idcurso, m.valor_contrato, po.razao_social, po.documento as cnpj_cfc,
-                                v.nome AS vendedor');
+                                v.nome AS vendedor,json_unquote(json_extract(xml_requisicao,"$.matriculas.financeiro.nsu")) as nsu');
 	$dadosArray = $relatorioObj->gerarRelatorio();
 	
 	$eventosFinanceiros = $relatorioObj->retornarEventosFinanceiros();

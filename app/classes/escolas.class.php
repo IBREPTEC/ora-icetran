@@ -201,8 +201,8 @@ class Escolas extends Core
 
         return $retorno;
     }
-	
-	public function cadastrarPlano($idescola){
+
+    public function cadastrarPlano($idescola){
         $idplano =  $_POST['idplano'];
         $_POST['valor_plano_minimo'] = number_format($_POST['valor_plano_minimo'], 2, '.', ',');
         $vencimento =formataData($_POST['vencimento'], 'en', 0);
@@ -281,33 +281,33 @@ class Escolas extends Core
             }
 
 
-        $optante =$this->retornarOptantePlano($idescola);
-        if($optante){
-            $plano_sql = 'UPDATE
+            $optante =$this->retornarOptantePlano($idescola);
+            if($optante){
+                $plano_sql = 'UPDATE
                         planos_cfc set
                         idcfc="'.$idescola.'",
                         valor_minimo= '.$_POST['valor_plano_minimo'].',
                         vencimento="'.$vencimento.'"
                         where idcfc='.$idescola.' and idplano='.$idplano;
-            $this->executaSql($plano_sql);
-
-
-        }
+                $this->executaSql($plano_sql);
 
 
             }
+
+
+        }
 
     }
 
     public function modificar()
     {
-		unset($this->post['documento_cnpj']);
+        unset($this->post['documento_cnpj']);
         unset($this->post['valor_plano_minimo']);
         unset($this->post['vencimento']);
         unset($this->config['formulario'][0]['campos'][2]);
         unset($this->config['formulario'][0]['campos'][3]);
         unset($this->config['formulario'][0]['campos'][4]);
-		unset($this->config['formulario'][0]['campos'][33]);
+        unset($this->config['formulario'][0]['campos'][33]);
         unset($this->config['formulario'][0]['campos'][34]);
 
         $this->config['formulario'] = $this->aplicarRegrasFormulario($this->config['formulario']);
@@ -689,8 +689,8 @@ class Escolas extends Core
                     : 'N';
             }
 
-/*            $post['avista'] = $valores['avista'];
-            $post['aprazo'] = $valores['aprazo'];*/
+            /*            $post['avista'] = $valores['avista'];
+                        $post['aprazo'] = $valores['aprazo'];*/
             $post['parcelas'] = $valores['parcelas'];
             $post['idcfc'] = $idCfc;
             $post['idcurso'] = $valores['idcurso'];
@@ -1751,7 +1751,7 @@ class Escolas extends Core
     }
 
     public function enviaDadosNf()
-    {   
+    {
         if ($_POST['select_tipo_documento_emissao_nf'] == 'cpf') {
             $numero_doc = $_POST['cpf_emissao_nf'];
         } else if ($_POST['select_tipo_documento_emissao_nf'] == 'cnpj') {

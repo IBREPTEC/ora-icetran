@@ -57,7 +57,7 @@ $idioma['categoria'] = 'Categoria';
 $idioma['subcategoria'] = 'Subcategoria';
 $idioma['arquivos_conta'] = 'Pasta virtual';
 $idioma['classificacao_despesa'] = 'Classificação Despesa';
-$idioma['autorizacao'] = 'Aut.Cartão';
+$idioma['tid'] = 'TID';
 $idioma['nsu'] = 'Nsu';
 $idioma['classificacao_dre'] = 'Classificação DRE';
 
